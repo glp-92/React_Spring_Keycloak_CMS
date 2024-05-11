@@ -3,7 +3,7 @@ import { GetCategories } from '../../util/requests/Categories';
 import { Link as RouterLink } from "react-router-dom";
 
 import IconButton from '@mui/material/IconButton';
-import Box from '@mui/material/Box';
+import AppBar from '@mui/material/AppBar';
 import Grid from '@mui/material/Unstable_Grid2';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -25,9 +25,9 @@ const Footer = () => {
   }, [])
 
   return (
-    <Box maxWidth="lm" sx={{ flexGrow: 1 }}>
+    <AppBar sx={{ backgroundColor: 'transparent', boxShadow: 'none', border: 'none', marginBottom: 2 }} position="static"   >
       <Grid container spacing={2}>
-        <Grid xs={8} sx={{alignContent:'center'}}>
+        <Grid xs={8} sx={{ alignContent: 'center' }}>
           <Breadcrumbs maxItems={2} separator="" aria-label="breadcrumb">
             {categories.map(categorie => (
               <Link component={RouterLink} underline="hover" color="inherit" to={`/search?categorie=${categorie.name}`} key={categorie["id"]}>
@@ -44,7 +44,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             size="large"
             edge="start"
-            color="inherit"
+            color="default"
             aria-label="menu"
             sx={{ mr: 2, fontSize: '1.5rem' }}
           >
@@ -57,7 +57,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             size="large"
             edge="start"
-            color="inherit"
+            color="default"
             aria-label="menu"
             sx={{ mr: 2, fontSize: '1.5rem' }}
           >
@@ -65,7 +65,7 @@ const Footer = () => {
           </IconButton>
         </Grid>
       </Grid>
-    </Box>
+    </AppBar>
   )
 }
 

@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
+import Container  from '@mui/material/Container';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
@@ -17,7 +18,7 @@ const MainPostCard = ({postData}) => {
 
     return (
         <Link to={`/post/${postData["slug"]}`} style={{ textDecoration: 'none' }}>
-            <Card sx={{ height:'100%', display: 'flex', flexDirection: 'column', padding: 1, borderRadius: 2, ":hover": { opacity: 0.8 } }}>
+            <Card sx={{ width: '100%',height:'100%', display: 'flex', flexDirection: 'column', padding: 1, borderRadius: 2, ":hover": { opacity: 0.8 } }}>
                 <Box sx={{display: 'flex', alignItems: 'center' }}>
                     <CardMedia
                         sx={{ height: 100, width: 100, alignSelf: 'center', marginRight: 1 }}

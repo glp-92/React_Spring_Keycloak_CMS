@@ -5,8 +5,7 @@ import Loading from '../../components/loading/Loading';
 import LandingPage from '../../components/landingPage/LandingPage';
 
 import Pagination from '@mui/material/Pagination';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -37,9 +36,7 @@ const Home = () => {
   }, [page])
 
   return (
-    <Container maxWidth="lg" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Typography variant="h1" sx={{ textAlign: 'center' }} gutterBottom>Últimas entradas</Typography>
-      <main>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {isLoading ? (
           <Loading />
         ) : (
@@ -51,9 +48,8 @@ const Home = () => {
             )
         )
         }
-      </main>
       <Pagination sx={{ marginTop: 4 }} size='small' count={npages} shape="rounded" page={page + 1} onChange={handlePageChange} />
-    </Container>
+    </Box>
   )
 }
 

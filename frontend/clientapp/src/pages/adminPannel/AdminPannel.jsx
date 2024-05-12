@@ -141,20 +141,11 @@ const AdminPannel = () => {
             <Typography align='center' component="h1" variant="h5">
                 Panel de Administracion
             </Typography>
-            <Button
-                onClick={createNewPost}
-                variant="contained"
-                color="primary"
-                fullWidth
-                sx={{ mt: 5, mb: 2 }}
-            >
-                Crear Post
-            </Button>
             <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Typography component="h3" variant="h5">
                     Categorias
                 </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', mt: 2, mb: 0 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mt: 2, mb: 0, width:'100%' }}>
                     <TextField type="text" margin="normal" fullWidth id="title" label="Nombre de categoria" name="newCategory" value={inputCategorie} onChange={(e) => { setInputCategorie(e.target.value) }} />
                     <IconButton
                         size="large"
@@ -167,8 +158,8 @@ const AdminPannel = () => {
                         <AddCircleOutlineIcon />
                     </IconButton>
                 </Box>
-                <Divider variant="middle" />
-                <List dense>
+                <Divider />
+                <List dense sx={{width:'100%'}}>
                     {categories.map((categorie, index) => (
                         <ListItem key={index} alignItems="center" sx={{ mt: 0, mb: 0 }}>
                             <TextField type="text" fullWidth margin="normal" defaultValue={categorie["name"]} onChange={(e) => handleEditCategorieLabel(e.target.value, index)} />
@@ -200,6 +191,15 @@ const AdminPannel = () => {
                 <Typography component="h3" variant="h5">
                     Posts
                 </Typography>
+                <Button
+                    onClick={createNewPost}
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    sx={{ mt: 5, mb: 2 }}
+                >
+                    Crear Post
+                </Button>
                 <Stack spacing={2}>
                     {posts.map(item => (
                         <Box

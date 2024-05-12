@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 
 const PostList = ({ postArr }) => {
     return (
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 2, sm: 2, md: 2 }}>
+        <Stack direction={{ xs: 'column', md: 'row'}} spacing={{ xs: 2, sm: 2, md: 2 }}>
             {postArr.map(item => (
                 <PostListCard key={item["id"]} postData={item} />
             ))}

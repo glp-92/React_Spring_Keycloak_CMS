@@ -23,11 +23,11 @@ const PostListCard = ({ postData }) => {
     const categories = postData["categories"].map((categorie) => <Box key={categorie["id"]}><Chip size='small' key={categorie["id"]} label={categorie["name"]} /></Box>);
 
     return (
-        <Link to={`/post/${postData["slug"]}`} style={{ textDecoration: 'none' }}>
-            <Card sx={{ height:'100%', display: 'flex', flexDirection: 'column', padding: 1, borderRadius: 2, ":hover": { opacity: 0.8 } }}>
-                <Box sx={{display: 'flex', alignItems: 'center' }}>
+        <Link to={`/post/${postData["slug"]}`} style={{ textDecoration: 'none', width: '100%' }}>
+            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', padding: 1, borderRadius: 2, ":hover": { opacity: 0.8 } }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <CardMedia
-                        sx={{ height: 100, width: 100, alignSelf: 'center', marginRight: 1 }}
+                        sx={{ minWidth: '20%', flexShrink: 0, aspectRatio: '1', marginRight: 1 }}
                         image={`${postData["featuredImage"]}`}
                         title={`${postData["slug"]}Image`}
                     />
@@ -42,11 +42,11 @@ const PostListCard = ({ postData }) => {
                         </CardContent>
                     </Box>
                 </Box>
-                <Divider sx={{marginBottom:1, flex:2}}/>
+                <Divider sx={{ marginBottom: 1, flex: 2 }} />
                 <Stack direction="row-reverse" spacing={1} justifyContent="space-between">
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                        <EditCalendarIcon color="action"/>
-                        <Typography sx={{marginLeft:1}}variant="subtitle2" color="text.secondary">
+                        <EditCalendarIcon color="action" />
+                        <Typography sx={{ marginLeft: 1 }} variant="subtitle2" color="text.secondary">
                             {postData["date"].split("T")[0]}
                         </Typography >
                     </Box>

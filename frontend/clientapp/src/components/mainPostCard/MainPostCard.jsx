@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
-import Container  from '@mui/material/Container';
+import Container from '@mui/material/Container';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
@@ -12,16 +12,16 @@ import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 
-const MainPostCard = ({postData}) => {
-    
+const MainPostCard = ({ postData }) => {
+
     const categories = postData["categories"].map((categorie) => <Box key={categorie["id"]}><Chip size='small' key={categorie["id"]} label={categorie["name"]} /></Box>);
 
     return (
         <Link to={`/post/${postData["slug"]}`} style={{ textDecoration: 'none' }}>
-            <Card sx={{ width: '100%',height:'100%', display: 'flex', flexDirection: 'column', padding: 1, borderRadius: 2, ":hover": { opacity: 0.8 } }}>
-                <Box sx={{display: 'flex', alignItems: 'center' }}>
+            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', padding: 1, borderRadius: 2, ":hover": { opacity: 0.8 } }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <CardMedia
-                        sx={{ height: 100, width: 100, alignSelf: 'center', marginRight: 1 }}
+                        sx={{ minWidth: '20%', flexShrink: 0, aspectRatio: '1', marginRight: 1 }}
                         image={`${postData["featuredImage"]}`}
                         title={`${postData["slug"]}Image`}
                     />
@@ -36,11 +36,11 @@ const MainPostCard = ({postData}) => {
                         </CardContent>
                     </Box>
                 </Box>
-                <Divider sx={{marginBottom:1, flex:2}}/>
+                <Divider sx={{ marginBottom: 1, flex: 2 }} />
                 <Stack direction="row-reverse" spacing={1} justifyContent="space-between">
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                        <EditCalendarIcon color="action"/>
-                        <Typography sx={{marginLeft:1}}variant="subtitle2" color="text.secondary">
+                        <EditCalendarIcon color="action" />
+                        <Typography sx={{ marginLeft: 1 }} variant="subtitle2" color="text.secondary">
                             {postData["date"].split("T")[0]}
                         </Typography >
                     </Box>

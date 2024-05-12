@@ -36,7 +36,7 @@ const Home = () => {
   }, [page])
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width:'100%'}}>
         {isLoading ? (
           <Loading />
         ) : (

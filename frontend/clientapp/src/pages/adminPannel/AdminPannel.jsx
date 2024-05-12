@@ -137,7 +137,7 @@ const AdminPannel = () => {
     }, [page])
 
     return (
-        <Container maxWidth="sm">
+        <Box >
             <Typography align='center' component="h1" variant="h5">
                 Panel de Administracion
             </Typography>
@@ -150,7 +150,7 @@ const AdminPannel = () => {
             >
                 Crear Post
             </Button>
-            <Box>
+            <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Typography component="h3" variant="h5">
                     Categorias
                 </Typography>
@@ -196,7 +196,7 @@ const AdminPannel = () => {
                     ))}
                 </List>
             </Box>
-            <Box sx={{ mt: 2 }}>
+            <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Typography component="h3" variant="h5">
                     Posts
                 </Typography>
@@ -235,7 +235,7 @@ const AdminPannel = () => {
                 </Stack>
                 <Pagination count={npages} page={page} onChange={handlePageChange} />
             </Box>
-        </Container>
+        </Box>
     )
 
 

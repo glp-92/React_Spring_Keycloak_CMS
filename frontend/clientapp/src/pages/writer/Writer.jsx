@@ -85,7 +85,7 @@ const Writer = () => {
   }, [])
 
   return (
-    <div>
+    <>
       <Button component={Link} to="/wpannel" variant="contained" color="primary" startIcon={<SendIcon sx={{transform:"rotate(180deg)"}}/>}>
         Volver a Panel
       </Button>
@@ -121,7 +121,7 @@ const Writer = () => {
           Enviar
         </Button>
       </Box>
-    </div>
+    </>
   )
 }
 

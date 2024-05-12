@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 
 const LandingPage = ({ posts }) => {
     return (
-        <Box sx={{with:'100%'}}>
+        <Box sx={{width:'100%'}}>
             {posts.length ? (
                 <Stack spacing={2}>
                     <MainPostCard postData={posts[0]} />

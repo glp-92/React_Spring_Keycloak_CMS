@@ -25,35 +25,35 @@ const NavBar = () => {
   }
 
   return (
-        <AppBar color="default" position="static" sx={{ marginBottom: 2 }}  >
-          <Toolbar sx={{ display: 'flex', justifyContent: "space-between" }}>
-            <IconButton
-              component={Link} // Usando el componente Link en lugar de 'a'
-              to="/" //
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2, fontSize: '1.5rem' }}
-            >
-              <HomeIcon />
-            </IconButton>
-            <Paper
-              component="form"
-              onSubmit={handleSearch}
-              sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, borderRadius: 2 }}
-            >
-              <InputBase
-                sx={{ ml: 1, flex: 1 }}
-                placeholder="Search"
-                onChange={(e) => { setSearchText(e.target.value) }}
-              />
-              <IconButton type="submit" sx={{ p: '10px', fontSize: '1.5rem' }} aria-label="search" size="large">
-                <SearchIcon />
-              </IconButton>
-            </Paper>
-          </Toolbar>
-        </AppBar>
+    <AppBar color="default" position="static" sx={{ marginBottom: 2 }}  >
+      <Toolbar sx={{ display: 'flex', justifyContent: "space-evenly" }}>
+        <IconButton
+          component={Link} // Usando el componente Link en lugar de 'a'
+          to="/" //
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ mr: 2, fontSize: '1.5rem' }}
+        >
+          <HomeIcon />
+        </IconButton>
+        <Paper
+          component="form"
+          onSubmit={handleSearch}
+          sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, borderRadius: 2 }}
+        >
+          <InputBase
+            sx={{ ml: 1, flex: 1 }}
+            placeholder="Search"
+            onChange={(e) => { setSearchText(e.target.value) }}
+          />
+          <IconButton type="submit" sx={{ p: '10px', fontSize: '1.5rem' }} aria-label="search" size="large">
+            <SearchIcon />
+          </IconButton>
+        </Paper>
+      </Toolbar>
+    </AppBar>
   )
 }
 

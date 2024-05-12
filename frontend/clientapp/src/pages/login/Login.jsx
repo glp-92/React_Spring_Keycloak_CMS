@@ -34,16 +34,17 @@ const Login = () => {
   }, [])
 
   return (
-    <Container component="main" maxWidth="lm">
+    <>
       {logged && (
         <Navigate to="/wpannel" replace={true} />
       )}
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 2,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          width:'80%'
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -83,7 +84,7 @@ const Login = () => {
 
         </Box>
       </Box>
-    </Container>
+    </>
   )
 }
 

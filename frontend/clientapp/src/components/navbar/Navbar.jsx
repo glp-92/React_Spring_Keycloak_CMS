@@ -22,6 +22,7 @@ const NavBar = () => {
       return;
     }
     navigate(`/search?keyword=${searchText}`);
+    setSearchText('');
   }
 
   return (
@@ -47,6 +48,7 @@ const NavBar = () => {
             sx={{ ml: 1, flex: 1 }}
             placeholder="Search"
             onChange={(e) => { setSearchText(e.target.value) }}
+            value={searchText}
           />
           <IconButton type="submit" sx={{ p: '10px', fontSize: '1.5rem' }} aria-label="search" size="large">
             <SearchIcon />

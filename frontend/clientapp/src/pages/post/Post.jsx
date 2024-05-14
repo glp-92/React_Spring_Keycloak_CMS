@@ -4,6 +4,8 @@ import { Navigate } from "react-router-dom";
 import Loading from '../../components/loading/Loading';
 import './Post.css'
 
+import Box from '@mui/material/Box';
+
 const Post = () => {
   const slug = window.location.pathname.replace(`/post/`, ""); // Se elimina el /post para la constante slug ya que en BBDD se introduce el slug tal cual
   const [postData, setPostData] = useState(null)
@@ -30,7 +32,7 @@ const Post = () => {
 
   // Mientras carga se muestra un layout, una vez ha hecho la consulta, si postData es null, se mostrara un notFound, en caso contrario, se renderizara el post
   return (
-    <div>
+    <Box sx={{ width: '100%', marginBottom: 3 }}>
       {isLoading ? (
         <Loading/>
       ) : (
@@ -40,7 +42,7 @@ const Post = () => {
           <Navigate to="/not-found" replace={true} />
         )
       )}
-    </div>
+    </Box>
   )
 }
 

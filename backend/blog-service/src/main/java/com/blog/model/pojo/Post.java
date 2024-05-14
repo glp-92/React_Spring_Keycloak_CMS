@@ -65,7 +65,7 @@ public class Post {
 	private Date date;
 	
 	@Column
-	@NotBlank(message = "field featuredImage cannot be empty!")
+	//@NotBlank(message = "field featuredImage cannot be empty!")
 	private String featuredImage;
 	
 	@Column

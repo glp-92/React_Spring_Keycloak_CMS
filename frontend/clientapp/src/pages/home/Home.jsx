@@ -36,19 +36,23 @@ const Home = () => {
   }, [page])
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width:'100%'}}>
+      <Box sx={{ width: '100%', marginBottom: 3 }}>
         {isLoading ? (
           <Loading />
         ) : (
           page === 0 ? (
+
             <LandingPage posts={posts} />
+
           ) :
             (
               <PostList postArr={posts} />
             )
         )
         }
-      <Pagination sx={{ marginTop: 4 }} size='small' count={npages} shape="rounded" page={page + 1} onChange={handlePageChange} />
+      {
+        npages > 1 && <Pagination sx={{ marginTop: 4 }} size='small' count={npages} shape="rounded" page={page + 1} onChange={handlePageChange} />
+      }
     </Box>
   )
 }

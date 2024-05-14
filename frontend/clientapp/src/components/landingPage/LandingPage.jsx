@@ -8,17 +8,17 @@ import Box from '@mui/material/Box';
 
 const LandingPage = ({ posts }) => {
     return (
-        <Box sx={{width:'100%'}}>
+        <>
             {posts.length ? (
-                <Stack spacing={2}>
+                <Stack spacing={3}>
                     <MainPostCard postData={posts[0]} />
-                    {posts.length > 1 && (<Typography variant="h1" sx={{ textAlign: 'center' }} gutterBottom>Reciente</Typography>)}
+                    {posts.length > 1 && (<Typography variant="h4" sx={{ textAlign: 'left' }} gutterBottom>Entradas recientes</Typography>)}
                     <PostList postArr={posts.slice(1)} />
                 </Stack>
             ) : (
                 <h2>En mantenimiento</h2>
             )}
-        </Box>
+        </>
     )
 }
 

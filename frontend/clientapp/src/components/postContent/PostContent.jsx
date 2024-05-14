@@ -1,12 +1,13 @@
 import React from 'react'
 import Markdown from 'markdown-to-jsx'
+import { DateFormatToEs } from '../../util/date/DateFormatToEs';
+import { Link } from "react-router-dom";
 
 import { Typography, Box, Chip, Card, CardHeader, CardMedia, CardContent, Divider } from '@mui/material';
 
 const PostContent = ({ postData }) => {
 
-    const categories = postData["categories"].map((categorie) => <Box key={categorie["id"]}><Chip size='small' key={categorie["id"]} label={categorie["name"]} /></Box>);
-    // const categories = postData["categories"].map((categorie) => <p className='categorie' key={categorie["id"]}>{categorie["name"]}</p>);
+    const categories = postData["categories"].map((categorie) => <Link to={`/search?categorie=${categorie.name}`} key={categorie["id"]}><Chip size='small' key={categorie["id"]} label={categorie["name"]} /></Link>);
 
     const comments = postData["comments"].map(
         (comment) =>
@@ -17,30 +18,47 @@ const PostContent = ({ postData }) => {
     )
 
     return (
-        <Card sx={{ width: '100%' }}>
-            <Box>
-                <Typography>{postData.title}</Typography>
-                <Typography>{postData.date}</Typography>
-                {categories}
+        <Card >
+            <Box bgcolor="#f5f5f5" padding={2}>
+                <Box>
+                    <Typography variant="h1">{postData.title}</Typography>
+                    <Typography variant="caption">{DateFormatToEs(postData.date)}</Typography>
+                    <Box display={'flex'}>
+                        <Typography variant="caption" sx={{ marginRight: 1 }}>Categorias:</Typography>
+                        {categories}
+                    </Box>
+                </Box>
+                {postData.featuredImage && <Box display="flex" justifyContent="center" sx={{ backgroundColor: 'transparent' }}>
+                    <CardMedia
+                        sx={{ width: '20%', aspectRatio: '1', margin: 1 }}
+                        image={`${postData["featuredImage"]}`}
+                        title={`${postData["slug"]}Image`}
+                    />
+                </Box>}
             </Box>
-            <Box display="flex" justifyContent="center" sx={{backgroundColor:'transparent'}}>
-                <CardMedia
-                    sx={{ width: '20%',  aspectRatio: '1', margin: 1 }}
-                    image={`${postData["featuredImage"]}`}
-                    title={`${postData["slug"]}Image`}
-                />
-            </Box>
+            <Divider />
             <CardContent>
-                <Markdown>{postData.content}</Markdown>
+                <Markdown
+                    options={{
+                        overrides: {
+                            span: {
+                                component: Typography,
+                                props: {
+                                    variant: 'body1',
+                                },
+                            },
+                        },
+                    }}>
+                    {postData.content}
+                </Markdown>
             </CardContent>
             <Divider />
             <CardContent>
-                <Typography variant="subtitle1">Comentarios</Typography>
+                <Typography variant="caption">Comentarios</Typography>
                 {comments}
             </CardContent>
             <CardContent>
                 <Typography variant="body1">{postData.users.name}</Typography>
-
             </CardContent>
         </Card>
     )

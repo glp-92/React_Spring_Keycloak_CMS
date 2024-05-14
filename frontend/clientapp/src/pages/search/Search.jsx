@@ -5,12 +5,12 @@ import Loading from '../../components/loading/Loading';
 import { useLocation } from 'react-router-dom';
 
 import Pagination from '@mui/material/Pagination';
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 const Search = () => {
   const location = useLocation();
-  
+
   const queryparams = location.search.replace('?', '&');
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,21 +38,21 @@ const Search = () => {
   }, [page, queryparams])
 
   return (
-    <Container maxWidth="lg" sx={{display:'flex', flexDirection:'column', alignItems:'center'}}>
-      <Typography variant="h1" sx={{textAlign:'center'}}gutterBottom>Resultados de búsqueda</Typography>
-      <main>
-        {isLoading ? (
-          <Loading />
+    <Box sx={{ width: '100%', marginBottom: 3 }}>
+      <Typography variant="h1" sx={{ textAlign: 'center' }} gutterBottom>Resultados de búsqueda</Typography>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        posts.length ? (
+          <PostList postArr={posts} />
         ) : (
-          posts.length ? (
-            <PostList postArr={posts} />
-          ) : (
-            <h2>Sin resultados</h2>
-          )
-        )}
-      </main>
-      <Pagination sx={{marginTop:4}} size='small' count={npages} shape="rounded" page={page + 1} onChange={handlePageChange}/>
-    </Container>
+          <h2>Sin resultados</h2>
+        )
+      )}
+      {
+        npages > 1 && <Pagination sx={{ marginTop: 4 }} size='small' count={npages} shape="rounded" page={page + 1} onChange={handlePageChange} />
+      }
+    </Box>
   )
 }
 

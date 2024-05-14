@@ -28,7 +28,7 @@ const Footer = () => {
     <AppBar sx={{ backgroundColor: 'transparent', boxShadow: 'none', border: 'none', marginBottom: 2 }} position="static"   >
       <Grid container spacing={2}>
         <Grid xs={8} sx={{ alignContent: 'center' }}>
-          <Breadcrumbs maxItems={2} separator="" aria-label="breadcrumb">
+          <Breadcrumbs sx={{ ml: 2 }} maxItems={2} separator="" aria-label="breadcrumb">
             {categories.map(categorie => (
               <Link component={RouterLink} underline="hover" color="inherit" to={`/search?categorie=${categorie.name}`} key={categorie["id"]}>
                 {categorie.name}

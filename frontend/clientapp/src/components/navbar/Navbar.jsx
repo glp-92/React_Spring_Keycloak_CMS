@@ -21,7 +21,8 @@ const NavBar = () => {
       console.log("Error en entrada de busqueda")
       return;
     }
-    navigate(`/search?keyword=${searchText}`);
+    const formattedSearchText = searchText.replace(/\s+/g, ',');
+    navigate(`/search?keyword=${formattedSearchText}`);
     setSearchText('');
   }
 
@@ -31,11 +32,10 @@ const NavBar = () => {
         <IconButton
           component={Link} // Usando el componente Link en lugar de 'a'
           to="/" //
-          size="large"
           edge="start"
           color="inherit"
           aria-label="menu"
-          sx={{ mr: 2, fontSize: '1.5rem' }}
+          sx={{ mr: 2, fontSize: 40, aspectRatio: '1', borderRadius: 4 }}
         >
           <HomeIcon />
         </IconButton>

@@ -42,11 +42,10 @@ const Footer = () => {
             href="https://github.com/glp-92"
             target="_blank"
             rel="noopener noreferrer"
-            size="large"
             edge="start"
             color="default"
             aria-label="menu"
-            sx={{ mr: 2, fontSize: '1.5rem' }}
+            sx={{ mr: 2, fontSize: 40 }}
           >
             <GitHubIcon />
           </IconButton>
@@ -55,11 +54,10 @@ const Footer = () => {
             href="https://www.linkedin.com/in/guillermo-lopez-pazos/"
             target="_blank"
             rel="noopener noreferrer"
-            size="large"
             edge="start"
-            color="primary"
+            color="default"
             aria-label="menu"
-            sx={{ mr: 2, fontSize: '1.5rem' }}
+            sx={{ mr: 2, fontSize: 40 }}
           >
             <LinkedInIcon />
           </IconButton>

@@ -3,7 +3,8 @@ import Markdown from 'markdown-to-jsx'
 import { DateFormatToEs } from '../../util/date/DateFormatToEs';
 import { Link } from "react-router-dom";
 
-import { Typography, Box, Chip, Card, CardHeader, CardMedia, CardContent, Divider } from '@mui/material';
+import { Typography, Box, Chip, Card, Button, CardMedia, CardContent, Divider, IconButton } from '@mui/material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const PostContent = ({ postData }) => {
 
@@ -45,10 +46,44 @@ const PostContent = ({ postData }) => {
                     options={{
                         overrides: {
                             span: {
-                                component: Typography,
-                                props: {
-                                    variant: 'body1',
-                                },
+                                component: ({ children }) => (
+                                    <Typography variant="body1" component="span">
+                                        {children}
+                                    </Typography>
+                                ),
+                            },
+                            p: {
+                                component: ({ children }) => (
+                                    <Box display={'flex'} flexDirection={'column'}>
+                                    <Typography variant="body1" component="span">
+                                        {children}
+                                    </Typography>
+                                    </Box>
+                                ),
+                            },
+                            code: {
+                                component: ({ children }) => (
+                                        <Box bgcolor={'#f5f5f5'} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <Typography component="span" margin={1}>
+                                                {children}
+                                            </Typography>
+                                            <IconButton
+                                                component={Button}
+                                                color="inherit"
+                                                onClick={() => navigator.clipboard.writeText(children)}
+                                                sx={{ fontSize: 20, aspectRatio: '1', borderRadius: 4 }}
+                                            >
+                                                <ContentCopyIcon />
+                                            </IconButton>
+                                        </Box>
+                                ),
+                            },
+                            img: {
+                                component: ({ alt, src }) => (
+                                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                    <img alt={alt} src={src} />
+                                  </Box>
+                                ),
                             },
                         },
                     }}>

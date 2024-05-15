@@ -20,7 +20,7 @@ export const Router = () => {
     return (
         <BrowserRouter>
             <NavBar />
-            <Container maxWidth="md" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Container maxWidth="md" sx={{ minHeight: '90%', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Routes>
                     <Route exact path="/" element={<Home />} />
                     <Route exact path="/login" element={<Login />} />
@@ -38,7 +38,9 @@ export const Router = () => {
                     </Route>
                     <Route path="*" element={<Navigate to="/notfound" />} />
                 </Routes>
-                <Footer />
+            </Container>
+            <Container maxWidth="md" sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Footer position="fixed" sx={{ top: 'auto', bottom: 0 }} />
             </Container>
         </BrowserRouter>
     )

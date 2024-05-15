@@ -38,7 +38,7 @@ public class PostController {
 			) {
 		try {
 			if (keyword != null) { //Inyeccion de comandos y control de entrada
-				if (keyword.length() > 20 || !keyword.matches("[a-zA-Z0-9]+")) {
+				if (keyword.length() > 20 || !keyword.matches("[\\w,]+")) {
 		            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		        }
 			}

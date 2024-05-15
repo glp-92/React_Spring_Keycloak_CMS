@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { DateFormatToEs } from '../../util/date/DateFormatToEs';
+import { TruncateText } from '../../util/formatting/TruncateText';
 
 import Card from '@mui/material/Card';
-import Container from '@mui/material/Container';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
@@ -19,30 +19,34 @@ const MainPostCard = ({ postData }) => {
 
     return (
         <Link to={`/post/${postData["slug"]}`} style={{ textDecoration: 'none' }}>
-            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', padding: 1, borderRadius: 2, ":hover": { opacity: 0.8 } }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {postData.featuredImage && <CardMedia
-                        sx={{ minWidth: '20%', flexShrink: 0, aspectRatio: '1', marginRight: 1 }}
-                        image={`${postData["featuredImage"]}`}
-                        title={`${postData["slug"]}Image`}
-                    />
-                    }
+            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: 2, ":hover": { opacity: 0.8 } }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    {postData.featuredImage && <Box bgcolor={'#f5f5f5'}>
+                        <CardMedia
+                            component="img"
+                            height="300"
+                            alt={"alt"}
+                            sx={{ objectFit: "contain" }}
+                            image={`${postData["featuredImage"]}`}
+                            title={`${postData["slug"]}Image`}
+                        />
+                        </Box>}
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <CardContent sx={{ flex: '1 0 auto' }}>
                             <Typography gutterBottom variant="h2" component="div">
                                 {postData["title"]}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                {postData["excerpt"]}
+                                {TruncateText(postData["excerpt"], 150)}
                             </Typography>
                         </CardContent>
                     </Box>
                 </Box>
-                <Divider sx={{ marginBottom: 1, flex: 2 }} />
-                <Stack direction="row-reverse" spacing={1} justifyContent="space-between">
+                <Divider sx={{ flex: 2 }} />
+                <Stack direction="row-reverse" sx={{margin:1}} spacing={1} justifyContent="space-between">
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <EditCalendarIcon color="action" />
-                        <Typography sx={{ marginLeft: 1 }} variant="subtitle2" color="text.secondary">
+                        <Typography variant="subtitle2" color="text.secondary">
                             {DateFormatToEs(postData["date"])}
                         </Typography >
                     </Box>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { DateFormatToEs } from '../../util/date/DateFormatToEs';
+import { TruncateText } from '../../util/formatting/TruncateText';
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -24,25 +25,30 @@ const PostListCard = ({ postData }) => {
     const categories = postData["categories"].map((categorie) => <Box key={categorie["id"]}><Chip size='small' key={categorie["id"]} label={categorie["name"]} /></Box>);
 
     return (
-        <Link to={`/post/${postData["slug"]}`} style={{ textDecoration: 'none', width: '100%' }}>
-            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', padding: 1, borderRadius: 2, ":hover": { opacity: 0.8 } }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {postData.featuredImage && <CardMedia
-                        sx={{ minWidth: '20%', flexShrink: 0, aspectRatio: '1', marginRight: 1 }}
-                        image={`${postData["featuredImage"]}`}
-                        title={`${postData["slug"]}Image`}
-                    />}
-                    <CardContent sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <Link to={`/post/${postData["slug"]}`} style={{ textDecoration: 'none' }}>
+            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: 2, ":hover": { opacity: 0.8 } }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    {postData.featuredImage && <Box bgcolor={'#f5f5f5'}>
+                        <CardMedia
+                            component="img"
+                            height="150"
+                            alt={"alt"}
+                            sx={{ objectFit: "contain" }}
+                            image={`${postData["featuredImage"]}`}
+                            title={`${postData["slug"]}Image`}
+                        />
+                        </Box>}
+                    <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Typography gutterBottom variant="h2" component="div">
                             {postData["title"]}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            {postData["excerpt"]}
+                            {TruncateText(postData["excerpt"], 150)}
                         </Typography>
                     </CardContent>
                 </Box>
-                <Divider sx={{ marginBottom: 1, flex: 2 }} />
-                <Stack direction="row-reverse" spacing={1} justifyContent="space-between">
+                <Divider sx={{ flex: 1 }} />
+                <Stack direction="row-reverse" sx={{ margin: 1 }} spacing={1} justifyContent="space-between">
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <EditCalendarIcon color="action" />
                         <Typography sx={{ marginLeft: 1 }} variant="subtitle2" color="text.secondary">

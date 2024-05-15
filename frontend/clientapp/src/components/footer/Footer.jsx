@@ -30,7 +30,7 @@ const Footer = () => {
         <Grid xs={8} sx={{ alignContent: 'center' }}>
           <Breadcrumbs sx={{ ml: 2 }} maxItems={2} separator="" aria-label="breadcrumb">
             {categories.map(categorie => (
-              <Link component={RouterLink} underline="hover" color="inherit" to={`/search?categorie=${categorie.name}`} key={categorie["id"]}>
+              <Link component={RouterLink} underline="hover" color="text.primary" to={`/search?categorie=${categorie.name}`} key={categorie["id"]}>
                 {categorie.name}
               </Link>
             ))}
@@ -57,7 +57,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             size="large"
             edge="start"
-            color="default"
+            color="primary"
             aria-label="menu"
             sx={{ mr: 2, fontSize: '1.5rem' }}
           >

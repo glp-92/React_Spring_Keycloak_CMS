@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import NotFound from '../pages/notfound/NotFound';
 import { ValidateToken } from '../util/requests/ValidateToken';
 
-
+import Box from '@mui/material/Box';
 
 const DependsLogged = () => {
 
@@ -28,7 +28,7 @@ const DependsLogged = () => {
     }, []);
 
     return (
-        <div>
+        <Box sx={{ flex:1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 2 }}>
             {
                 isLoading ? (
                     <div>
@@ -41,7 +41,7 @@ const DependsLogged = () => {
                         <NotFound />
                 )
             }
-        </div>
+        </Box>
     )
 }
 

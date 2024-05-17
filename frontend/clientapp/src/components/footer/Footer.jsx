@@ -39,25 +39,27 @@ const Footer = () => {
         <Grid sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'end' }} xs={4}>
           <IconButton
             component="a"
+            size="large"
             href="https://github.com/glp-92"
             target="_blank"
             rel="noopener noreferrer"
             edge="start"
             color="default"
             aria-label="menu"
-            sx={{ mr: 2, fontSize: 40 }}
+            sx={{ mr: 2, fontSize: 30 }}
           >
             <GitHubIcon />
           </IconButton>
           <IconButton
             component="a"
+            size="large"
             href="https://www.linkedin.com/in/guillermo-lopez-pazos/"
             target="_blank"
             rel="noopener noreferrer"
             edge="start"
             color="default"
             aria-label="menu"
-            sx={{ mr: 2, fontSize: 40 }}
+            sx={{ mr: 2, fontSize: 30 }}
           >
             <LinkedInIcon />
           </IconButton>

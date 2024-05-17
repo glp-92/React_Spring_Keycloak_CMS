@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
-import SendIcon from '@mui/icons-material/Send';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
 const Writer = () => {
   const navigate = useNavigate();
@@ -86,14 +86,14 @@ const Writer = () => {
 
   return (
     <>
-      <Button component={Link} to="/wpannel" variant="contained" color="primary" startIcon={<SendIcon sx={{transform:"rotate(180deg)"}}/>}>
+      <Button component={Link} to="/wpannel" variant="contained" color="primary" startIcon={<KeyboardReturnIcon />}>
         Volver a Panel
       </Button>
       <Box component="form" onSubmit={handleSendPost} noValidate sx={{ mt: 1 }}>
         <TextField margin="normal" required fullWidth id="title" label="Titulo" name="title" defaultValue={postToEdit ? postToEdit.title : null} />
         <TextField margin="normal" required fullWidth id="slug" label="Link" disabled={postToEdit ? true : false} name="slug" defaultValue={postToEdit ? postToEdit.slug : null} />
         <TextField margin="normal" required fullWidth id="excerpt" label="Resumen" name="excerpt" defaultValue={postToEdit ? postToEdit.excerpt : null} />
-        <RichTextEditor value={content} setValue={setContent} placeholder="Contenido"/>
+        <RichTextEditor value={content} setValue={setContent} placeholder="Contenido" />
         <TextField margin="normal" required fullWidth id="featuredImage" label="URL Imagen Portada" name="featuredImage" defaultValue={postToEdit ? postToEdit.featuredImage : null} />
         <div>
           <TextField

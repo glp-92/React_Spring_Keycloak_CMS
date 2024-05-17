@@ -1,19 +1,50 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
+import { ValidateToken } from '../../util/requests/ValidateToken';
 
 import AppBar from '@mui/material/AppBar';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
-import HomeIcon from '@mui/icons-material/Home';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+
 import SearchIcon from '@mui/icons-material/Search';
+import LoginIcon from '@mui/icons-material/Login';
+import HomeIcon from '@mui/icons-material/Home';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const NavBar = () => {
+  const unloggedSettings = ['Login'];
+  const loggedSettings = ['Panel de Control', 'Logout']
+
   const [searchText, setSearchText] = useState("");
+  const [menuSelected, setMenuSelected] = useState('');
+  const [settings, setSetting] = useState(unloggedSettings);
+
   const navigate = useNavigate();
+
+  const handleOpenMenu = (event) => {
+    const fetchTokenValid = async () => {
+      const isValid = await ValidateToken();
+      if (isValid) {
+        setSetting(loggedSettings);
+      }
+      else {
+        setSetting(unloggedSettings);
+      }
+    }
+    fetchTokenValid();
+    setMenuSelected(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = (val) => {
+    setMenuSelected(null);
+  };
 
   const handleSearch = (e) => {
     e.preventDefault(); //preventdefault evita actualizar la pagina
@@ -27,34 +58,73 @@ const NavBar = () => {
   }
 
   return (
-    <AppBar color="default" position="static" sx={{ marginBottom: 2 }}  >
-      <Toolbar sx={{ display: 'flex', justifyContent: "space-evenly" }}>
-        <IconButton
-          component={Link} // Usando el componente Link en lugar de 'a'
-          to="/" //
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          sx={{ mr: 2, fontSize: 40, aspectRatio: '1', borderRadius: 4 }}
-        >
-          <HomeIcon />
-        </IconButton>
-        <Paper
-          component="form"
-          onSubmit={handleSearch}
-          sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, borderRadius: 2 }}
-        >
-          <InputBase
-            sx={{ ml: 1, flex: 1 }}
-            placeholder="Search"
-            onChange={(e) => { setSearchText(e.target.value) }}
-            value={searchText}
-          />
-          <IconButton type="submit" sx={{ p: '10px', fontSize: '1.5rem' }} aria-label="search" size="large">
-            <SearchIcon />
+    <AppBar color="default" position="static" sx={{ marginBottom: 2 }} >
+      <Container maxWidth="md">
+        <Toolbar sx={{ display: 'flex', justifyContent: "space-between" }}>
+          <IconButton
+            component={Link}
+            to="/"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ fontSize: 40, aspectRatio: '1', borderRadius: 4 }}
+          >
+            <HomeIcon />
           </IconButton>
-        </Paper>
-      </Toolbar>
+          <Paper
+            component="form"
+            onSubmit={handleSearch}
+            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, borderRadius: 2, marginLeft: 'auto' }}
+          >
+            <InputBase
+              sx={{ ml: 1, flex: 1 }}
+              placeholder="Search"
+              onChange={(e) => { setSearchText(e.target.value) }}
+              value={searchText}
+            />
+            <IconButton type="submit" sx={{ p: '10px', fontSize: '1.5rem' }} aria-label="search" size="large">
+              <SearchIcon />
+            </IconButton>
+          </Paper>
+          <Box sx={{marginLeft: 1}}>
+            <IconButton onClick={handleOpenMenu}>
+              <MenuIcon sx={{ fontSize: 30 }} />
+            </IconButton>
+            <Menu
+              sx={{ mt: '30px' }}
+              anchorEl={menuSelected}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(menuSelected)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={() => {
+                  handleCloseUserMenu();
+                  if (setting === "Login") {
+                    navigate(`/login`);
+                  } else if (setting == "Panel de Control") {
+                    navigate(`/wpannel`);
+                  } else if (setting == "Logout") {
+                    navigate(`/logout`)
+                  }
+                }
+                }>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        </Toolbar>
+      </Container>
+
     </AppBar>
   )
 }

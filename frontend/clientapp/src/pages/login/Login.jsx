@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import './Login.css'
 import { Navigate } from 'react-router-dom';
 import { ValidateToken } from '../../util/requests/ValidateToken';
 import { LoginRequest } from "../../util/requests/Login";
@@ -10,7 +9,6 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 
 const Login = () => {
   const [logged, setLogged] = useState(false);

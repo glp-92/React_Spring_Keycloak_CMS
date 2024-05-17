@@ -17,10 +17,13 @@ const Home = () => {
     setPage(value - 1);
   }
 
+  //const sleep = ms => new Promise(r => setTimeout(r, ms));
+
   useEffect(() => { // Al llegar a home
 
     const fetchPosts = async (page) => {
       setIsLoading(true);
+      //await sleep(1000);
       const posts = await GetPostList(page, null);
       if (posts != null) {
         setPosts(posts["content"]);
@@ -36,22 +39,26 @@ const Home = () => {
   }, [page])
 
   return (
-      <Box sx={{ width: '100%', marginBottom: 3 }}>
-        {isLoading ? (
-          <Loading />
-        ) : (
-          page === 0 ? (
+    <Box sx={{ flex:1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 2 }}>
+      {isLoading ? (
+        <Loading height={300} />
+      ) : (
+        page === 0 ? (
 
-            <LandingPage posts={posts} />
+          <LandingPage posts={posts} />
 
-          ) :
-            (
-              <PostList postArr={posts} />
-            )
-        )
-        }
+        ) :
+          (
+            <PostList postArr={posts} />
+          )
+      )
+      }
       {
-        npages > 1 && <Pagination sx={{ marginTop: 4 }} size='small' count={npages} shape="rounded" page={page + 1} onChange={handlePageChange} />
+        npages > 1 &&
+        <Pagination sx={{
+          marginTop: 'auto',
+          alignSelf: 'center',
+        }} size='small' count={npages} shape="rounded" page={page + 1} onChange={handlePageChange} />
       }
     </Box>
   )

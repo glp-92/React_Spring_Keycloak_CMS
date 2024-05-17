@@ -8,11 +8,9 @@ import { useNavigate } from "react-router-dom";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 
@@ -137,8 +135,8 @@ const AdminPannel = () => {
     }, [page])
 
     return (
-        <Box >
-            <Typography align='center' component="h1" variant="h5">
+        <Box sx={{flex: 1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 2 }}>
+            <Typography align='center' variant="h2">
                 Panel de Administracion
             </Typography>
             <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -158,7 +156,6 @@ const AdminPannel = () => {
                         <AddCircleOutlineIcon />
                     </IconButton>
                 </Box>
-                <Divider />
                 <List dense sx={{width:'100%'}}>
                     {categories.map((categorie, index) => (
                         <ListItem key={index} alignItems="center" sx={{ mt: 0, mb: 0 }}>
@@ -187,7 +184,7 @@ const AdminPannel = () => {
                     ))}
                 </List>
             </Box>
-            <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Box sx={{ flex:1, mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Typography component="h3" variant="h5">
                     Posts
                 </Typography>
@@ -200,7 +197,7 @@ const AdminPannel = () => {
                 >
                     Crear Post
                 </Button>
-                <Stack spacing={2}>
+                <Stack spacing={2} sx={{width:'100%'}}>
                     {posts.map(item => (
                         <Box
                             key={item["id"]}
@@ -233,7 +230,7 @@ const AdminPannel = () => {
                         </Box>
                     ))}
                 </Stack>
-                <Pagination count={npages} page={page} onChange={handlePageChange} />
+                <Pagination sx={{marginTop: 'auto', alignSelf: 'center',}} size='small' count={npages} shape="rounded" page={page + 1} onChange={handlePageChange} />
             </Box>
         </Box>
     )

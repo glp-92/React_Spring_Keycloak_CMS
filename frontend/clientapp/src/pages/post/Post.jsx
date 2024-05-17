@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import PostContent from '../../components/postContent/PostContent'
 import { Navigate } from "react-router-dom";
 import Loading from '../../components/loading/Loading';
-import './Post.css'
 
 import Box from '@mui/material/Box';
 
@@ -14,6 +13,7 @@ const Post = () => {
   const getPostData = async () => {
     try {
       setIsLoading(true);
+      //await sleep(1000);
       const response = await fetch(`http://localhost:8083/post/${slug}`);
       if (!response.ok) {
         throw new Error(`Error al obtener post: ${response.statusText}`);
@@ -26,6 +26,8 @@ const Post = () => {
     setIsLoading(false);
   };
 
+  //const sleep = ms => new Promise(r => setTimeout(r, ms));
+
   useEffect(() => {
     getPostData();
   }, [slug])
@@ -34,7 +36,7 @@ const Post = () => {
   return (
     <Box sx={{ width: '100%', marginBottom: 3 }}>
       {isLoading ? (
-        <Loading/>
+        <Loading height={'70vh'}/>
       ) : (
         postData ? (
           <PostContent postData={postData} />

@@ -20,7 +20,7 @@ export const Router = () => {
     return (
         <BrowserRouter>
             <NavBar />
-            <Container maxWidth="md" sx={{ minHeight: '90%', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Container maxWidth="md" sx={{ minHeight: '90%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Routes>
                     <Route exact path="/" element={<Home />} />
                     <Route exact path="/login" element={<Login />} />

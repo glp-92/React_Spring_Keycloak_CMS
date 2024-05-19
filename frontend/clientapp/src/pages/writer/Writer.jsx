@@ -28,9 +28,9 @@ const Writer = () => {
     */
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    for (const value of data.values()) {
+    /*for (const value of data.values()) {
       console.log(value);
-    }
+    }*/
     try {
       const tokenValid = await ValidateToken();
       if (!tokenValid) throw new Error(`Login error: not logged`);

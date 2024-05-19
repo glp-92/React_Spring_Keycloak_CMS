@@ -1,4 +1,4 @@
-export const LoginRequest = async (username, password) => {
+export const LoginRequest = async (username, password, totp) => {
     try {
         const url = `http://localhost:8083/login`;
         const response = await fetch(url,
@@ -7,7 +7,7 @@ export const LoginRequest = async (username, password) => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ "username": username, "password": password })
+                body: JSON.stringify({ "username": username, "password": password, "totp": totp })
             });
         if (!response.ok) {
             throw new Error(`Login error: ${response.statusText}`);

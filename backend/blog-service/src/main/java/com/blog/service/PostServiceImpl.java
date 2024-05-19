@@ -91,7 +91,6 @@ public class PostServiceImpl implements PostService {
 		User user = userRepo.findBySub(subject).orElse(null);
 		Date date = new Date(System.currentTimeMillis());
 		Set<Categorie> categories = new HashSet<Categorie>(categorieRepo.findAllById(request.getCategoryIds()));
-		System.out.println(categories);
 		Post post = Post.builder().title(request.getTitle()).slug(request.getSlug()).excerpt(request.getExcerpt()).content(request.getContent()).date(date).featuredImage(request.getFeaturedImage()).featuredPost(request.getFeaturedPost()).categories(categories).users(user).build();
 		return postRepo.save(post);
 	}

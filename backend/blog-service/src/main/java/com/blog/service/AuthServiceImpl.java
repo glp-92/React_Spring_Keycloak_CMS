@@ -57,13 +57,13 @@ public class AuthServiceImpl implements AuthService{
 	    formData.add("client_secret", clientSecret);
 	    formData.add("username", request.getUsername());
 	    formData.add("password", request.getPassword());
-	    
+	    //Otp from authenticator
+	    formData.add("totp", request.getTotp());
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 	    
 	    HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(formData, headers);
 	    ResponseEntity<String> response = restTemplate.postForEntity(tokenUri, entity, String.class);
-
 	    if (response.getStatusCode() == HttpStatus.OK) {
 	        String responseBody = response.getBody();
 	        try {

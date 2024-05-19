@@ -16,7 +16,7 @@ const Login = () => {
   const handleLogin = async (e) => { // Envia el formulario de login, carga el token en almacenamiento
     e.preventDefault(); // Previene el comportamiento por defecto, en caso de un form, refrescar la pagina
     const data = new FormData(e.currentTarget);
-    const login_response = await LoginRequest(data.get("username"), data.get("password"))
+    const login_response = await LoginRequest(data.get("username"), data.get("password"), data.get("totp"))
     if (login_response.access_token) {
       setLogged(true);
     }
@@ -34,7 +34,7 @@ const Login = () => {
   return (
     <>
       {logged && (
-        <Navigate to="/wpannel" replace={true} />
+        <Navigate to="/" replace={true} />
       )}
       <Box
         sx={{
@@ -70,6 +70,15 @@ const Login = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="totp"
+            label="OTP Key"
+            type="password"
+            id="totpKey"
           />
           <Button
             type="submit"

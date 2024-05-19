@@ -22,9 +22,9 @@ public class CommentCreate {
 	@Email(message="formato no validod e email")
 	@Size(min = 3, max = 30)
 	private String email;
-	@NotEmpty(message = "comentario no puede estar vacío")
-    @Size(max = 50, message = "El comentario no puede exceder los 100 caracteres")
-	@Pattern(regexp = "[a-zA-Z0-9]+", message="inyeccion detectada")
+	@NotEmpty(message = "El comentario no puede estar vacío")
+	@Size(max = 300, message = "El comentario no puede exceder los 100 caracteres")
+	@Pattern(regexp = "^[a-zA-Z0-9 .,!?@#&()\\-\\\"'\n]+$", message = "El comentario contiene caracteres no permitidos")
 	private String comment;
 	private Long postId;
 }

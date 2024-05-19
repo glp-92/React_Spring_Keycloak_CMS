@@ -77,6 +77,18 @@ GRANT ALL PRIVILEGES ON blog_service.* TO 'blog'@'localhost';
   - password: userPassword
   - client_secret: clientSecret
   
+## MFA With authenticator
+
+1. Select blog realm => Authentication => Required Actions => Configure OTP => Enabled ON / Set as default Action ON
+2. Policies tab => OTP Policy => Configure custom OTP settings (preferred low expiration time)
+3. Users => Select user => Required Actions => Configure OTP
+
+Once configure checked, must login with Keycloak at `http://localhost:9000/realms/blog/account`
+
+4. Download Microsoft / Google authenticator and scan QR provided by login page
+5. OTP must be included on login form as:
+  - topt: otpKey
+  
 ## References and useful links
 
 https://snyk.io/blog/guide-to-input-validation-with-spring-boot/

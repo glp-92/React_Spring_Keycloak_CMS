@@ -1,5 +1,7 @@
 package com.blog.model.pojo;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -12,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,7 +33,6 @@ import lombok.ToString;
 public class Comment {
 	
 	@Id
-	@JsonIgnore
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
@@ -46,6 +48,10 @@ public class Comment {
 	@Column
 	@NotBlank(message = "field comment cannot be empty!")
 	private String comment;
+	
+	@Column
+	@NotNull(message = "field date cannot be empty!") //NotBlank no se aplica en campo date
+	private Date date;
 	
 	@ManyToOne
     @JoinColumn(name = "posts_id") // Nombre de la columna que contiene la clave foránea

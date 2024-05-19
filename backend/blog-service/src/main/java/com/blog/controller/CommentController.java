@@ -58,7 +58,11 @@ public class CommentController {
 		try {
 			Comment comment = service.createComment(request);
 			return ResponseEntity.status(HttpStatus.CREATED).body(comment);
-		} catch (Exception e) {
+		} 
+		catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
+		}
+		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}

@@ -14,9 +14,12 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import SearchIcon from '@mui/icons-material/Search';
-import LoginIcon from '@mui/icons-material/Login';
 import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 
 const NavBar = () => {
   const unloggedSettings = ['Login'];
@@ -65,7 +68,7 @@ const NavBar = () => {
             component={Link}
             to="/"
             edge="start"
-            color="inherit"
+            color="default"
             aria-label="menu"
             sx={{ fontSize: 40, aspectRatio: '1', borderRadius: 4 }}
           >
@@ -83,12 +86,12 @@ const NavBar = () => {
               value={searchText}
             />
             <IconButton type="submit" sx={{ p: '10px', fontSize: '1.5rem' }} aria-label="search" size="large">
-              <SearchIcon />
+              <SearchIcon size='small' color="default" />
             </IconButton>
           </Paper>
-          <Box sx={{marginLeft: 1}}>
-            <IconButton onClick={handleOpenMenu}>
-              <MenuIcon sx={{ fontSize: 30 }} />
+          <Box sx={{ marginLeft: 1 }}>
+            <IconButton color="default" onClick={handleOpenMenu}>
+              <AccountCircleIcon sx={{ fontSize: 35 }} />
             </IconButton>
             <Menu
               sx={{ mt: '30px' }}
@@ -117,6 +120,9 @@ const NavBar = () => {
                   }
                 }
                 }>
+                  {setting === "Login" && <LoginIcon sx={{ marginRight: 1, fontSize: 20 }} />}
+                  {setting === "Logout" && <LogoutIcon sx={{ marginRight: 1, fontSize: 20 }} />}
+                  {setting === "Panel de Control" && <DashboardCustomizeIcon sx={{ marginRight: 1, fontSize: 20 }} />}
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

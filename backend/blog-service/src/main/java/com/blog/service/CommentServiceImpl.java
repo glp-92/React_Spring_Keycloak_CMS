@@ -36,6 +36,9 @@ public class CommentServiceImpl implements CommentService{
 	@Value("${max-comments-per-hour}")
 	private int maxCommentsPerHour;
 	
+	@Value("${max-comments-per-post}")
+	private int maxCommentsPerPost;
+	
 	@Override
 	public List<Comment> getCommentsFromPost(String postId) {
 		Optional<Post> post = postRepo.findById(Long.valueOf(postId));
@@ -46,6 +49,9 @@ public class CommentServiceImpl implements CommentService{
 	@Override
 	public Comment createComment(CommentCreate request) {
 		Optional<Post> post = postRepo.findById(request.getPostId());
+		if (maxCommentsPerPost <= post.get().getComments().size()) {
+			throw new RuntimeException("Se ha superado el límite de comentarios en el post");
+		}
 		Date date = new Date(System.currentTimeMillis());
 		if (countCommentsInLastHour(date) > maxCommentsPerHour) {
 			throw new RuntimeException("Se ha superado el límite de comentarios por hora");

@@ -39,3 +39,4 @@ jwt:
       resource-id: blog-client
       principal-attribute: principal_username
 max-comments-per-hour: 22
+max-comments-per-post: 2

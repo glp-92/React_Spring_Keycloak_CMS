@@ -9,7 +9,7 @@ import { Link, Typography, Box, Chip, Card, Button, CardMedia, CardContent, Divi
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const commentsPerPage = 2;
+const commentsPerPage = 5;
 
 const PostContent = ({ postData }) => {
 
@@ -66,14 +66,16 @@ const PostContent = ({ postData }) => {
     }
 
     const handleDeleteComment = async (comment) => {
-        try {
-            const response = await DeleteComment(comment.id);
-            if (!response.ok) {
-                throw new Error(`Error deleting comment: ${response.status}`);
+        if (confirm('Esta accion borrara el Comentario, continuar?')) {
+            try {
+                const response = await DeleteComment(comment.id);
+                if (!response.ok) {
+                    throw new Error(`Error deleting comment: ${response.status}`);
+                }
+                setComments((prevComments) => prevComments.filter(c => c.id !== comment.id));
+            } catch (error) {
+                console.error("Error sending comment:", error);
             }
-            setComments((prevComments) => prevComments.filter(c => c.id !== comment.id));
-        } catch (error) {
-            console.error("Error sending comment:", error);
         }
     }
 
@@ -248,10 +250,9 @@ const PostContent = ({ postData }) => {
                         </Box>
                 )}
                 {nCommentPages > 1 &&
-                    <Pagination sx={{
-                        marginTop: 2,
-                        alignSelf: 'center',
-                    }} size='small' count={nCommentPages} shape="rounded" page={currentCommentPage} onChange={handleCommentPageChange} />
+                    <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
+                        <Pagination size='small' count={nCommentPages} shape="rounded" page={currentCommentPage} onChange={handleCommentPageChange} />
+                    </Box>
                 }
                 <Box ref={commentFormRef} component="form" display='flex' flexDirection='column' onSubmit={handleSendComment} noValidate sx={{ margin: 3 }}>
                     <Typography variant="body1" marginBottom={1}>Añadir Comentario</Typography>

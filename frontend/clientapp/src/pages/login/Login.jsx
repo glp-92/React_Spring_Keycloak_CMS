@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ValidateToken } from '../../util/requests/ValidateToken';
 import { LoginRequest } from "../../util/requests/Login";
 
@@ -11,14 +12,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 
 const Login = () => {
-  const [logged, setLogged] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => { // Envia el formulario de login, carga el token en almacenamiento
     e.preventDefault(); // Previene el comportamiento por defecto, en caso de un form, refrescar la pagina
     const data = new FormData(e.currentTarget);
     const login_response = await LoginRequest(data.get("username"), data.get("password"), data.get("totp"))
     if (login_response.access_token) {
-      setLogged(true);
+      navigate(-1);
     }
     // setIsLoading(false);
   };
@@ -26,16 +27,13 @@ const Login = () => {
   useEffect(() => { // Se verifica si se esta logueado actualmente y se redirige al panel de administracion
     const fetchTokenValid = async () => {
       const isValid = await ValidateToken();
-      setLogged(isValid);
+      if (isValid) navigate(-1);
     }
     fetchTokenValid();
   }, [])
 
   return (
     <>
-      {logged && (
-        <Navigate to="/" replace={true} />
-      )}
       <Box
         sx={{
           marginTop: 2,

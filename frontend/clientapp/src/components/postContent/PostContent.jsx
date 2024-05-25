@@ -5,17 +5,22 @@ import { CreateComment, DeleteComment } from '../../util/requests/Comments';
 import { Link as RouterLink } from "react-router-dom";
 import { ValidateToken } from '../../util/requests/ValidateToken';
 
-import { Link, Typography, Box, Chip, Card, Button, CardMedia, CardContent, Divider, IconButton, TextField, Snackbar } from '@mui/material';
+import { Link, Typography, Box, Chip, Card, Button, CardMedia, CardContent, Divider, IconButton, TextField, Snackbar, Pagination } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
+
+const commentsPerPage = 2;
 
 const PostContent = ({ postData }) => {
 
     const commentFormRef = useRef(null);
     const [comments, setComments] = useState(postData.comments.sort((a, b) => new Date(b.date) - new Date(a.date)));
+    const [paginatedComments, setPaginatedComments] = useState(postData.comments.slice(0, commentsPerPage));
     const [logged, setLogged] = useState(false);
     const [coppied, setCoppied] = useState(false);
     const [serverError, setServerError] = useState(false);
+    const [nCommentPages, setNCommentPages] = useState(Math.ceil(postData.comments.length / commentsPerPage));
+    const [currentCommentPage, setCurrentCommentPage] = useState(1);
 
     const categories = postData["categories"].map((categorie) => <RouterLink to={`/search?categorie=${categorie.name}`} key={categorie["id"]}><Chip size='small' key={categorie["id"]} label={categorie["name"]} /></RouterLink>);
 
@@ -27,7 +32,6 @@ const PostContent = ({ postData }) => {
         if (reason === 'clickaway') {
             return;
         }
-
         setCoppied(false);
     };
 
@@ -73,6 +77,16 @@ const PostContent = ({ postData }) => {
         }
     }
 
+    const handleCommentPageChange = (e, value) => {
+        setPaginatedComments(comments.slice((value - 1) * commentsPerPage, value * commentsPerPage));
+        if (e) {
+            setCurrentCommentPage(value);
+        }
+        else {
+            setCurrentCommentPage(1);
+        }
+    }
+
     useEffect(() => {
         const fetchTokenValid = async () => {
             const isValid = await ValidateToken();
@@ -81,6 +95,10 @@ const PostContent = ({ postData }) => {
         fetchTokenValid();
     }, [])
 
+    useEffect(() => {
+        setNCommentPages(Math.ceil(comments.length / commentsPerPage));
+        setPaginatedComments(comments.slice((currentCommentPage - 1) * commentsPerPage, currentCommentPage * commentsPerPage));
+    }, [comments])
 
     return (
         <Card sx={{ marginTop: 2 }}>
@@ -208,7 +226,7 @@ const PostContent = ({ postData }) => {
             <Divider />
             <CardContent>
                 <Typography variant="caption">Comentarios</Typography>
-                {comments.map(
+                {paginatedComments.map(
                     (comment, index) =>
                         <Box key={index} marginBottom={1}>
                             <Box padding={1} bgcolor="#f5f5f5" display='flex' flexDirection='column' className='comment' key={comment["id"]}>
@@ -229,6 +247,12 @@ const PostContent = ({ postData }) => {
                             </Box>
                         </Box>
                 )}
+                {nCommentPages > 1 &&
+                    <Pagination sx={{
+                        marginTop: 2,
+                        alignSelf: 'center',
+                    }} size='small' count={nCommentPages} shape="rounded" page={currentCommentPage} onChange={handleCommentPageChange} />
+                }
                 <Box ref={commentFormRef} component="form" display='flex' flexDirection='column' onSubmit={handleSendComment} noValidate sx={{ margin: 3 }}>
                     <Typography variant="body1" marginBottom={1}>Añadir Comentario</Typography>
                     <Box display='flex' justifyContent='space-around' flexDirection={{ xs: 'column', md: 'row' }}>

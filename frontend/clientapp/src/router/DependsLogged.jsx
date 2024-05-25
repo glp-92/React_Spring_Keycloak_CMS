@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Outlet } from 'react-router-dom';
 import NotFound from '../pages/notfound/NotFound';
 import { ValidateToken } from '../util/requests/ValidateToken';
+import Loading from '../components/loading/Loading';
 
 import Box from '@mui/material/Box';
 
@@ -31,9 +32,7 @@ const DependsLogged = () => {
         <Box sx={{ flex:1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 2 }}>
             {
                 isLoading ? (
-                    <div>
-                        <h2>Cargando...</h2>
-                    </div>
+                    <Loading height={300} />
                 ) : (
                     tokenValid ? (
                         <Outlet />

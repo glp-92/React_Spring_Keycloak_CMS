@@ -39,7 +39,7 @@ const Home = () => {
   }, [page])
 
   return (
-    <Box sx={{ flex:1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 2 }}>
+    <Box sx={{ flex:1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 3 }}>
       {isLoading ? (
         <Loading height={300} />
       ) : (
@@ -56,7 +56,7 @@ const Home = () => {
       {
         npages > 1 &&
         <Pagination sx={{
-          marginTop: 'auto',
+          marginTop: 5,
           alignSelf: 'center',
         }} size='small' count={npages} shape="rounded" page={page + 1} onChange={handlePageChange} />
       }

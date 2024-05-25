@@ -50,6 +50,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public Map<String, Object> getPostsFiltered(String keyword, String categorieName, int page, boolean reverse) {
 		List<Post> results = new ArrayList<>();
+		int nPostsPerPage = 6;
 		if (keyword != null) {
 			Categorie categorie = categorieRepo.findByName(keyword);
 			for (String key : Arrays.asList(keyword.split(","))) {
@@ -64,6 +65,9 @@ public class PostServiceImpl implements PostService {
 		}
 		else {
 			results.addAll(getAllPosts());
+			if (page == 0) {
+				nPostsPerPage = 5;
+			} // La pagina principal muestra numero impar porque el primer post es mas grande
 		}
 		Set<Long> postIds = new HashSet<>();
 	    for (Post post : results) {
@@ -72,7 +76,7 @@ public class PostServiceImpl implements PostService {
 	        }
 	    }
 	    Sort.Direction direction = reverse ? Sort.Direction.ASC: Sort.Direction.DESC;
-		Pageable pageable = PageRequest.of(page, 5, Sort.by(direction, "date"));
+		Pageable pageable = PageRequest.of(page, nPostsPerPage, Sort.by(direction, "date"));
 		Page<Post> pageResult = postRepo.findAllByIdIn(postIds, pageable);
 		int totalPages = pageResult.getTotalPages();
 		Map<String, Object> response = new HashMap<>();

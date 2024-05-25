@@ -70,7 +70,7 @@ const NavBar = () => {
             edge="start"
             color="default"
             aria-label="menu"
-            sx={{ fontSize: 40, aspectRatio: '1', borderRadius: 4 }}
+            sx={{ fontSize: 30, aspectRatio: '1', borderRadius: 4 }}
           >
             <HomeIcon />
           </IconButton>
@@ -91,7 +91,7 @@ const NavBar = () => {
           </Paper>
           <Box sx={{ marginLeft: 1 }}>
             <IconButton color="default" onClick={handleOpenMenu}>
-              <AccountCircleIcon sx={{ fontSize: 35 }} />
+              <AccountCircleIcon sx={{ fontSize: 30 }} />
             </IconButton>
             <Menu
               sx={{ mt: '30px' }}

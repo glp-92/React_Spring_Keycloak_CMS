@@ -15,7 +15,7 @@ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 
 const MainPostCard = ({ postData }) => {
 
-    const categories = postData["categories"].map((categorie) => <Box key={categorie["id"]}><Chip size='small' key={categorie["id"]} label={categorie["name"]} /></Box>);
+    const categories = postData["categories"].map((categorie) => <Box sx={{ margin: 1 }} key={categorie["id"]}><Chip size='small' key={categorie["id"]} label={categorie["name"]} /></Box>);
 
     return (
         <Link to={`/post/${postData["slug"]}`} style={{ textDecoration: 'none' }}>
@@ -30,7 +30,7 @@ const MainPostCard = ({ postData }) => {
                             image={`${postData["featuredImage"]}`}
                             title={`${postData["slug"]}Image`}
                         />
-                        </Box>}
+                    </Box>}
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <CardContent sx={{ flex: '1 0 auto' }}>
                             <Typography gutterBottom variant="h2" component="div">
@@ -43,14 +43,16 @@ const MainPostCard = ({ postData }) => {
                     </Box>
                 </Box>
                 <Divider sx={{ flex: 2 }} />
-                <Stack direction="row-reverse" sx={{margin:1}} spacing={1} justifyContent="space-between">
+                <Stack direction="row-reverse" sx={{ margin: 1 }} spacing={1} justifyContent="space-between">
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <EditCalendarIcon color="action" />
                         <Typography variant="subtitle2" color="text.secondary">
                             {DateFormatToEs(postData["date"])}
                         </Typography >
                     </Box>
-                    {categories}
+                    <Box display={'flex'} flexWrap="wrap">
+                        {categories}
+                    </Box>
                 </Stack>
             </Card>
         </Link>

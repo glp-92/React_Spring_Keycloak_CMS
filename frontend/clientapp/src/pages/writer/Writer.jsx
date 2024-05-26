@@ -5,10 +5,7 @@ import { GetCategories } from "../../util/requests/Categories";
 import { ValidateToken } from '../../util/requests/ValidateToken';
 import RichTextEditor from "../../components/richTextEditor/RichTextEditor";
 
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
+import { Box, Select, TextField, MenuItem, Button } from '@mui/material';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
 const Writer = () => {
@@ -17,7 +14,7 @@ const Writer = () => {
 
   const [content, setContent] = useState(postToEdit ? postToEdit.content : '');
   const [categories, setCategories] = useState([]);
-  const [selectedCategorie, setSelectedCategorie] = useState(null);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   const handleSendPost = async (e) => {
     /*
@@ -44,7 +41,7 @@ const Writer = () => {
         "featuredImage": data.get("featuredImage"),
         "date": null,
         "featuredPost": false,
-        "categoryIds": [categories[selectedCategorie]['id']],
+        "categoryIds": selectedCategories,
       }
       const body = postToEdit ? { ...commonData, ...{ "postId": postToEdit.id } } : { ...commonData, ...{ "slug": data.get("slug") } };
       const method = postToEdit ? 'PUT' : 'POST';
@@ -74,11 +71,14 @@ const Writer = () => {
       setCategories(fetchedCategories);
 
       if (postToEdit && postToEdit.categories.length > 0) {
-        const categoryIndex = fetchedCategories.findIndex(category => postToEdit.categories[0].id == category.id);
-        setSelectedCategorie(categoryIndex);
+        let postCategorieNames = [];
+        postToEdit.categories.forEach(element => {
+          postCategorieNames.push(element.id);
+        });
+        setSelectedCategories(postCategorieNames);
       }
       else {
-        if (fetchCategories != null) setSelectedCategorie(0);
+        if (fetchCategories != null) setSelectedCategories([]);
       }
     }
     fetchCategories();
@@ -96,27 +96,26 @@ const Writer = () => {
         <RichTextEditor value={content} setValue={setContent} placeholder="Contenido" />
         <TextField margin="normal" required fullWidth id="featuredImage" label="URL Imagen Portada" name="featuredImage" defaultValue={postToEdit ? postToEdit.featuredImage : null} />
         <div>
-          <TextField
-            margin="normal"
+          <Select
             id="select-categorie"
             select
-            label="Categoria"
-            value={selectedCategorie != null ? selectedCategorie : ""}
-            onChange={(e) => { setSelectedCategorie(e.target.value) }}
-            sx={{ width: 200 }}
+            multiple
+            value={selectedCategories != [] ? selectedCategories : ""}
+            onChange={(e) => { setSelectedCategories(e.target.value) }}
+            sx={{ width: 300 }}
           >
             {categories.map((categorie, index) => (
-              <MenuItem key={categorie.id} value={index}>
+              <MenuItem key={index} value={categorie.id}>
                 {categorie.name}
               </MenuItem>
             ))}
-          </TextField>
+          </Select>
         </div>
         <Button
           type="submit"
           variant="contained"
           color="primary"
-          sx={{ mt: 2, mb: 2, width: 200 }}
+          sx={{ mt: 2, mb: 2, width: 300 }}
         >
           Enviar
         </Button>

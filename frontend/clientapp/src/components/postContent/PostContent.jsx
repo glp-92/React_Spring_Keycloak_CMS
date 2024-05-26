@@ -1,38 +1,48 @@
-import React, { useState } from 'react'
-import Markdown from 'markdown-to-jsx'
+import React from 'react'
 import { DateFormatToEs } from '../../util/date/DateFormatToEs';
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import MarkdownContent from './MarkdownContent';
 // import Comments from '../comments/Comments';
 
-import { Link, Typography, Box, Chip, Card, Button, CardMedia, CardContent, Divider, IconButton, TextField, Snackbar, Pagination } from '@mui/material';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { Avatar, Typography, IconButton, Box, Chip, Card, CardMedia, CardContent, Divider } from '@mui/material';
+
+import EditIcon from '@mui/icons-material/Edit';
+
 
 const PostContent = ({ postData }) => {
 
-    const [coppied, setCoppied] = useState(false);
-    
-    const categories = postData["categories"].map((categorie) => <RouterLink to={`/search?categorie=${categorie.name}`} key={categorie["id"]}><Chip size='small' key={categorie["id"]} label={categorie["name"]} /></RouterLink>);
-
-    const handleCopyClick = () => {
-        setCoppied(true);
-    };
-
-    const handleCopyEnd = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setCoppied(false);
-    };
+    const navigate = useNavigate();
+    const categories = postData["categories"].map((categorie) => <RouterLink to={`/search?categorie=${categorie.name}`} key={categorie["id"]}><Chip sx={{ marginRight: 1, marginBottom: 1 }} size='small' key={categorie["id"]} label={categorie["name"]} /></RouterLink>);
 
     return (
         <Card sx={{ marginTop: 2 }}>
             <Box bgcolor="#f5f5f5" padding={2}>
                 <Box>
-                    <Typography variant="h1">{postData.title}</Typography>
-                    <Typography variant="caption">{DateFormatToEs(postData.date)}</Typography>
-                    <Box display={'flex'}>
-                        <Typography variant="caption" sx={{ marginRight: 1 }}>Categoria:</Typography>
-                        {categories}
+                    <Box display={'flex'} flexWrap="wrap" alignItems={'center'}>
+                        <Typography variant="h1">{postData.title}</Typography>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="default"
+                            aria-label="menu"
+                            onClick={() => navigate(`/wpannel/writer`, { state: postData })}
+                            sx={{ ml: 'auto', mr: 1 }}
+                        >
+                            <EditIcon sx={{ fontSize: 25 }} />
+                        </IconButton>
+                    </Box>
+                    <Box sx={{ marginTop: 1, marginBottom: 1, alignItems: 'center' }} display={'flex'}>
+                        <Avatar sx={{ marginRight: 1 }} src={postData.users.picture && postData.users.picture}>{postData.users.username[0].toUpperCase()}</Avatar>
+                        <Box display={'flex'} flexDirection={'column'}>
+                            <Typography variant="caption">{postData.users.username}</Typography>
+                            <Typography variant="caption">{DateFormatToEs(postData.date)}</Typography>
+                        </Box>
+                    </Box>
+                    <Box display={'flex'} flexDirection={{ xs: 'column', md: 'row' }} alignItems={{ xs: 'flex-start', md: 'center' }} sx={{ width: '100%' }}>
+                        <Typography variant="caption" sx={{ marginRight: 1, marginBottom: 1 }}>Categorias:</Typography>
+                        <Box display={'flex'} flexWrap="wrap">
+                            {categories}
+                        </Box>
                     </Box>
                 </Box>
                 {postData.featuredImage && <Box display="flex" justifyContent="center" sx={{ marginTop: 1, backgroundColor: 'transparent' }}>
@@ -48,112 +58,12 @@ const PostContent = ({ postData }) => {
             </Box>
             <Divider />
             <CardContent>
-                <Markdown
-                    options={{
-                        overrides: {
-                            span: {
-                                component: ({ children }) => (
-                                    <Typography lineHeight={1.5} variant="body1" component="span">
-                                        {children}
-                                    </Typography>
-                                ),
-                            },
-                            p: {
-                                component: ({ children }) => (
-                                    <Box display={'flex'} flexDirection={'column'}>
-                                        <Typography lineHeight={1.5} variant="body1" component="span">
-                                            {children}
-                                        </Typography>
-                                    </Box>
-                                ),
-                            },
-                            code: {
-                                component: ({ children }) => (
-                                    <Box bgcolor={'#f5f5f5'} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                        <Typography lineHeight={1.5} component="span" margin={1} sx={{ overflow: 'auto', maxWidth: '100%' }}>
-                                            {children}
-                                        </Typography>
-                                        <IconButton
-                                            component={Button}
-                                            color="inherit"
-                                            onClick={() => { navigator.clipboard.writeText(children); handleCopyClick() }}
-                                            sx={{ fontSize: 20, aspectRatio: '1', borderRadius: 4 }}
-                                        >
-                                            <ContentCopyIcon />
-                                        </IconButton>
-                                        <Snackbar
-                                            open={coppied}
-                                            autoHideDuration={1000}
-                                            onClose={handleCopyEnd}
-                                            message="Codigo copiado"
-                                        />
-                                    </Box>
-                                ),
-                            },
-                            li: {
-                                component: ({ children }) => (
-                                    <Typography lineHeight={1.5} variant="body1" component="li">
-                                        {children}
-                                    </Typography>
-                                ),
-                            },
-                            img: {
-                                component: ({ alt, src }) => (
-                                    <Box sx={{ display: 'flex', margin: 2, flexDirection: 'column', alignItems: 'center' }}>
-                                        <img alt={alt} src={src} style={{ maxWidth: '500px', maxHeight: '500px', width: 'auto', height: 'auto' }} />
-                                        <Typography lineHeight={1.5} variant="caption" component="p">
-                                            {alt}
-                                        </Typography>
-                                    </Box>
-                                ),
-                            },
-                            h1: {
-                                component: ({ children }) => (
-                                    <Typography lineHeight={1.5} variant="h1">
-                                        {children}
-                                    </Typography>
-                                ),
-                            },
-                            h2: {
-                                component: ({ children }) => (
-                                    <Typography lineHeight={1.5} variant="h2">
-                                        {children}
-                                    </Typography>
-                                ),
-                            },
-                            h3: {
-                                component: ({ children }) => (
-                                    <Typography lineHeight={1.5} variant="h3">
-                                        {children}
-                                    </Typography>
-                                ),
-                            },
-                            h4: {
-                                component: ({ children }) => (
-                                    <Typography lineHeight={1.5} variant="h4">
-                                        {children}
-                                    </Typography>
-                                ),
-                            },
-                            a: {
-                                component: ({ children, href }) => (
-                                    <Link href={href} target="_blank" color="secondary" underline="hover">
-                                        {children}
-                                    </Link>
-                                ),
-                            },
-                        },
-                    }}>
-                    {postData.content}
-                </Markdown>
+                <MarkdownContent content={postData.content} />
             </CardContent>
             {/* 
             <Divider />
             <Comments postData={postData}/>
             */}
-            <CardContent>
-                <Typography variant="body1">{postData.users.name}</Typography>
-            </CardContent>
         </Card>
     )
 }

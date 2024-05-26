@@ -83,6 +83,16 @@ public class Post {
 	@JsonManagedReference // the one that gets serialized normally
     private Set<Categorie> categories;
 	
+	@ManyToMany
+	//@JsonIgnore
+	@JoinTable(
+	  name = "posts_lists", 
+	  joinColumns = @JoinColumn(name = "posts_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "lists_id")
+	 )
+	@JsonManagedReference // the one that gets serialized normally
+    private Set<List> lists;
+	
 	@ManyToOne
 	@JoinColumn(name = "users_id")
 	@JsonManagedReference // the one that gets serialized normally

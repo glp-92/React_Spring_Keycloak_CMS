@@ -1,3 +1,4 @@
+/*
 package com.blog.model.dto;
 
 import lombok.AllArgsConstructor;
@@ -13,3 +14,4 @@ public class CommentEdit {
 	private String commentId;
 	private String comment;
 }
+*/

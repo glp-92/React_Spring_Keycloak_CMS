@@ -1,3 +1,4 @@
+/*
 package com.blog.model.dto;
 
 import jakarta.validation.constraints.Email;
@@ -28,3 +29,4 @@ public class CommentCreate {
 	private String comment;
 	private Long postId;
 }
+*/

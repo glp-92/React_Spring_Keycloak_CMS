@@ -1,3 +1,4 @@
+/*
 package com.blog.model.pojo;
 
 import java.util.Date;
@@ -60,3 +61,4 @@ public class Comment {
 	private Post post;
 	
 }
+*/

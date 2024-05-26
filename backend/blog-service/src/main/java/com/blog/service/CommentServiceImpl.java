@@ -1,3 +1,4 @@
+/*
 package com.blog.service;
 
 import java.util.ArrayList;
@@ -98,3 +99,4 @@ public class CommentServiceImpl implements CommentService{
     }
 
 }
+*/

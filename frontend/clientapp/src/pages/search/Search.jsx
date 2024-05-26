@@ -38,19 +38,21 @@ const Search = () => {
   }, [page, queryparams])
 
   return (
-    <Box sx={{ flex:1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop:3 }}>
+    <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 3 }}>
       <Typography variant="h4" sx={{ textAlign: 'center', marginBottom: 3 }} gutterBottom>Resultados de búsqueda</Typography>
       {isLoading ? (
-        <Loading height={200}/>
+        <Loading height={200} />
       ) : (
         posts.length ? (
           <PostList postArr={posts} />
         ) : (
-          <h2>Sin resultados</h2>
+          <Box sx={{ height: '40vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <Typography borderRadius={1} padding={1} bgcolor='lightgray' variant="h2">SIN RESULTADOS</Typography>
+          </Box>
         )
       )}
       {
-        npages > 1 && <Pagination sx={{ marginTop: 5, alignSelf:'center' }} size='small' count={npages} shape="rounded" page={page + 1} onChange={handlePageChange} />
+        npages > 1 && <Pagination sx={{ marginTop: 5, alignSelf: 'center' }} size='small' count={npages} shape="rounded" page={page + 1} onChange={handlePageChange} />
       }
     </Box>
   )

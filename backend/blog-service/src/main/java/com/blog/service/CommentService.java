@@ -1,3 +1,4 @@
+/*
 package com.blog.service;
 
 import java.util.List;
@@ -13,3 +14,4 @@ public interface CommentService {
 	Comment editComment(CommentEdit request);
 	boolean deleteComment(String commentId);
 }
+*/

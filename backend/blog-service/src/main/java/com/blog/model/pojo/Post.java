@@ -88,8 +88,9 @@ public class Post {
 	@JsonManagedReference // the one that gets serialized normally
 	private User users;
 	
+	/*
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true) //orpahnremoval y cascadetype, si se elimina el post, desaparece el comentario
 	@JsonManagedReference
 	private Set<Comment> comments;
-	
+	*/
 }

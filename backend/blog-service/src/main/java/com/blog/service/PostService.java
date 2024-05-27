@@ -3,8 +3,8 @@ package com.blog.service;
 import java.util.Map;
 
 import com.blog.model.pojo.Post;
-import com.blog.model.dto.PostCreate;
-import com.blog.model.dto.PostEdit;
+import com.blog.model.dto.post.PostCreate;
+import com.blog.model.dto.post.PostEdit;
 
 public interface PostService {
 	Map<String, Object> getPostsFiltered(String keyword, String categorie, int page, boolean reverse);

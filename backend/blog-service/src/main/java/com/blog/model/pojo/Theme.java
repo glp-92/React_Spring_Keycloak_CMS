@@ -21,14 +21,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "lists")
+@Table(name = "themes")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @ToString
-public class List {
+public class Theme {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,16 +50,16 @@ public class List {
 	@NotBlank(message = "field excerpt cannot be empty!")
 	private String excerpt;
 	
-	@ManyToMany(mappedBy = "lists")
+	@ManyToMany(mappedBy = "themes")
 	@JsonBackReference // is the back part of reference; it’ll be omitted from serialization
 	//@JsonIgnore // Solo se serializara la lista de posts cuando se acceda a ella a traves de categorie
 	@ToString.Exclude
 	private Set<Post> posts;
-	/*
+	
 	@PreRemove //Funcion llamada previamente a remover una entidad por JPA
     private void onRemove() {
         for (Post post : posts) {
-            post.getLists().remove(this); // Remueve la categoria del Post, antes de ser esta eliminada
+            post.getThemes().remove(this); // Remueve la categoria del Post, antes de ser esta eliminada
         }
-    }*/
+    }
 }

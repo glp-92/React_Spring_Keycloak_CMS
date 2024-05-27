@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.model.pojo.Post;
-import com.blog.model.dto.PostCreate;
-import com.blog.model.dto.PostEdit;
+import com.blog.model.dto.post.PostCreate;
+import com.blog.model.dto.post.PostEdit;
 import com.blog.service.PostService;
 
 import lombok.RequiredArgsConstructor;

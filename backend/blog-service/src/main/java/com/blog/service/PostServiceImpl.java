@@ -25,8 +25,8 @@ import com.blog.data.PostRepository;
 import com.blog.model.pojo.User;
 import com.blog.model.pojo.Categorie;
 import com.blog.model.pojo.Post;
-import com.blog.model.dto.PostCreate;
-import com.blog.model.dto.PostEdit;
+import com.blog.model.dto.post.PostCreate;
+import com.blog.model.dto.post.PostEdit;
 
 @Service
 public class PostServiceImpl implements PostService {

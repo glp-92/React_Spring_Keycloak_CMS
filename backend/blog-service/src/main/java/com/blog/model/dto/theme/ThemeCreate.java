@@ -1,6 +1,4 @@
-package com.blog.model.dto;
-
-import java.util.List;
+package com.blog.model.dto.theme;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,12 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostEdit {
-	private String postId;
-	private String title;
+public class ThemeCreate {
+	private String name;
+	private String slug;
 	private String excerpt;
-	private String content;
 	private String featuredImage;
-	private Boolean featuredPost;
-	private List<Long> categoryIds; 
 }

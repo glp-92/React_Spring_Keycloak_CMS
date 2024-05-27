@@ -1,4 +1,4 @@
-package com.blog.model.dto;
+package com.blog.model.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginResponse {
-	private String access_token;
+public class RevokeTokenRequest {
 	private String refresh_token;
 }

@@ -17,8 +17,8 @@ import com.blog.data.PostRepository;
 import com.blog.model.pojo.Comment;
 import com.blog.model.pojo.Post;
 
-import com.blog.model.dto.CommentCreate;
-import com.blog.model.dto.CommentEdit;
+import com.blog.model.dto.comment.CommentCreate;
+import com.blog.model.dto.comment.CommentEdit;
 
 @Service
 public class CommentServiceImpl implements CommentService{

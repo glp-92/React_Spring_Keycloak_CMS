@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.blog.model.dto.LoginRequest;
-import com.blog.model.dto.LoginResponse;
-import com.blog.model.dto.RefreshTokenRequest;
-import com.blog.model.dto.RevokeTokenRequest;
+import com.blog.model.dto.auth.LoginRequest;
+import com.blog.model.dto.auth.LoginResponse;
+import com.blog.model.dto.auth.RefreshTokenRequest;
+import com.blog.model.dto.auth.RevokeTokenRequest;
 import com.blog.service.AuthService;
 
 import lombok.RequiredArgsConstructor;

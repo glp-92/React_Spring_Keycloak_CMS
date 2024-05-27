@@ -3,6 +3,7 @@ import Pagination from '@mui/material/Pagination';
 import { GetPostList } from '../../util/requests/GetPostList';
 import { DeletePost } from '../../util/requests/Posts';
 import { GetCategories, CreateCategorie, DeleteCategorie, UpdateCategorie } from '../../util/requests/Categories';
+import { CreateTheme, DeleteTheme, GetThemes, UpdateTheme } from '../../util/requests/Themes';
 import { useNavigate } from "react-router-dom";
 
 import Box from '@mui/material/Box';
@@ -23,6 +24,7 @@ const AdminPannel = () => {
     const [posts, setPosts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [inputCategorie, setInputCategorie] = useState('');
+    const [themes, setThemes] = useState([]);
     const [page, setPage] = useState(0);
     const [npages, setNPages] = useState(0);
 
@@ -108,6 +110,63 @@ const AdminPannel = () => {
         }
     }
 
+    const handleCreateTheme = async (e) => {
+        e.preventDefault();
+        const themeForm = new FormData(e.currentTarget);
+        const slug = themeForm.get('name').toLowerCase().replace(/\s+/g, '-');
+        let themeData = {};
+        themeForm.forEach((value, key) => themeData[key] = value);
+        themeData.slug = slug;
+        const token = localStorage.getItem("jwt");
+        try {
+            const response = await CreateTheme(themeData, token);
+            if (response.ok) {
+                const createdTheme = await response.json()
+                setThemes(prevThemes => [...prevThemes, createdTheme]);
+                document.getElementById("createThemeForm").reset();
+            }
+            else {
+                throw new Error(`Erroneous answer from server`);
+            }
+        } catch (error) {
+            console.error("Error. Theme not created!", error);
+        }
+    }
+
+    const handleUpdateTheme = async (e) => {
+        e.preventDefault();
+        const themeForm = new FormData(e.currentTarget);
+        const slug = themeForm.get('name').toLowerCase().replace(/\s+/g, '-');
+        let themeData = {};
+        themeForm.forEach((value, key) => themeData[key] = value);
+        themeData.slug = slug;
+        const token = localStorage.getItem("jwt");
+        try {
+            let response = await UpdateTheme(themeData, token);
+            if (!response.ok) {
+                throw new Error(`Erroneous answer from server`);
+            }
+        } catch (error) {
+            console.log("Error. Theme not updated!", error);
+        }
+    }
+
+    const handleDeleteTheme = async (id, index) => {
+        if (confirm('Esta accion borrara la Categoria de la base de datos, continuar?')) {
+            const token = localStorage.getItem("jwt");
+            if (!token) return false;
+            try {
+                let response = await DeleteTheme(id, token);
+                if (!response.ok) {
+                    throw new Error(`Erroneous answer from server`);
+                }
+                setThemes(prevThemes => prevThemes.filter(theme => theme.id !== id));
+            } catch (error) {
+                console.log("Error. Theme not deleted!", error);
+            }
+        }
+    }
+
     useEffect(() => {
         const fetchPosts = async (page) => {
             const posts = await GetPostList(page, null);
@@ -130,12 +189,24 @@ const AdminPannel = () => {
                 console.log(error);
             }
         }
+        const fetchThemes = async () => {
+            try {
+                let response = await GetThemes();
+                if (!response.ok) {
+                    throw new Error(`Error fetching themes`);
+                }
+                setThemes(await response.json());
+            } catch (error) {
+                console.log(error);
+            }
+        }
         fetchCategories();
+        fetchThemes();
         fetchPosts(page);
     }, [page])
 
     return (
-        <Box sx={{flex: 1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 2 }}>
+        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 2 }}>
             <Typography align='center' variant="h2">
                 Panel de Administracion
             </Typography>
@@ -143,7 +214,7 @@ const AdminPannel = () => {
                 <Typography component="h3" variant="h5">
                     Categorias
                 </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', mt: 2, mb: 0, width:'100%' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mt: 2, mb: 0, width: '100%' }}>
                     <TextField type="text" margin="normal" fullWidth id="title" label="Nombre de categoria" name="newCategory" value={inputCategorie} onChange={(e) => { setInputCategorie(e.target.value) }} />
                     <IconButton
                         size="large"
@@ -156,7 +227,7 @@ const AdminPannel = () => {
                         <AddCircleOutlineIcon />
                     </IconButton>
                 </Box>
-                <List dense sx={{width:'100%'}}>
+                <List dense sx={{ width: '100%' }}>
                     {categories.map((categorie, index) => (
                         <ListItem key={index} alignItems="center" sx={{ mt: 0, mb: 0 }}>
                             <TextField type="text" fullWidth margin="normal" defaultValue={categorie["name"]} onChange={(e) => handleEditCategorieLabel(e.target.value, index)} />
@@ -184,7 +255,67 @@ const AdminPannel = () => {
                     ))}
                 </List>
             </Box>
-            <Box sx={{ flex:1, mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Typography component="h3" variant="h5">
+                    Temas
+                </Typography>
+                <Box component="form" id="createThemeForm" onSubmit={handleCreateTheme} sx={{ display: 'flex', alignItems: 'center', mt: 2, mb: 0, width: '100%' }}>
+                    <Box flex={1} display={'flex'} flexDirection={'column'} >
+                        <Box mb={1} display={'flex'}>
+                            <TextField sx={{ flex: 1 }} type="text" fullWidth id="themeTitle" label="Nombre de tema" name="name" />
+                            <TextField sx={{ ml: 1, flex: 2 }} type="text" fullWidth id="themeImage" label="Ruta de imagen del tema" name="featuredImage" />
+                        </Box>
+                        <TextField type="text" fullWidth id="themeExcerpt" label="Resumen del tema" name="excerpt" />
+                    </Box>
+                    <IconButton
+                        size="large"
+                        edge="start"
+                        color="primary"
+                        aria-label="menu"
+                        type="submit"
+                        sx={{ ml: 1, mr: 1, fontSize: '1.5rem' }}
+                    >
+                        <AddCircleOutlineIcon />
+                    </IconButton>
+                </Box>
+                <List dense sx={{ width: '100%' }}>
+                    {themes.map((theme, index) => (
+                        <ListItem key={index} alignItems="center" sx={{ mt: 0, mb: 0 }}>
+                            <Box component="form" id="editThemeForm" onSubmit={handleUpdateTheme} sx={{ display: 'flex', alignItems: 'center', mt: 2, mb: 0, width: '100%' }}>
+                                <Box flex={1} display={'flex'} flexDirection={'column'} >
+                                    <Box mb={1} display={'flex'}>
+                                        <TextField sx={{ flex: 1 }} type="text" defaultValue={theme["name"]} name="name" />
+                                        <TextField sx={{ ml: 1, flex: 2 }} type="text" defaultValue={theme["featuredImage"]} name="featuredImage" />
+                                    </Box>
+                                    <TextField type="text" fullWidth defaultValue={theme["excerpt"]} name="excerpt" />
+                                </Box>
+                                <input type="hidden" name="id" value={theme.id} />
+                                <IconButton
+                                    size="large"
+                                    edge="start"
+                                    color="primary"
+                                    aria-label="menu"
+                                    type="submit"
+                                    sx={{ ml: 1, mr: 1, fontSize: '1.5rem' }}
+                                >
+                                    <UpdateIcon />
+                                </IconButton>
+                                <IconButton
+                                    size="large"
+                                    edge="start"
+                                    color="secondary"
+                                    aria-label="menu"
+                                    onClick={() => handleDeleteTheme(theme.id, index)}
+                                    sx={{ fontSize: '1.5rem' }}
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
+                            </Box>
+                        </ListItem>
+                    ))}
+                </List>
+            </Box>
+            <Box sx={{ flex: 1, mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Typography component="h3" variant="h5">
                     Posts
                 </Typography>
@@ -197,7 +328,7 @@ const AdminPannel = () => {
                 >
                     Crear Post
                 </Button>
-                <Stack spacing={2} sx={{width:'100%'}}>
+                <Stack spacing={2} sx={{ width: '100%' }}>
                     {posts.map(item => (
                         <Box
                             key={item["id"]}
@@ -230,7 +361,7 @@ const AdminPannel = () => {
                         </Box>
                     ))}
                 </Stack>
-                <Pagination sx={{marginTop: 'auto', alignSelf: 'center',}} size='small' count={npages} shape="rounded" page={page + 1} onChange={handlePageChange} />
+                <Pagination sx={{ marginTop: 'auto', alignSelf: 'center', }} size='small' count={npages} shape="rounded" page={page + 1} onChange={handlePageChange} />
             </Box>
         </Box>
     )

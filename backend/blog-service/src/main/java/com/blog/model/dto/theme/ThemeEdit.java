@@ -1,4 +1,4 @@
-package com.blog.model.dto;
+package com.blog.model.dto.theme;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategorieEdit {
+public class ThemeEdit {
 	private String id;
 	private String name;
 	private String slug;
+	private String excerpt;
+	private String featuredImage;
 }

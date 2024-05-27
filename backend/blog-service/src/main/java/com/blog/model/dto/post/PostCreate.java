@@ -1,4 +1,4 @@
-package com.blog.model.dto;
+package com.blog.model.dto.post;
 
 import java.util.List;
 

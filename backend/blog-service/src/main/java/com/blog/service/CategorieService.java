@@ -3,8 +3,8 @@ package com.blog.service;
 import java.util.List;
 
 import com.blog.model.pojo.Categorie;
-import com.blog.model.dto.CategorieCreate;
-import com.blog.model.dto.CategorieEdit;
+import com.blog.model.dto.categorie.CategorieCreate;
+import com.blog.model.dto.categorie.CategorieEdit;
 
 public interface CategorieService {
 	List<Categorie> getAllCategories();

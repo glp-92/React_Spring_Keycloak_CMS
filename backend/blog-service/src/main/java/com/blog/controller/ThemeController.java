@@ -1,11 +1,12 @@
-/*
 package com.blog.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,34 +16,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.blog.model.pojo.Comment;
-import com.blog.model.dto.comment.CommentCreate;
-import com.blog.model.dto.comment.CommentEdit;
-import com.blog.service.CommentService;
+import com.blog.model.pojo.Theme;
+import com.blog.model.dto.theme.ThemeCreate;
+import com.blog.model.dto.theme.ThemeEdit;
+import com.blog.service.ThemeService;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class CommentController {
-
-	private final CommentService service;
+public class ThemeController {
 	
-	@GetMapping("/comment")
-	@PreAuthorize("permitAll()")
-	public ResponseEntity<List<Comment>> getCommentByPostId (
-			@RequestParam(required = false) String postId) {
+	private final ThemeService service;
+	
+	@GetMapping("/theme")
+	@CrossOrigin
+	public ResponseEntity<List<Theme>> getThemes (
+			@RequestParam(required = false) String name) {
 		try {
-			List<Comment> comments;
-			if (postId != null) {
-				comments = service.getCommentsFromPost(postId);
+			List<Theme> themes = new ArrayList<>();
+			if (name != null) {
+				Theme theme = service.getThemeByName(name);
+				themes.add(theme);
 			}
 			else {
-				comments = service.getAllComments();
+				themes = service.getAllThemes();
 			}
-			if (comments != null) {
-	            return ResponseEntity.status(HttpStatus.OK).body(comments);
+			if (themes != null) {
+	            return ResponseEntity.status(HttpStatus.OK).body(themes);
 	        } else {
 	            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	        }
@@ -51,31 +52,26 @@ public class CommentController {
 		}
 	}
 	
-	@PostMapping("/comment")
-	//@PreAuthorize("hasRole('ADMIN')")
-	@PreAuthorize("permitAll()")
-	public ResponseEntity<Comment> createComment (
-			@Valid @RequestBody CommentCreate request) {
+	@PostMapping("/theme")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<Theme> createTheme (
+			@RequestBody ThemeCreate request) {
 		try {
-			Comment comment = service.createComment(request);
-			return ResponseEntity.status(HttpStatus.CREATED).body(comment);
-		} 
-		catch (RuntimeException e) {
-			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
-		}
-		catch (Exception e) {
+			Theme theme = service.createTheme(request);
+			return ResponseEntity.status(HttpStatus.CREATED).body(theme);
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 	
-	@PutMapping("/comment")
+	@PutMapping("/theme")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Comment> editComment (
-			@RequestBody CommentEdit request) {
+	public ResponseEntity<Theme> editTheme (
+			@RequestBody ThemeEdit request) {
 		try {
-			Comment comment = service.editComment(request);
-			if (comment != null) {
-				return ResponseEntity.status(HttpStatus.OK).body(comment);
+			Theme theme = service.editTheme(request);
+			if (theme != null) {
+				return ResponseEntity.status(HttpStatus.OK).body(theme);
 			}
 			else {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -85,12 +81,12 @@ public class CommentController {
 		}
 	}
 	
-	@DeleteMapping("/comment/{commentId}")
+	@DeleteMapping("/theme/{themeId}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<String> deleteComment (
-			@PathVariable String commentId) {
+	public ResponseEntity<String> deleteTheme (
+			@PathVariable String themeId) {
 		try {
-            boolean deleted = service.deleteComment(commentId);
+            boolean deleted = service.deleteTheme(themeId);
             if (deleted) {
             	return ResponseEntity.noContent().build();
             }
@@ -101,6 +97,5 @@ public class CommentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
         } 
 	}
-	
+
 }
-*/

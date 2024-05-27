@@ -15,10 +15,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.blog.data.UserRepository;
-import com.blog.model.dto.LoginRequest;
-import com.blog.model.dto.LoginResponse;
-import com.blog.model.dto.RefreshTokenRequest;
-import com.blog.model.dto.RevokeTokenRequest;
+import com.blog.model.dto.auth.LoginRequest;
+import com.blog.model.dto.auth.LoginResponse;
+import com.blog.model.dto.auth.RefreshTokenRequest;
+import com.blog.model.dto.auth.RevokeTokenRequest;
 import com.blog.model.pojo.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;

@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.model.pojo.Categorie;
-import com.blog.model.dto.CategorieCreate;
-import com.blog.model.dto.CategorieEdit;
+import com.blog.model.dto.categorie.CategorieCreate;
+import com.blog.model.dto.categorie.CategorieEdit;
 import com.blog.service.CategorieService;
 
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.blog.model.dto;
+package com.blog.model.dto.categorie;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategorieCreate {
+public class CategorieEdit {
+	private String id;
 	private String name;
 	private String slug;
 }

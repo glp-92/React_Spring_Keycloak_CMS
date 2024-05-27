@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import com.blog.data.CategorieRepository;
 import com.blog.model.pojo.Categorie;
 import com.blog.model.pojo.Post;
-import com.blog.model.dto.CategorieCreate;
-import com.blog.model.dto.CategorieEdit;
+import com.blog.model.dto.categorie.CategorieCreate;
+import com.blog.model.dto.categorie.CategorieEdit;
 
 @Service
 public class CategorieServiceImpl implements CategorieService {

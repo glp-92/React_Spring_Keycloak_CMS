@@ -86,12 +86,12 @@ public class Post {
 	@ManyToMany
 	//@JsonIgnore
 	@JoinTable(
-	  name = "posts_lists", 
+	  name = "posts_themes", 
 	  joinColumns = @JoinColumn(name = "posts_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "lists_id")
+	  inverseJoinColumns = @JoinColumn(name = "themes_id")
 	 )
 	@JsonManagedReference // the one that gets serialized normally
-    private Set<List> lists;
+    private Set<Theme> themes;
 	
 	@ManyToOne
 	@JoinColumn(name = "users_id")

@@ -4,13 +4,15 @@ Implemented with React using Vite as structure manager.
 
 NodeJS must be installed
 ```
-curl -fsSL https://deb.nodesource.com/setup_vv.v | sudo -E bash -
-sudo apt update && sudo apt upgrade
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash - # visit deb.nodesource.com if not sure about last version
+sudo apt-get install -y nodejs
+sudo apt update -y && sudo apt upgrade -y
 sudo npm install -g npm@latest
 ```
 Update to newest version
 ```
 sudo npm update -g
+sudo npm install -g n
 sudo n latest
 ```
 Create new React Vite project 

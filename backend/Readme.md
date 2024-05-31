@@ -44,6 +44,11 @@ On `pom.xml` dependencies are specified
 
 If using `Eclipse IDE` `boot dashboard` is useful to launch server. Go to Eclipse marketplace and install `Spring Tools 4`. Once installed `Window` => `Show view` => `Other` => `Boot Dashboard`
 
+## Java VM
+```
+sudo apt reinstall openjdk-17-jd
+```
+
 **By default, Lombok is not installed for Eclipse**
 
 1. Download .jar `https://projectlombok.org/download`

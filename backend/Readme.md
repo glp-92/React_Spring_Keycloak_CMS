@@ -14,10 +14,11 @@ sudo docker compose up
 2. `http:localhost:9000/admin` to open admin console (usr and password provided on compose secret)
 3. Build new realm `blog`
 4. Go to clients section and create new client `blog-client`. All by default but `Client Authentication` ON and `Valid redirect URIs` *
-5. Create new User `username` and confirm email.
+5. Create new User `username` and confirm email. Maybe first name and last name are required by Keycloak to successful login.
 6. To create `ADMIN` role, on created client section, tab `Roles` `Create role`. Set name to `ADMIN`
 7. Map role to user. `Users` => select user => `Role mapping` => `Assign role` => `Filter by clients` => Select `ADMIN` role
 8. Must provide client secret to backend. `Clients` => `blog-client` => `Credentials` => `Client Secret`
+9. Login user `http://localhost:9000/realms/blog/account`
 
 Specify OAuth2 config on Spring Boot App properties.yaml
 ```

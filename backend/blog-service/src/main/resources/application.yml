@@ -32,7 +32,7 @@ spring:
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
           token-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/token
           revoke-token-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/logout
-          client-secret: NYFMLA4LCgHfaDXGJ5uSk1Fb4vwG7G9a
+          client-secret: qBRU1VYkKAFSOQkm95zASFe0HFmfCmfZ
 jwt:  
   auth:  
     converter: 

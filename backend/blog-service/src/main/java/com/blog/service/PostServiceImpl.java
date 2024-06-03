@@ -22,9 +22,11 @@ import org.springframework.stereotype.Service;
 import com.blog.data.UserRepository;
 import com.blog.data.CategorieRepository;
 import com.blog.data.PostRepository;
+import com.blog.data.ThemeRepository;
 import com.blog.model.pojo.User;
 import com.blog.model.pojo.Categorie;
 import com.blog.model.pojo.Post;
+import com.blog.model.pojo.Theme;
 import com.blog.model.dto.post.PostCreate;
 import com.blog.model.dto.post.PostEdit;
 
@@ -36,6 +38,9 @@ public class PostServiceImpl implements PostService {
 	
 	@Autowired
 	private CategorieRepository categorieRepo;
+	
+	@Autowired
+	private ThemeRepository themeRepo;
 	
 	@Autowired
 	private UserRepository userRepo;
@@ -95,7 +100,9 @@ public class PostServiceImpl implements PostService {
 		User user = userRepo.findBySub(subject).orElse(null);
 		Date date = new Date(System.currentTimeMillis());
 		Set<Categorie> categories = new HashSet<Categorie>(categorieRepo.findAllById(request.getCategoryIds()));
-		Post post = Post.builder().title(request.getTitle()).slug(request.getSlug()).excerpt(request.getExcerpt()).content(request.getContent()).date(date).featuredImage(request.getFeaturedImage()).featuredPost(request.getFeaturedPost()).categories(categories).users(user).build();
+		Set<Theme> themes = new HashSet<Theme>(themeRepo.findAllById(request.getThemeIds()));
+		System.out.println(themes);
+		Post post = Post.builder().title(request.getTitle()).slug(request.getSlug()).excerpt(request.getExcerpt()).content(request.getContent()).date(date).featuredImage(request.getFeaturedImage()).featuredPost(request.getFeaturedPost()).categories(categories).themes(themes).users(user).build();
 		return postRepo.save(post);
 	}
 	
@@ -123,9 +130,11 @@ public class PostServiceImpl implements PostService {
 	    }
 		if (request.getCategoryIds() != null) {
 			Set<Categorie> categories = new HashSet<Categorie>(categorieRepo.findAllById(request.getCategoryIds()));
-			System.out.println(categories);
 			post.setCategories(categories);
 		}
+		if (request.getThemeIds() != null) {
+			Set<Theme> themes = new HashSet<Theme>(themeRepo.findAllById(request.getCategoryIds()));
+			post.setThemes(themes);		}
 		return postRepo.save(post);
 	}
 	

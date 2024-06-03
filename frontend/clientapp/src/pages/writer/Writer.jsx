@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { SavePost } from '../../util/requests/Posts';
 import { GetCategories } from "../../util/requests/Categories";
+import { GetThemes } from "../../util/requests/Themes";
 import { ValidateToken } from '../../util/requests/ValidateToken';
 import RichTextEditor from "../../components/richTextEditor/RichTextEditor";
 
-import { Box, Select, TextField, MenuItem, Button } from '@mui/material';
+import { Box, Select, TextField, MenuItem, Button, InputLabel } from '@mui/material';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
 const Writer = () => {
@@ -15,6 +16,8 @@ const Writer = () => {
   const [content, setContent] = useState(postToEdit ? postToEdit.content : '');
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [themes, setThemes] = useState([]);
+  const [selectedThemes, setSelectedThemes] = useState([]);
 
   const handleSendPost = async (e) => {
     /*
@@ -42,6 +45,7 @@ const Writer = () => {
         "date": null,
         "featuredPost": false,
         "categoryIds": selectedCategories,
+        "themeIds": selectedThemes
       }
       const body = postToEdit ? { ...commonData, ...{ "postId": postToEdit.id } } : { ...commonData, ...{ "slug": data.get("slug") } };
       const method = postToEdit ? 'PUT' : 'POST';
@@ -78,10 +82,28 @@ const Writer = () => {
         setSelectedCategories(postCategorieNames);
       }
       else {
-        if (fetchCategories != null) setSelectedCategories([]);
+        if (fetchedCategories != null) setSelectedCategories([]);
+      }
+    }
+
+    const fetchThemes = async () => {
+      const response = await GetThemes();
+      const fetchedThemes = await response.json();
+      setThemes(fetchedThemes);
+
+      if (postToEdit && postToEdit.themes.length > 0) {
+        let postThemeNames = [];
+        postToEdit.themes.forEach(element => {
+          postThemeNames.push(element.id);
+        });
+        setSelectedThemes(postThemeNames);
+      }
+      else {
+        if (fetchedThemes != null) setSelectedThemes([]);
       }
     }
     fetchCategories();
+    fetchThemes();
   }, [])
 
   return (
@@ -95,10 +117,10 @@ const Writer = () => {
         <TextField margin="normal" required fullWidth id="excerpt" label="Resumen" name="excerpt" defaultValue={postToEdit ? postToEdit.excerpt : null} />
         <RichTextEditor value={content} setValue={setContent} placeholder="Contenido" />
         <TextField margin="normal" required fullWidth id="featuredImage" label="URL Imagen Portada" name="featuredImage" defaultValue={postToEdit ? postToEdit.featuredImage : null} />
-        <div>
+        <Box mt={1}>
+          <InputLabel id="select-categorie-label">Categorias</InputLabel>
           <Select
             id="select-categorie"
-            select
             multiple
             value={selectedCategories != [] ? selectedCategories : ""}
             onChange={(e) => { setSelectedCategories(e.target.value) }}
@@ -110,7 +132,23 @@ const Writer = () => {
               </MenuItem>
             ))}
           </Select>
-        </div>
+        </Box>
+        <Box mt={1}>
+          <InputLabel id="select-theme-label">Temas</InputLabel>
+          <Select
+            id="select-theme"
+            multiple
+            value={selectedThemes != [] ? selectedThemes : ""}
+            onChange={(e) => { setSelectedThemes(e.target.value) }}
+            sx={{ width: 300 }}
+          >
+            {themes.map((theme, index) => (
+              <MenuItem key={index} value={theme.id}>
+                {theme.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </Box>
         <Button
           type="submit"
           variant="contained"

@@ -19,4 +19,5 @@ public class PostEdit {
 	private String featuredImage;
 	private Boolean featuredPost;
 	private List<Long> categoryIds; 
+	private List<Long> themeIds;
 }

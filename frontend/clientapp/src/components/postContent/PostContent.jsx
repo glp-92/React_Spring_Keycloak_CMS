@@ -18,19 +18,7 @@ const PostContent = ({ postData }) => {
         <Card sx={{ marginTop: 2 }}>
             <Box bgcolor="#f5f5f5" padding={2}>
                 <Box>
-                    <Box display={'flex'} flexWrap="wrap" alignItems={'center'}>
-                        <Typography variant="h1">{postData.title}</Typography>
-                        <IconButton
-                            size="large"
-                            edge="start"
-                            color="default"
-                            aria-label="menu"
-                            onClick={() => navigate(`/wpannel/writer`, { state: postData })}
-                            sx={{ ml: 'auto', mr: 1 }}
-                        >
-                            <EditIcon sx={{ fontSize: 25 }} />
-                        </IconButton>
-                    </Box>
+                    <Typography variant="h1">{postData.title}</Typography>
                     <Box sx={{ marginTop: 1, marginBottom: 1, alignItems: 'center' }} display={'flex'}>
                         <Avatar sx={{ marginRight: 1 }} src={postData.users.picture && postData.users.picture}>{postData.users.username[0].toUpperCase()}</Avatar>
                         <Box display={'flex'} flexDirection={'column'}>

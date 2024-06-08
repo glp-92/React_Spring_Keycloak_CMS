@@ -51,7 +51,7 @@ public class Post {
 	@NotBlank(message = "field slug cannot be empty!")
 	private String slug;
 	
-	@Column
+	@Column(columnDefinition="TEXT")
 	@NotBlank(message = "field excerpt cannot be empty!")
 	private String excerpt;
 	

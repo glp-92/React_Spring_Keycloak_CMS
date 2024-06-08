@@ -70,9 +70,7 @@ public class PostServiceImpl implements PostService {
 		}
 		else {
 			results.addAll(getAllPosts());
-			if (page == 0) {
-				nPostsPerPage = 5;
-			} // La pagina principal muestra numero impar porque el primer post es mas grande
+			nPostsPerPage = 5;
 		}
 		Set<Long> postIds = new HashSet<>();
 	    for (Post post : results) {

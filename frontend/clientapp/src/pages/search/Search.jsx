@@ -12,6 +12,19 @@ const Search = () => {
   const location = useLocation();
 
   const queryparams = location.search.replace('?', '&');
+  const searchParams = new URLSearchParams(location.search);
+
+  let label = "";
+  if (queryparams.includes('&theme=')) {
+    const theme = searchParams.get('theme');
+    label = `Entradas para tema ${theme}`;
+  } else if (queryparams.includes('&categorie=')) {
+    const category = searchParams.get('categorie');
+    label = `Entradas para categoria ${category}`;
+  } else {
+    const keyword = searchParams.get('keyword');
+    label = `Resultados de búsqueda para palabras clave ${keyword}`;
+  }
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0);
@@ -39,7 +52,7 @@ const Search = () => {
 
   return (
     <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 3 }}>
-      <Typography variant="h4" sx={{ textAlign: 'center', marginBottom: 3 }} gutterBottom>Resultados de búsqueda</Typography>
+      <Typography variant="h4" sx={{ textAlign: 'center', marginBottom: 3 }} gutterBottom>{label}</Typography>
       {isLoading ? (
         <Loading height={200} />
       ) : (

@@ -9,12 +9,15 @@ import Post from "../pages/post/Post";
 import NotFound from "../pages/notfound/NotFound";
 import Writer from "../pages/writer/Writer";
 import AdminPannel from "../pages/adminPannel/AdminPannel";
+import Categories from "../pages/categories/Categories.jsx";
+import Themes from "../pages/themes/Themes.jsx";
 import Footer from '../components/footer/Footer.jsx'
 import NavBar from '../components/navbar/Navbar.jsx'
 
 import Container from '@mui/material/Container';
 
 import DependsLogged from "./DependsLogged";
+
 
 export const Router = () => {
     return (
@@ -37,6 +40,8 @@ export const Router = () => {
                         <Route path="/wpannel/writer" element={<Writer />} />
                     </Route>
                     <Route path="*" element={<Navigate to="/notfound" />} />
+                    <Route exact path="/categories" element={<Categories />} />
+                    <Route exact path="/themes" element={<Themes />} />
                 </Routes>
             </Container>
             <Container maxWidth="md" sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

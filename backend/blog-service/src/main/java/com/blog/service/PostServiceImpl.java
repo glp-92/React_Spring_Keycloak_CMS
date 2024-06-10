@@ -53,7 +53,7 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public Map<String, Object> getPostsFiltered(String keyword, String categorieName, int page, boolean reverse) {
+	public Map<String, Object> getPostsFiltered(String keyword, String categorieName, String themeName, int page, boolean reverse) {
 		List<Post> results = new ArrayList<>();
 		int nPostsPerPage = 6;
 		if (keyword != null) {
@@ -67,6 +67,10 @@ public class PostServiceImpl implements PostService {
 		else if (categorieName != null) {
 			Categorie categorie = categorieRepo.findByName(categorieName);
 			results.addAll(postRepo.findByCategoriesContaining(categorie));
+		}
+		else if (themeName != null) {
+			Theme theme = themeRepo.findByName(themeName);
+			results.addAll(postRepo.findByThemesContaining(theme));
 		}
 		else {
 			results.addAll(getAllPosts());
@@ -131,7 +135,7 @@ public class PostServiceImpl implements PostService {
 			post.setCategories(categories);
 		}
 		if (request.getThemeIds() != null) {
-			Set<Theme> themes = new HashSet<Theme>(themeRepo.findAllById(request.getCategoryIds()));
+			Set<Theme> themes = new HashSet<Theme>(themeRepo.findAllById(request.getThemeIds()));
 			post.setThemes(themes);		}
 		return postRepo.save(post);
 	}

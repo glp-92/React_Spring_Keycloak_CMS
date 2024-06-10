@@ -1,14 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { ValidateToken } from '../../util/requests/ValidateToken';
 
 import { IconButton, Paper, InputBase, Divider, Box, List, ListItem, ListItemText, ListItemButton, Drawer } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
-import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 
@@ -44,6 +42,7 @@ const DrawerList = () => {
             return;
         }
         const formattedSearchText = searchText.replace(/\s+/g, ',');
+        setOpenDrawer(false);
         navigate(`/search?keyword=${formattedSearchText}`);
         setSearchText('');
     }
@@ -51,36 +50,34 @@ const DrawerList = () => {
     return (
         <Box>
             <Drawer open={openDrawer} onClose={toggleDrawer(false)}>
-                <Box sx={{ width: 250 }} role="presentation" onClick={(e) => { if (e.target.closest('form')) return; toggleDrawer(false)(e) }}>
+                <Box sx={{ width: 250 }} role="presentation">
                     <List>
                         {settings.map((setting) => (
                             <ListItem key={setting} disablePadding>
-                                <ListItemButton >
-                                    {
-                                        setting === "Login" ? <ListItemButton
-                                            onClick={() => navigate(`/login`)}
+                                {
+                                    setting === "Login" ? <ListItemButton
+                                        onClick={() => { setOpenDrawer(false); navigate(`/login`) }}
+                                    >
+                                        <AccountCircleIcon sx={{ mr: 1, fontSize: 20 }} />
+                                        <ListItemText primary={setting} />
+                                    </ListItemButton>
+                                        :
+                                        setting === "Logout" ? <ListItemButton
+                                            onClick={() => { setOpenDrawer(false); navigate(`/logout`) }}
                                         >
-                                            <AccountCircleIcon sx={{ mr: 1, fontSize: 20 }} />
+                                            <LogoutIcon sx={{ mr: 1, fontSize: 20 }} />
                                             <ListItemText primary={setting} />
                                         </ListItemButton>
                                             :
-                                            setting === "Logout" ? <ListItemButton
-                                                onClick={() => navigate(`/logout`)}
+                                            setting === "Panel de Control" ? <ListItemButton
+                                                onClick={() => { setOpenDrawer(false); navigate(`/wpannel`) }}
                                             >
-                                                <LogoutIcon sx={{ mr: 1, fontSize: 20 }} />
+                                                <DashboardCustomizeIcon sx={{ mr: 1, fontSize: 20 }} />
                                                 <ListItemText primary={setting} />
                                             </ListItemButton>
                                                 :
-                                                setting === "Panel de Control" ? <ListItemButton
-                                                    onClick={() => navigate(`/wpannel`)}
-                                                >
-                                                    <DashboardCustomizeIcon sx={{ mr: 1, fontSize: 20 }} />
-                                                    <ListItemText primary={setting} />
-                                                </ListItemButton>
-                                                    :
-                                                    null
-                                    }
-                                </ListItemButton>
+                                                null
+                                }
                             </ListItem>
                         ))}
                     </List>
@@ -100,6 +97,22 @@ const DrawerList = () => {
                             <SearchIcon size='small' color="default" />
                         </IconButton>
                     </Paper>
+                    <List>
+                        <ListItem key={'categorias'} disablePadding>
+                            <ListItemButton
+                                onClick={() => { setOpenDrawer(false); navigate(`/categories`) }}
+                            >
+                                <ListItemText primary="Categorias" />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem key={'themes'} disablePadding>
+                            <ListItemButton
+                                onClick={() => { setOpenDrawer(false); navigate(`/themes`) }}
+                            >
+                                <ListItemText primary="Temas" />
+                            </ListItemButton>
+                        </ListItem>
+                    </List>
                 </Box >
             </Drawer>
             <IconButton

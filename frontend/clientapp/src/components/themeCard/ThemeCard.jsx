@@ -17,7 +17,7 @@ const ThemeCard = ({ themeData }) => {
                     {themeData.featuredImage && <Box bgcolor={'#f5f5f5'}>
                         <CardMedia
                             component="img"
-                            height="100"
+                            height="150"
                             alt={"alt"}
                             sx={{ objectFit: "contain" }}
                             image={`${themeData["featuredImage"]}`}

@@ -7,6 +7,15 @@ export const GetCategories = async () => {
     }
 };
 
+export const GetCategoriesPageable = async (page) => {
+    try {
+        const response = await fetch(`http://localhost:8083/categorie?page=${page}`);
+        return response;
+    } catch (error) {
+        throw new Error(`Error en la solicitud: ${error}`);
+    }
+};
+
 export const CreateCategorie = async (newCategorie, token) => {
     try {
         const payload = {

@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { GetCategories } from '../../util/requests/Categories';
+import { GetCategoriesPageable } from '../../util/requests/Categories';
 import { useNavigate } from 'react-router-dom';
 
-import { List, ListItem, ListItemButton, ListItemText, Box, Typography } from '@mui/material';
+import { List, ListItem, ListItemButton, ListItemText, Box, Typography, Pagination } from '@mui/material';
 
 const Categories = () => {
 
     const navigate = useNavigate();
 
     const [categories, setCategories] = useState([]);
+    const [page, setPage] = useState(0);
+    const [npages, setNPages] = useState(0);
+
+    const handlePageChange = (event, value) => {
+        setPage(value - 1);
+    }
 
     const handleSelectedCategorie = (categorie) => {
         navigate(`/search?categorie=${categorie.name}`);
@@ -16,12 +22,13 @@ const Categories = () => {
 
     useEffect(() => {
         const fetchCategories = async () => {
-            const response = await GetCategories();
+            const response = await GetCategoriesPageable(page);
             const fetchedCategories = await response.json();
-            setCategories(fetchedCategories);
+            setCategories(fetchedCategories.content);
+            setNPages(fetchedCategories.totalPages);
         }
         fetchCategories();
-    }, [])
+    }, [page])
 
     return (
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 3 }}>
@@ -44,6 +51,13 @@ const Categories = () => {
                     </ListItem>
                 ))}
             </List>
+            {
+                npages > 1 &&
+                <Pagination sx={{
+                    marginTop: 5,
+                    alignSelf: 'center',
+                }} size='small' count={npages} shape="rounded" page={page + 1} onChange={handlePageChange} />
+            }
         </Box>
     )
 }

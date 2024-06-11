@@ -7,6 +7,15 @@ export const GetThemes = async () => {
     }
 };
 
+export const GetThemesPageable = async (page) => {
+    try {
+        const response = await fetch(`http://localhost:8083/theme?page=${page}`);
+        return response;
+    } catch (error) {
+        throw new Error(`Error en la solicitud: ${error}`);
+    }
+};
+
 export const CreateTheme = async (themeData, token) => {
     console.log(JSON.stringify(themeData))
     try {

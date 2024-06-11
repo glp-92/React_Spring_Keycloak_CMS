@@ -2,6 +2,7 @@ package com.blog.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,21 +32,31 @@ public class CategorieController {
 	
 	@GetMapping("/categorie")
 	@CrossOrigin
-	public ResponseEntity<List<Categorie>> getCategories (
-			@RequestParam(required = false) String name) {
+	public ResponseEntity<Object> getCategories (
+			@RequestParam(required = false) String name,
+			@RequestParam(name = "page", required = false) Integer page) {
 		try {
-			List<Categorie> categories = new ArrayList<>();
-			if (name != null) {
-				Categorie categorie = service.getCategorieByName(name);
-				categories.add(categorie);
-			}
-			else {
-				categories = service.getAllCategories();
-			}
-			if (categories != null) {
-	            return ResponseEntity.status(HttpStatus.OK).body(categories);
-	        } else {
-	            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			if (page == null) {
+				List<Categorie> categories = new ArrayList<>();
+				if (name != null) {
+					Categorie categorie = service.getCategorieByName(name);
+					categories.add(categorie);
+				}
+				else {
+					categories = service.getAllCategories();
+				}
+				if (categories != null) {
+		            return ResponseEntity.status(HttpStatus.OK).body(categories);
+		        } else {
+		            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		        }
+			} else {
+				Map<String, Object> categories = service.getAllCategoriesPageable(page);
+				if (categories != null && !categories.isEmpty()) {
+	                return ResponseEntity.status(HttpStatus.OK).body(categories);
+	            } else {
+	                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	            }
 	        }
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

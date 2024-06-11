@@ -2,6 +2,7 @@ package com.blog.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,22 +31,32 @@ public class ThemeController {
 	private final ThemeService service;
 	
 	@GetMapping("/theme")
-	@CrossOrigin
-	public ResponseEntity<List<Theme>> getThemes (
-			@RequestParam(required = false) String name) {
+	//@CrossOrigin
+	public ResponseEntity<Object> getThemes (
+			@RequestParam(required = false) String name,
+			@RequestParam(name = "page", required = false) Integer page) {
 		try {
-			List<Theme> themes = new ArrayList<>();
-			if (name != null) {
-				Theme theme = service.getThemeByName(name);
-				themes.add(theme);
-			}
-			else {
-				themes = service.getAllThemes();
-			}
-			if (themes != null) {
-	            return ResponseEntity.status(HttpStatus.OK).body(themes);
-	        } else {
-	            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			if (page == null) {
+				List<Theme> themes = new ArrayList<>();
+				if (name != null) {
+					Theme theme = service.getThemeByName(name);
+					themes.add(theme);
+				}
+				else {
+					themes = service.getAllThemes();
+				}
+				if (themes.isEmpty()) {
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+				} else {
+				return ResponseEntity.status(HttpStatus.OK).body(themes);
+				} 
+			} else {
+				Map<String, Object> themes = service.getAllThemesPageable(page);
+				if (themes != null && !themes.isEmpty()) {
+	                return ResponseEntity.status(HttpStatus.OK).body(themes);
+	            } else {
+	                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	            }
 	        }
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

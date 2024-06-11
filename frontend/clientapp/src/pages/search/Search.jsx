@@ -14,13 +14,13 @@ const Search = () => {
   const queryparams = location.search.replace('?', '&');
   const searchParams = new URLSearchParams(location.search);
 
-  let label = "";
+  let label;
   if (queryparams.includes('&theme=')) {
     const theme = searchParams.get('theme');
-    label = `Entradas para tema ${theme}`;
+    label = <>Entradas para tema <strong><em>{theme}</em></strong>;</>
   } else if (queryparams.includes('&categorie=')) {
     const category = searchParams.get('categorie');
-    label = `Entradas para categoria ${category}`;
+    label = <>Entradas para categoria <strong><em>{category}</em></strong>;</>
   } else {
     const keyword = searchParams.get('keyword');
     label = `Resultados de búsqueda para palabras clave ${keyword}`;

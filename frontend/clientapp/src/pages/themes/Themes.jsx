@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from 'react'
-import { GetThemes } from '../../util/requests/Themes';
+import { GetThemesPageable } from '../../util/requests/Themes';
 import ThemeCard from '../../components/themeCard/ThemeCard';
 
-import { List, ListItem, Box, Typography } from '@mui/material';
+import { List, ListItem, Box, Typography, Pagination } from '@mui/material';
 
 const Themes = () => {
 
     const [themes, setThemes] = useState([]);
+    const [page, setPage] = useState(0);
+    const [npages, setNPages] = useState(0);
+
+    const handlePageChange = (event, value) => {
+        setPage(value - 1);
+    }
 
     useEffect(() => {
         const fetchThemes = async () => {
-            const response = await GetThemes();
+            const response = await GetThemesPageable(page);
             const fetchedThemes = await response.json();
-            setThemes(fetchedThemes);
+            setThemes(fetchedThemes.content);
+            setNPages(fetchedThemes.totalPages);
         }
         fetchThemes();
-    }, [])
+    }, [page])
 
     return (
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 3 }}>
@@ -31,11 +38,18 @@ const Themes = () => {
                 }}
             >
                 {themes.map((theme) => (
-                    <ListItem key={theme.id} sx={{ p:2, width: '50%' }} disablePadding>
+                    <ListItem key={theme.id} sx={{ p: 1, width: '50%' }} disablePadding>
                         <ThemeCard themeData={theme} />
                     </ListItem>
                 ))}
             </List>
+            {
+                npages > 1 &&
+                <Pagination sx={{
+                    marginTop: 5,
+                    alignSelf: 'center',
+                }} size='small' count={npages} shape="rounded" page={page + 1} onChange={handlePageChange} />
+            }
         </Box>
     )
 }

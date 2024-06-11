@@ -1,11 +1,17 @@
 package com.blog.service;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.blog.data.ThemeRepository;
@@ -19,10 +25,21 @@ public class ThemeServiceImpl implements ThemeService {
 	
 	@Autowired
 	private ThemeRepository repository;
-
+	
 	@Override
 	public List<Theme> getAllThemes() {
 		return repository.findAll();
+	}
+
+	@Override
+	public Map<String, Object> getAllThemesPageable(int page) {
+		Pageable pageable = PageRequest.of(page, 6);
+		Page<Theme> pageResult = repository.findAll(pageable);
+		int totalPages = pageResult.getTotalPages();
+		Map<String, Object> response = new HashMap<>();
+	    response.put("totalPages", totalPages);
+	    response.put("content", pageResult.getContent());
+	    return response;
 	}
 
 	@Override

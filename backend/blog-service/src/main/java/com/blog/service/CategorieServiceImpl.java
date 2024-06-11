@@ -1,11 +1,16 @@
 package com.blog.service;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.blog.data.CategorieRepository;
@@ -23,6 +28,17 @@ public class CategorieServiceImpl implements CategorieService {
 	@Override
 	public List<Categorie> getAllCategories() {
 		return repository.findAll();
+	}
+	
+	@Override
+	public Map<String, Object> getAllCategoriesPageable(int page) {
+		Pageable pageable = PageRequest.of(page, 20);
+		Page<Categorie> pageResult = repository.findAll(pageable);
+		int totalPages = pageResult.getTotalPages();
+		Map<String, Object> response = new HashMap<>();
+	    response.put("totalPages", totalPages);
+	    response.put("content", pageResult.getContent());
+	    return response;
 	}
 	
 	@Override

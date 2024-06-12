@@ -31,10 +31,11 @@ public class CategorieController {
 	private final CategorieService service;
 	
 	@GetMapping("/categorie")
-	@CrossOrigin
+	// @CrossOrigin
 	public ResponseEntity<Object> getCategories (
 			@RequestParam(required = false) String name,
-			@RequestParam(name = "page", required = false) Integer page) {
+			@RequestParam(name = "page", required = false) Integer page,
+			@RequestParam(name = "perpage", required = false) Integer perpage) {
 		try {
 			if (page == null) {
 				List<Categorie> categories = new ArrayList<>();
@@ -51,7 +52,7 @@ public class CategorieController {
 		            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		        }
 			} else {
-				Map<String, Object> categories = service.getAllCategoriesPageable(page);
+				Map<String, Object> categories = service.getAllCategoriesPageable(page, perpage);
 				if (categories != null && !categories.isEmpty()) {
 	                return ResponseEntity.status(HttpStatus.OK).body(categories);
 	            } else {

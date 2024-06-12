@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.blog.data.CategorieRepository;
@@ -31,8 +32,12 @@ public class CategorieServiceImpl implements CategorieService {
 	}
 	
 	@Override
-	public Map<String, Object> getAllCategoriesPageable(int page) {
-		Pageable pageable = PageRequest.of(page, 20);
+	public Map<String, Object> getAllCategoriesPageable(int page, Integer perpage) {
+		if (perpage == null) {
+			perpage = 20;
+		}
+		Sort.Direction direction = Sort.Direction.ASC;
+		Pageable pageable = PageRequest.of(page, perpage, Sort.by(direction, "name"));
 		Page<Categorie> pageResult = repository.findAll(pageable);
 		int totalPages = pageResult.getTotalPages();
 		Map<String, Object> response = new HashMap<>();

@@ -9,7 +9,7 @@ import com.blog.model.dto.categorie.CategorieEdit;
 
 public interface CategorieService {
 	List<Categorie> getAllCategories();
-	Map<String, Object> getAllCategoriesPageable(int page);
+	Map<String, Object> getAllCategoriesPageable(int page, Integer perpage);
 	Categorie getCategorieByName(String categorieName);
 	Categorie createCategorie(CategorieCreate request);
 	Categorie editCategorie(CategorieEdit request);

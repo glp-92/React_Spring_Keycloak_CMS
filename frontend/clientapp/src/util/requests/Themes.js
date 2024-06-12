@@ -7,9 +7,13 @@ export const GetThemes = async () => {
     }
 };
 
-export const GetThemesPageable = async (page) => {
+export const GetThemesPageable = async (page, perPage) => {
     try {
-        const response = await fetch(`http://localhost:8083/theme?page=${page}`);
+        let url = `http://localhost:8083/theme?page=${page}`;
+        if (perPage) {
+            url += `&perpage=${perPage}`
+        }
+        const response = await fetch(url);
         return response;
     } catch (error) {
         throw new Error(`Error en la solicitud: ${error}`);

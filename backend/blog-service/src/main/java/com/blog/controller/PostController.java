@@ -35,7 +35,8 @@ public class PostController {
 			@RequestParam(name = "categorie", required = false) String categorie,
 			@RequestParam(name = "theme", required = false) String theme,
 			@RequestParam(name = "page", required = true) int page,
-			@RequestParam(name = "reverse", required = false) boolean reverse
+			@RequestParam(name = "reverse", required = false) boolean reverse,
+			@RequestParam(name = "perpage", required = false) Integer perpage
 			) {
 		try {
 			if (keyword != null) { //Inyeccion de comandos y control de entrada
@@ -43,7 +44,7 @@ public class PostController {
 		            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		        }
 			}
-			Map<String, Object> posts = service.getPostsFiltered(keyword, categorie, theme, page, reverse);
+			Map<String, Object> posts = service.getPostsFiltered(keyword, categorie, theme, page, reverse, perpage);
 			if (!posts.isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.OK).body(posts); // Devuelve totalpages, y content
 	        } else {

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Pagination from '@mui/material/Pagination';
 import { GetPostList } from '../../util/requests/GetPostList';
 import { DeletePost } from '../../util/requests/Posts';
-import { GetCategories, CreateCategorie, DeleteCategorie, UpdateCategorie } from '../../util/requests/Categories';
-import { CreateTheme, DeleteTheme, GetThemes, UpdateTheme } from '../../util/requests/Themes';
+import { GetCategoriesPageable, CreateCategorie, DeleteCategorie, UpdateCategorie } from '../../util/requests/Categories';
+import { CreateTheme, DeleteTheme, GetThemesPageable, UpdateTheme } from '../../util/requests/Themes';
 import { useNavigate } from "react-router-dom";
 
 import Box from '@mui/material/Box';
@@ -19,14 +19,21 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import UpdateIcon from '@mui/icons-material/Update';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
+const categoriesPerPage = 4;
+const themesPerPage = 2;
+
 const AdminPannel = () => {
     const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [inputCategorie, setInputCategorie] = useState('');
     const [themes, setThemes] = useState([]);
-    const [page, setPage] = useState(0);
-    const [npages, setNPages] = useState(0);
+    const [categoryPage, setCategoryPage] = useState(0);
+    const [themePage, setThemePage] = useState(0);
+    const [postPage, setPostPage] = useState(0);
+    const [nCategoryPages, setNCategoryPages] = useState(0);
+    const [nThemePages, setNThemePages] = useState(0);
+    const [nPostPages, setNPostPages] = useState(0);
 
     const createNewPost = () => {
         navigate(`/wpannel/writer`);
@@ -45,15 +52,63 @@ const AdminPannel = () => {
                 console.log(`Error validating token: ${response.statusText}`);
                 return;
             }
-            setPosts(prevPosts => prevPosts.filter(post => post.id !== id));
+            fetchPosts(postPage);
+            // setPosts(prevPosts => prevPosts.filter(post => post.id !== id));
         };
         if (confirm('Esta accion borrara el Post de la base de datos, continuar?')) {
             deletePost();
         }
     }
 
-    const handlePageChange = (event, value) => {
-        setPage(value - 1);
+    const handleCategoryPageChange = (event, value) => {
+        setCategoryPage(value - 1);
+    }
+
+    const handleThemePageChange = (event, value) => {
+        setThemePage(value - 1);
+    }
+
+    const handlePostPageChange = (event, value) => {
+        setPostPage(value - 1);
+    }
+
+    const fetchCategories = async (page) => {
+        try {
+            const response = await GetCategoriesPageable(page, categoriesPerPage);
+            if (!response.ok) {
+                throw new Error(`Error fetching categories`);
+            }
+            const fetchedCategories = await response.json();
+            setCategories(fetchedCategories.content);
+            setNCategoryPages(fetchedCategories.totalPages)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const fetchThemes = async (page) => {
+        try {
+            const response = await GetThemesPageable(page, themesPerPage);
+            if (!response.ok) {
+                throw new Error(`Error fetching themes`);
+            }
+            const fetchedThemes = await response.json();
+            setThemes(fetchedThemes.content);
+            setNThemePages(fetchedThemes.totalPages);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const fetchPosts = async (page) => {
+        const posts = await GetPostList(page, null);
+        if (posts != null) {
+            setPosts(posts.content);
+            setNPostPages(posts.totalPages)
+        }
+        else {
+            setPosts([]);
+        }
     }
 
     const handleCreateCategorie = async () => {
@@ -63,8 +118,9 @@ const AdminPannel = () => {
             const response = await CreateCategorie(newCategorieName, token);
             if (response.ok) {
                 const createdCategorie = await response.json()
-                setCategories(prevCategories => [...prevCategories, createdCategorie]);
+                // setCategories(prevCategories => [...prevCategories, createdCategorie]);
                 setInputCategorie('');
+                fetchCategories(categoryPage);
             }
             else {
                 throw new Error(`Erroneous answer from server`);
@@ -103,7 +159,8 @@ const AdminPannel = () => {
                 if (!response.ok) {
                     throw new Error(`Erroneous answer from server`);
                 }
-                setCategories(prevCategories => prevCategories.filter(categorie => categorie.id !== id));
+                fetchCategories(categoryPage);
+                // setCategories(prevCategories => prevCategories.filter(categorie => categorie.id !== id));
             } catch (error) {
                 console.log("Error. Categorie not deleted!", error);
             }
@@ -122,8 +179,9 @@ const AdminPannel = () => {
             const response = await CreateTheme(themeData, token);
             if (response.ok) {
                 const createdTheme = await response.json()
-                setThemes(prevThemes => [...prevThemes, createdTheme]);
+                // setThemes(prevThemes => [...prevThemes, createdTheme]);
                 document.getElementById("createThemeForm").reset();
+                fetchThemes(themePage);
             }
             else {
                 throw new Error(`Erroneous answer from server`);
@@ -160,7 +218,8 @@ const AdminPannel = () => {
                 if (!response.ok) {
                     throw new Error(`Erroneous answer from server`);
                 }
-                setThemes(prevThemes => prevThemes.filter(theme => theme.id !== id));
+                // setThemes(prevThemes => prevThemes.filter(theme => theme.id !== id));
+                fetchThemes(themePage);
             } catch (error) {
                 console.log("Error. Theme not deleted!", error);
             }
@@ -168,42 +227,16 @@ const AdminPannel = () => {
     }
 
     useEffect(() => {
-        const fetchPosts = async (page) => {
-            const posts = await GetPostList(page, null);
-            if (posts != null) {
-                setPosts(posts["content"]);
-                setNPages(posts["totalPages"])
-            }
-            else {
-                setPosts([]);
-            }
-        }
-        const fetchCategories = async () => {
-            try {
-                let response = await GetCategories();
-                if (!response.ok) {
-                    throw new Error(`Error fetching categories`);
-                }
-                setCategories(await response.json());
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        const fetchThemes = async () => {
-            try {
-                let response = await GetThemes();
-                if (!response.ok) {
-                    throw new Error(`Error fetching themes`);
-                }
-                setThemes(await response.json());
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetchCategories();
-        fetchThemes();
-        fetchPosts(page);
-    }, [page])
+        fetchPosts(postPage);
+    }, [postPage])
+
+    useEffect(() => {
+        fetchCategories(categoryPage);
+    }, [categoryPage])
+
+    useEffect(() => {
+        fetchThemes(themePage);
+    }, [themePage])
 
     return (
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 2 }}>
@@ -230,7 +263,7 @@ const AdminPannel = () => {
                 <List dense sx={{ width: '100%' }}>
                     {categories.map((categorie, index) => (
                         <ListItem key={index} alignItems="center" sx={{ mt: 0, mb: 0 }}>
-                            <TextField type="text" fullWidth margin="normal" defaultValue={categorie["name"]} onChange={(e) => handleEditCategorieLabel(e.target.value, index)} />
+                            <TextField type="text" fullWidth margin="normal" value={categorie["name"]} onChange={(e) => handleEditCategorieLabel(e.target.value, index)} />
                             <IconButton
                                 size="large"
                                 edge="start"
@@ -254,6 +287,10 @@ const AdminPannel = () => {
                         </ListItem>
                     ))}
                 </List>
+                {
+                    nCategoryPages > 1 &&
+                    <Pagination sx={{ marginBottom: 1, marginTop: 'auto', alignSelf: 'center', }} size='small' count={nCategoryPages} shape="rounded" page={categoryPage + 1} onChange={handleCategoryPageChange} />
+                }
             </Box>
             <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Typography component="h3" variant="h5">
@@ -284,10 +321,10 @@ const AdminPannel = () => {
                             <Box component="form" id="editThemeForm" onSubmit={handleUpdateTheme} sx={{ display: 'flex', alignItems: 'center', mt: 2, mb: 0, width: '100%' }}>
                                 <Box flex={1} display={'flex'} flexDirection={'column'} >
                                     <Box mb={1} display={'flex'}>
-                                        <TextField sx={{ flex: 1 }} type="text" defaultValue={theme["name"]} name="name" />
-                                        <TextField sx={{ ml: 1, flex: 2 }} type="text" defaultValue={theme["featuredImage"]} name="featuredImage" />
+                                        <TextField sx={{ flex: 1 }} type="text" value={theme["name"]} name="name" />
+                                        <TextField sx={{ ml: 1, flex: 2 }} type="text" value={theme["featuredImage"]} name="featuredImage" />
                                     </Box>
-                                    <TextField type="text" fullWidth defaultValue={theme["excerpt"]} name="excerpt" />
+                                    <TextField type="text" fullWidth value={theme["excerpt"]} name="excerpt" />
                                 </Box>
                                 <input type="hidden" name="id" value={theme.id} />
                                 <IconButton
@@ -314,6 +351,10 @@ const AdminPannel = () => {
                         </ListItem>
                     ))}
                 </List>
+                {
+                    nThemePages > 1 &&
+                    <Pagination sx={{ marginBottom: 1, marginTop: 'auto', alignSelf: 'center', }} size='small' count={nThemePages} shape="rounded" page={themePage + 1} onChange={handleThemePageChange} />
+                }
             </Box>
             <Box sx={{ flex: 1, mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Typography component="h3" variant="h5">
@@ -361,7 +402,7 @@ const AdminPannel = () => {
                         </Box>
                     ))}
                 </Stack>
-                <Pagination sx={{ marginTop: 'auto', alignSelf: 'center', }} size='small' count={npages} shape="rounded" page={page + 1} onChange={handlePageChange} />
+                <Pagination sx={{ marginTop: 'auto', alignSelf: 'center', }} size='small' count={nPostPages} shape="rounded" page={postPage + 1} onChange={handlePostPageChange} />
             </Box>
         </Box>
     )

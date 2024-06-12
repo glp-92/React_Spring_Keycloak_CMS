@@ -7,6 +7,8 @@ import LandingPage from '../../components/landingPage/LandingPage';
 import Pagination from '@mui/material/Pagination';
 import Box from '@mui/material/Box';
 
+const postsPerPage = 5;
+
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,7 +26,7 @@ const Home = () => {
     const fetchPosts = async (page) => {
       setIsLoading(true);
       //await sleep(1000);
-      const posts = await GetPostList(page, null);
+      const posts = await GetPostList(page, `&perpage=${postsPerPage}`);
       if (posts != null) {
         setPosts(posts["content"]);
         setNPages(posts["totalPages"])

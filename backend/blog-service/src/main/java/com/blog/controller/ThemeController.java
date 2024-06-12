@@ -34,7 +34,8 @@ public class ThemeController {
 	//@CrossOrigin
 	public ResponseEntity<Object> getThemes (
 			@RequestParam(required = false) String name,
-			@RequestParam(name = "page", required = false) Integer page) {
+			@RequestParam(name = "page", required = false) Integer page,
+			@RequestParam(name = "perpage", required = false) Integer perpage) {
 		try {
 			if (page == null) {
 				List<Theme> themes = new ArrayList<>();
@@ -51,7 +52,7 @@ public class ThemeController {
 				return ResponseEntity.status(HttpStatus.OK).body(themes);
 				} 
 			} else {
-				Map<String, Object> themes = service.getAllThemesPageable(page);
+				Map<String, Object> themes = service.getAllThemesPageable(page, perpage);
 				if (themes != null && !themes.isEmpty()) {
 	                return ResponseEntity.status(HttpStatus.OK).body(themes);
 	            } else {

@@ -11,9 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 const PostContent = ({ postData }) => {
 
-    const navigate = useNavigate();
     const categories = postData["categories"].map((categorie) => <RouterLink to={`/search?categorie=${categorie.name}`} key={categorie["id"]}><Chip sx={{ marginRight: 1, marginBottom: 1 }} size='small' key={categorie["id"]} label={categorie["name"]} /></RouterLink>);
-
     return (
         <Card sx={{ marginTop: 2 }}>
             <Box bgcolor="#f5f5f5" padding={2}>
@@ -26,12 +24,13 @@ const PostContent = ({ postData }) => {
                             <Typography variant="caption">{DateFormatToEs(postData.date)}</Typography>
                         </Box>
                     </Box>
+                    {categories.length > 0 &&
                     <Box display={'flex'} flexDirection={{ xs: 'column', md: 'row' }} alignItems={{ xs: 'flex-start', md: 'center' }} sx={{ width: '100%' }}>
                         <Typography variant="caption" sx={{ marginRight: 1, marginBottom: 1 }}>Categorias:</Typography>
                         <Box display={'flex'} flexWrap="wrap">
                             {categories}
                         </Box>
-                    </Box>
+                    </Box>}
                 </Box>
                 {postData.featuredImage && <Box display="flex" justifyContent="center" sx={{ marginTop: 1, backgroundColor: 'transparent' }}>
                     <CardMedia

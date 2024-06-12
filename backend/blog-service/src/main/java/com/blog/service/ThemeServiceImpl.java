@@ -32,8 +32,12 @@ public class ThemeServiceImpl implements ThemeService {
 	}
 
 	@Override
-	public Map<String, Object> getAllThemesPageable(int page) {
-		Pageable pageable = PageRequest.of(page, 6);
+	public Map<String, Object> getAllThemesPageable(int page, Integer perpage) {
+		if (perpage == null) {
+			perpage = 6;
+		}
+		Sort.Direction direction = Sort.Direction.ASC;
+		Pageable pageable = PageRequest.of(page, perpage, Sort.by(direction, "name"));
 		Page<Theme> pageResult = repository.findAll(pageable);
 		int totalPages = pageResult.getTotalPages();
 		Map<String, Object> response = new HashMap<>();

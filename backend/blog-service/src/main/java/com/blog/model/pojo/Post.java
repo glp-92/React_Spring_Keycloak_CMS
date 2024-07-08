@@ -81,7 +81,7 @@ public class Post {
 	  inverseJoinColumns = @JoinColumn(name = "categories_id")
 	 )
 	@JsonManagedReference // the one that gets serialized normally
-    private Set<Categorie> categories;
+    private Set<Category> categories;
 	
 	@ManyToMany
 	//@JsonIgnore

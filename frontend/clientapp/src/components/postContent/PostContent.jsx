@@ -11,7 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 const PostContent = ({ postData }) => {
 
-    const categories = postData["categories"].map((categorie) => <RouterLink to={`/search?categorie=${categorie.name}`} key={categorie["id"]}><Chip sx={{ marginRight: 1, marginBottom: 1 }} size='small' key={categorie["id"]} label={categorie["name"]} /></RouterLink>);
+    const categories = postData["categories"].map((category) => <RouterLink to={`/search?category=${category.name}`} key={category["id"]}><Chip sx={{ marginRight: 1, marginBottom: 1 }} size='small' key={category["id"]} label={category["name"]} /></RouterLink>);
     return (
         <Card sx={{ marginTop: 2 }}>
             <Box bgcolor="#f5f5f5" padding={2}>

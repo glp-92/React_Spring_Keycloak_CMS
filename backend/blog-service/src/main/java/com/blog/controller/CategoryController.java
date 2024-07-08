@@ -17,20 +17,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.blog.model.pojo.Categorie;
-import com.blog.model.dto.categorie.CategorieCreate;
-import com.blog.model.dto.categorie.CategorieEdit;
-import com.blog.service.CategorieService;
+import com.blog.model.pojo.Category;
+import com.blog.model.dto.category.CategoryCreate;
+import com.blog.model.dto.category.CategoryEdit;
+import com.blog.service.CategoryService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class CategorieController {
+public class CategoryController {
 	
-	private final CategorieService service;
+	private final CategoryService service;
 	
-	@GetMapping("/categorie")
+	@GetMapping("/category")
 	// @CrossOrigin
 	public ResponseEntity<Object> getCategories (
 			@RequestParam(required = false) String name,
@@ -38,10 +38,10 @@ public class CategorieController {
 			@RequestParam(name = "perpage", required = false) Integer perpage) {
 		try {
 			if (page == null) {
-				List<Categorie> categories = new ArrayList<>();
+				List<Category> categories = new ArrayList<>();
 				if (name != null) {
-					Categorie categorie = service.getCategorieByName(name);
-					categories.add(categorie);
+					Category category = service.getCategoryByName(name);
+					categories.add(category);
 				}
 				else {
 					categories = service.getAllCategories();
@@ -64,26 +64,26 @@ public class CategorieController {
 		}
 	}
 	
-	@PostMapping("/categorie")
+	@PostMapping("/category")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Categorie> createCategorie (
-			@RequestBody CategorieCreate request) {
+	public ResponseEntity<Category> createCategory (
+			@RequestBody CategoryCreate request) {
 		try {
-			Categorie categorie = service.createCategorie(request);
-			return ResponseEntity.status(HttpStatus.CREATED).body(categorie);
+			Category category = service.createCategory(request);
+			return ResponseEntity.status(HttpStatus.CREATED).body(category);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 	
-	@PutMapping("/categorie")
+	@PutMapping("/category")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Categorie> editCategorie (
-			@RequestBody CategorieEdit request) {
+	public ResponseEntity<Category> editCategory (
+			@RequestBody CategoryEdit request) {
 		try {
-			Categorie categorie = service.editCategorie(request);
-			if (categorie != null) {
-				return ResponseEntity.status(HttpStatus.OK).body(categorie);
+			Category category = service.editCategory(request);
+			if (category != null) {
+				return ResponseEntity.status(HttpStatus.OK).body(category);
 			}
 			else {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -93,12 +93,12 @@ public class CategorieController {
 		}
 	}
 	
-	@DeleteMapping("/categorie/{categorieId}")
+	@DeleteMapping("/category/{categoryId}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<String> deleteCategorie (
-			@PathVariable String categorieId) {
+	public ResponseEntity<String> deleteCategory (
+			@PathVariable String categoryId) {
 		try {
-            boolean deleted = service.deleteCategorie(categorieId);
+            boolean deleted = service.deleteCategory(categoryId);
             if (deleted) {
             	return ResponseEntity.noContent().build();
             }

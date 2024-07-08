@@ -18,8 +18,8 @@ const Search = () => {
   if (queryparams.includes('&theme=')) {
     const theme = searchParams.get('theme');
     label = <>Entradas para tema <strong><em>{theme}</em></strong></>
-  } else if (queryparams.includes('&categorie=')) {
-    const category = searchParams.get('categorie');
+  } else if (queryparams.includes('&category=')) {
+    const category = searchParams.get('category');
     label = <>Entradas para categoria <strong><em>{category}</em></strong></>
   } else {
     const keyword = searchParams.get('keyword');

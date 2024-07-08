@@ -32,7 +32,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Categorie {
+public class Category {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,7 +48,7 @@ public class Categorie {
 	
 	@ManyToMany(mappedBy = "categories")
 	@JsonBackReference // is the back part of reference; it’ll be omitted from serialization
-	//@JsonIgnore // Solo se serializara la lista de posts cuando se acceda a ella a traves de categorie
+	//@JsonIgnore // Solo se serializara la lista de posts cuando se acceda a ella a traves de category
 	@ToString.Exclude
 	private Set<Post> posts;
 	

@@ -67,7 +67,7 @@ const Writer = () => {
 
   useEffect(() => {
     /*
-      Get categories from backend, if is editing mode, sets categorie id on combobox
+      Get categories from backend, if is editing mode, sets category id on combobox
     */
     const fetchCategories = async () => {
       const response = await GetCategories();
@@ -75,11 +75,11 @@ const Writer = () => {
       setCategories(fetchedCategories);
 
       if (postToEdit && postToEdit.categories.length > 0) {
-        let postCategorieNames = [];
+        let postCategoryNames = [];
         postToEdit.categories.forEach(element => {
-          postCategorieNames.push(element.id);
+          postCategoryNames.push(element.id);
         });
-        setSelectedCategories(postCategorieNames);
+        setSelectedCategories(postCategoryNames);
       }
       else {
         if (fetchedCategories != null) setSelectedCategories([]);
@@ -118,17 +118,17 @@ const Writer = () => {
         <RichTextEditor value={content} setValue={setContent} placeholder="Contenido" />
         <TextField margin="normal" required fullWidth id="featuredImage" label="URL Imagen Portada" name="featuredImage" defaultValue={postToEdit ? postToEdit.featuredImage : null} />
         <Box mt={1}>
-          <InputLabel id="select-categorie-label">Categorias</InputLabel>
+          <InputLabel id="select-category-label">Categorias</InputLabel>
           <Select
-            id="select-categorie"
+            id="select-category"
             multiple
             value={selectedCategories != [] ? selectedCategories : ""}
             onChange={(e) => { setSelectedCategories(e.target.value) }}
             sx={{ width: 300 }}
           >
-            {categories.map((categorie, index) => (
-              <MenuItem key={index} value={categorie.id}>
-                {categorie.name}
+            {categories.map((category, index) => (
+              <MenuItem key={index} value={category.id}>
+                {category.name}
               </MenuItem>
             ))}
           </Select>

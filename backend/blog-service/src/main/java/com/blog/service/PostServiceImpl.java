@@ -20,11 +20,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.blog.data.UserRepository;
-import com.blog.data.CategorieRepository;
+import com.blog.data.CategoryRepository;
 import com.blog.data.PostRepository;
 import com.blog.data.ThemeRepository;
 import com.blog.model.pojo.User;
-import com.blog.model.pojo.Categorie;
+import com.blog.model.pojo.Category;
 import com.blog.model.pojo.Post;
 import com.blog.model.pojo.Theme;
 import com.blog.model.dto.post.PostCreate;
@@ -37,7 +37,7 @@ public class PostServiceImpl implements PostService {
 	private PostRepository postRepo;
 	
 	@Autowired
-	private CategorieRepository categorieRepo;
+	private CategoryRepository categoryRepo;
 	
 	@Autowired
 	private ThemeRepository themeRepo;
@@ -53,22 +53,22 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public Map<String, Object> getPostsFiltered(String keyword, String categorieName, String themeName, int page, boolean reverse, Integer perpage) {
+	public Map<String, Object> getPostsFiltered(String keyword, String categoryName, String themeName, int page, boolean reverse, Integer perpage) {
 		List<Post> results = new ArrayList<>();
 		if (perpage == null) {
 			perpage = 6;
 		}
 		if (keyword != null) {
-			Categorie categorie = categorieRepo.findByName(keyword);
+			Category category = categoryRepo.findByName(keyword);
 			for (String key : Arrays.asList(keyword.split(","))) {
-				results.addAll(postRepo.findByCategoriesContainingAndTitleContainingOrContentContainingIgnoreCase(categorie, key.trim(), key.trim()));
+				results.addAll(postRepo.findByCategoriesContainingAndTitleContainingOrContentContainingIgnoreCase(category, key.trim(), key.trim()));
 				results.addAll(postRepo.findByTitleContainingOrContentContainingIgnoreCase(key.trim(), key.trim()));	
 			}
-			results.addAll(postRepo.findByCategoriesContaining(categorie));
+			results.addAll(postRepo.findByCategoriesContaining(category));
 		}
-		else if (categorieName != null) {
-			Categorie categorie = categorieRepo.findByName(categorieName);
-			results.addAll(postRepo.findByCategoriesContaining(categorie));
+		else if (categoryName != null) {
+			Category category = categoryRepo.findByName(categoryName);
+			results.addAll(postRepo.findByCategoriesContaining(category));
 		}
 		else if (themeName != null) {
 			Theme theme = themeRepo.findByName(themeName);
@@ -102,7 +102,7 @@ public class PostServiceImpl implements PostService {
 	public Post createPost(PostCreate request, String subject) {
 		User user = userRepo.findBySub(subject).orElse(null);
 		Date date = new Date(System.currentTimeMillis());
-		Set<Categorie> categories = new HashSet<Categorie>(categorieRepo.findAllById(request.getCategoryIds()));
+		Set<Category> categories = new HashSet<Category>(categoryRepo.findAllById(request.getCategoryIds()));
 		Set<Theme> themes = new HashSet<Theme>(themeRepo.findAllById(request.getThemeIds()));
 		System.out.println(themes);
 		Post post = Post.builder().title(request.getTitle()).slug(request.getSlug()).excerpt(request.getExcerpt()).content(request.getContent()).date(date).featuredImage(request.getFeaturedImage()).featuredPost(request.getFeaturedPost()).categories(categories).themes(themes).users(user).build();
@@ -132,7 +132,7 @@ public class PostServiceImpl implements PostService {
 	        post.setFeaturedPost(request.getFeaturedPost());
 	    }
 		if (request.getCategoryIds() != null) {
-			Set<Categorie> categories = new HashSet<Categorie>(categorieRepo.findAllById(request.getCategoryIds()));
+			Set<Category> categories = new HashSet<Category>(categoryRepo.findAllById(request.getCategoryIds()));
 			post.setCategories(categories);
 		}
 		if (request.getThemeIds() != null) {

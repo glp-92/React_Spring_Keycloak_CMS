@@ -14,20 +14,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.blog.data.CategorieRepository;
-import com.blog.model.pojo.Categorie;
+import com.blog.data.CategoryRepository;
+import com.blog.model.pojo.Category;
 import com.blog.model.pojo.Post;
-import com.blog.model.dto.categorie.CategorieCreate;
-import com.blog.model.dto.categorie.CategorieEdit;
+import com.blog.model.dto.category.CategoryCreate;
+import com.blog.model.dto.category.CategoryEdit;
 
 @Service
-public class CategorieServiceImpl implements CategorieService {
+public class CategoryServiceImpl implements CategoryService {
 	
 	@Autowired
-	private CategorieRepository repository;
+	private CategoryRepository repository;
 	
 	@Override
-	public List<Categorie> getAllCategories() {
+	public List<Category> getAllCategories() {
 		return repository.findAll();
 	}
 	
@@ -38,8 +38,8 @@ public class CategorieServiceImpl implements CategorieService {
 		}
 		Sort.Direction direction = Sort.Direction.ASC;
 		Pageable pageable = PageRequest.of(page, perpage, Sort.by(direction, "name"));
-		// Page<Categorie> pageResult = repository.findAll(pageable);
-		Page<Categorie> pageResult = repository.findAllOrderByAddressCountDesc(pageable);
+		// Page<Category> pageResult = repository.findAll(pageable);
+		Page<Category> pageResult = repository.findAllOrderByAddressCountDesc(pageable);
 		int totalPages = pageResult.getTotalPages();
 		Map<String, Object> response = new HashMap<>();
 	    response.put("totalPages", totalPages);
@@ -48,41 +48,41 @@ public class CategorieServiceImpl implements CategorieService {
 	}
 	
 	@Override
-	public Categorie getCategorieByName(String categorieName) {
-		return repository.findByName(categorieName);
+	public Category getCategoryByName(String categoryName) {
+		return repository.findByName(categoryName);
 	}
 
 	@Override
-	public Categorie createCategorie(CategorieCreate request) {
+	public Category createCategory(CategoryCreate request) {
 		Set<Post> posts = new HashSet<Post>(); // No hashset para admitir duplicados
-		Categorie categorie = Categorie.builder().name(request.getName()).slug(request.getSlug()).posts(posts).build();
-		return repository.save(categorie);
+		Category category = Category.builder().name(request.getName()).slug(request.getSlug()).posts(posts).build();
+		return repository.save(category);
 	}
 
 	@Override
-	public Categorie editCategorie(CategorieEdit request) {
+	public Category editCategory(CategoryEdit request) {
 		if (request.getId() != null) {
-			Optional<Categorie> categorie_opt = repository.findById(Long.valueOf(request.getId()));
-			if (categorie_opt.isEmpty()) {
+			Optional<Category> category_opt = repository.findById(Long.valueOf(request.getId()));
+			if (category_opt.isEmpty()) {
 	            return null;
 	        }
-			Categorie categorie = categorie_opt.get();
+			Category category = category_opt.get();
 			if (request.getName() != null) {
-				categorie.setName(request.getName());
+				category.setName(request.getName());
 			}
 			if (request.getSlug() != null) {
-				categorie.setSlug(request.getSlug());
+				category.setSlug(request.getSlug());
 			}
-			return repository.save(categorie);
+			return repository.save(category);
 		}
 		return null;
 	}
 
 	@Override
-	public boolean deleteCategorie(String categorieId) {
-		if (repository.existsById(Long.valueOf(categorieId))) {
-			repository.deleteById(Long.valueOf(categorieId));
-			return !repository.existsById(Long.valueOf(categorieId));
+	public boolean deleteCategory(String categoryId) {
+		if (repository.existsById(Long.valueOf(categoryId))) {
+			repository.deleteById(Long.valueOf(categoryId));
+			return !repository.existsById(Long.valueOf(categoryId));
 	    } else {
 	        return false;
 	    }

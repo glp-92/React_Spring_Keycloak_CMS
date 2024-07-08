@@ -1,6 +1,6 @@
 export const GetCategories = async () => {
     try {
-        const response = await fetch(`http://localhost:8083/categorie`);
+        const response = await fetch(`http://localhost:8083/category`);
         return response;
     } catch (error) {
         throw new Error(`Error en la solicitud: ${error}`);
@@ -9,7 +9,7 @@ export const GetCategories = async () => {
 
 export const GetCategoriesPageable = async (page, perPage) => {
     try {
-        let url = `http://localhost:8083/categorie?page=${page}`;
+        let url = `http://localhost:8083/category?page=${page}`;
         if (perPage) {
             url += `&perpage=${perPage}`
         }
@@ -20,13 +20,13 @@ export const GetCategoriesPageable = async (page, perPage) => {
     }
 };
 
-export const CreateCategorie = async (newCategorie, token) => {
+export const CreateCategory = async (newCategory, token) => {
     try {
         const payload = {
-            name: newCategorie,
-            slug: newCategorie
+            name: newCategory,
+            slug: newCategory
         };
-        const response = await fetch("http://localhost:8083/categorie", {
+        const response = await fetch("http://localhost:8083/category", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -40,9 +40,9 @@ export const CreateCategorie = async (newCategorie, token) => {
     }
 };
 
-export const DeleteCategorie = async (categorieId, token) => {
+export const DeleteCategory = async (categoryId, token) => {
     try {
-        const response = await fetch(`http://localhost:8083/categorie/${categorieId}`, {
+        const response = await fetch(`http://localhost:8083/category/${categoryId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -54,15 +54,15 @@ export const DeleteCategorie = async (categorieId, token) => {
     }
 };
 
-export const UpdateCategorie = async (categorie, token) => {
+export const UpdateCategory = async (category, token) => {
     try {
-        const response = await fetch("http://localhost:8083/categorie", {
+        const response = await fetch("http://localhost:8083/category", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify(categorie)
+            body: JSON.stringify(category)
         });
         return response
     } catch (error) {

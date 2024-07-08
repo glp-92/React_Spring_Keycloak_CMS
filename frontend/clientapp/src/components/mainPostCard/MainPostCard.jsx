@@ -15,7 +15,7 @@ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 
 const MainPostCard = ({ postData }) => {
 
-    const categories = postData["categories"].map((categorie) => <Box sx={{ margin: 1 }} key={categorie["id"]}><Chip size='small' key={categorie["id"]} label={categorie["name"]} /></Box>);
+    const categories = postData["categories"].map((category) => <Box sx={{ margin: 1 }} key={category["id"]}><Chip size='small' key={category["id"]} label={category["name"]} /></Box>);
 
     return (
         <Link to={`/post/${postData["slug"]}`} style={{ textDecoration: 'none' }}>

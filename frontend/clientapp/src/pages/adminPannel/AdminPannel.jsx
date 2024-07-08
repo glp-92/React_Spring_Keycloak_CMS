@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Pagination from '@mui/material/Pagination';
 import { GetPostList } from '../../util/requests/GetPostList';
 import { DeletePost } from '../../util/requests/Posts';
-import { GetCategoriesPageable, CreateCategorie, DeleteCategorie, UpdateCategorie } from '../../util/requests/Categories';
+import { GetCategoriesPageable, CreateCategory, DeleteCategory, UpdateCategory } from '../../util/requests/Categories';
 import { CreateTheme, DeleteTheme, GetThemesPageable, UpdateTheme } from '../../util/requests/Themes';
 import { useNavigate } from "react-router-dom";
 
@@ -26,7 +26,7 @@ const AdminPannel = () => {
     const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [inputCategorie, setInputCategorie] = useState('');
+    const [inputCategory, setinputCategory] = useState('');
     const [themes, setThemes] = useState([]);
     const [categoryPage, setCategoryPage] = useState(0);
     const [themePage, setThemePage] = useState(0);
@@ -111,58 +111,58 @@ const AdminPannel = () => {
         }
     }
 
-    const handleCreateCategorie = async () => {
+    const handleCreateCategory = async () => {
         const token = localStorage.getItem("jwt");
-        const newCategorieName = inputCategorie.toLowerCase();
+        const newCategoryName = inputCategory.toLowerCase();
         try {
-            const response = await CreateCategorie(newCategorieName, token);
+            const response = await CreateCategory(newCategoryName, token);
             if (response.ok) {
-                const createdCategorie = await response.json()
-                // setCategories(prevCategories => [...prevCategories, createdCategorie]);
-                setInputCategorie('');
+                const createdCategory = await response.json()
+                // setCategories(prevCategories => [...prevCategories, createdCategory]);
+                setinputCategory('');
                 fetchCategories(categoryPage);
             }
             else {
                 throw new Error(`Erroneous answer from server`);
             }
         } catch (error) {
-            console.error("Error. Categorie not created!", error);
+            console.error("Error. Category not created!", error);
         }
     }
 
-    const handleEditCategorieLabel = (newName, index) => {
+    const handleEditCategoryLabel = (newName, index) => {
         const newCategories = [...categories];
         newCategories[index]["name"] = newName;
         newCategories[index]["slug"] = newName;
         setCategories(newCategories);
     }
 
-    const handleUpdateCategorie = async (index) => {
+    const handleUpdateCategory = async (index) => {
         const token = localStorage.getItem("jwt");
-        const categorie = categories[index];
+        const category = categories[index];
         try {
-            let response = await UpdateCategorie(categorie, token);
+            let response = await UpdateCategory(category, token);
             if (!response.ok) {
                 throw new Error(`Erroneous answer from server`);
             }
         } catch (error) {
-            console.log("Error. Categorie not updated!", error);
+            console.log("Error. Category not updated!", error);
         }
     }
 
-    const handleDeleteCategorie = async (id, index) => {
+    const handleDeleteCategory = async (id, index) => {
         if (confirm('Esta accion borrara la Categoria de la base de datos, continuar?')) {
             const token = localStorage.getItem("jwt");
             if (!token) return false;
             try {
-                let response = await DeleteCategorie(id, token);
+                let response = await DeleteCategory(id, token);
                 if (!response.ok) {
                     throw new Error(`Erroneous answer from server`);
                 }
                 fetchCategories(categoryPage);
-                // setCategories(prevCategories => prevCategories.filter(categorie => categorie.id !== id));
+                // setCategories(prevCategories => prevCategories.filter(category => category.id !== id));
             } catch (error) {
-                console.log("Error. Categorie not deleted!", error);
+                console.log("Error. Category not deleted!", error);
             }
         }
     }
@@ -248,28 +248,28 @@ const AdminPannel = () => {
                     Categorias
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', mt: 2, mb: 0, width: '100%' }}>
-                    <TextField type="text" margin="normal" fullWidth id="title" label="Nombre de categoria" name="newCategory" value={inputCategorie} onChange={(e) => { setInputCategorie(e.target.value) }} />
+                    <TextField type="text" margin="normal" fullWidth id="title" label="Nombre de categoria" name="newCategory" value={inputCategory} onChange={(e) => { setinputCategory(e.target.value) }} />
                     <IconButton
                         size="large"
                         edge="start"
                         color="primary"
                         aria-label="menu"
-                        onClick={handleCreateCategorie}
+                        onClick={handleCreateCategory}
                         sx={{ ml: 1, mr: 1, fontSize: '1.5rem' }}
                     >
                         <AddCircleOutlineIcon />
                     </IconButton>
                 </Box>
                 <List dense sx={{ width: '100%' }}>
-                    {categories.map((categorie, index) => (
+                    {categories.map((category, index) => (
                         <ListItem key={index} alignItems="center" sx={{ mt: 0, mb: 0 }}>
-                            <TextField type="text" fullWidth margin="normal" value={categorie["name"]} onChange={(e) => handleEditCategorieLabel(e.target.value, index)} />
+                            <TextField type="text" fullWidth margin="normal" value={category["name"]} onChange={(e) => handleEditCategoryLabel(e.target.value, index)} />
                             <IconButton
                                 size="large"
                                 edge="start"
                                 color="primary"
                                 aria-label="menu"
-                                onClick={() => handleUpdateCategorie(index)}
+                                onClick={() => handleUpdateCategory(index)}
                                 sx={{ ml: 1, mr: 1, fontSize: '1.5rem' }}
                             >
                                 <UpdateIcon />
@@ -279,7 +279,7 @@ const AdminPannel = () => {
                                 edge="start"
                                 color="secondary"
                                 aria-label="menu"
-                                onClick={() => handleDeleteCategorie(categorie.id, index)}
+                                onClick={() => handleDeleteCategory(category.id, index)}
                                 sx={{ fontSize: '1.5rem' }}
                             >
                                 <DeleteIcon />

@@ -16,8 +16,8 @@ const Categories = () => {
         setPage(value - 1);
     }
 
-    const handleSelectedCategorie = (categorie) => {
-        navigate(`/search?categorie=${categorie.name}`);
+    const handleSelectedCategory = (category) => {
+        navigate(`/search?category=${category.name}`);
     }
 
     useEffect(() => {
@@ -45,7 +45,7 @@ const Categories = () => {
             >
                 {categories.map((category) => (
                     <ListItem key={category.id} sx={{ width: '50%' }} disablePadding>
-                        <ListItemButton onClick={() => handleSelectedCategorie(category)} sx={{ justifyContent: 'center' }}>
+                        <ListItemButton onClick={() => handleSelectedCategory(category)} sx={{ justifyContent: 'center' }}>
                             <ListItemText primary={category.name} sx={{ textAlign: 'center' }} />
                         </ListItemButton>
                     </ListItem>

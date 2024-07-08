@@ -10,8 +10,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.PostLoad;
+import jakarta.persistence.PostPersist;
+import jakarta.persistence.PostUpdate;
 import jakarta.persistence.PreRemove;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,4 +58,18 @@ public class Categorie {
             post.getCategories().remove(this); // Remueve la categoria del Post, antes de ser esta eliminada
         }
     }
+	
+	@Transient
+	private int postCount;
+	
+	@PostLoad
+	@PostPersist
+	@PostUpdate
+	private void updatePostCount() {
+		if (posts != null) {
+			this.postCount = posts.size();
+		} else {
+			this.postCount = 0;
+		}
+	}
 }

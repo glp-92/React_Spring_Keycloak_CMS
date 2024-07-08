@@ -38,7 +38,8 @@ public class ThemeServiceImpl implements ThemeService {
 		}
 		Sort.Direction direction = Sort.Direction.ASC;
 		Pageable pageable = PageRequest.of(page, perpage, Sort.by(direction, "name"));
-		Page<Theme> pageResult = repository.findAll(pageable);
+		// Page<Theme> pageResult = repository.findAll(pageable);
+		Page<Theme> pageResult = repository.findAllOrderByAddressCountDesc(pageable); // por relevancia (numero de posts)
 		int totalPages = pageResult.getTotalPages();
 		Map<String, Object> response = new HashMap<>();
 	    response.put("totalPages", totalPages);

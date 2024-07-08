@@ -17,13 +17,13 @@ const Search = () => {
   let label;
   if (queryparams.includes('&theme=')) {
     const theme = searchParams.get('theme');
-    label = <>Entradas para tema <strong><em>{theme}</em></strong>;</>
+    label = <>Entradas para tema <strong><em>{theme}</em></strong></>
   } else if (queryparams.includes('&categorie=')) {
     const category = searchParams.get('categorie');
-    label = <>Entradas para categoria <strong><em>{category}</em></strong>;</>
+    label = <>Entradas para categoria <strong><em>{category}</em></strong></>
   } else {
     const keyword = searchParams.get('keyword');
-    label = `Resultados de búsqueda para palabras clave ${keyword}`;
+    label = <>Resultados de búsqueda para palabras clave <strong><em>{keyword}</em></strong></>
   }
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);

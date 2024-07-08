@@ -38,7 +38,8 @@ public class CategorieServiceImpl implements CategorieService {
 		}
 		Sort.Direction direction = Sort.Direction.ASC;
 		Pageable pageable = PageRequest.of(page, perpage, Sort.by(direction, "name"));
-		Page<Categorie> pageResult = repository.findAll(pageable);
+		// Page<Categorie> pageResult = repository.findAll(pageable);
+		Page<Categorie> pageResult = repository.findAllOrderByAddressCountDesc(pageable);
 		int totalPages = pageResult.getTotalPages();
 		Map<String, Object> response = new HashMap<>();
 	    response.put("totalPages", totalPages);

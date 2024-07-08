@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Pagination from '@mui/material/Pagination';
-import { GetPostList } from '../../util/requests/GetPostList';
-import { DeletePost } from '../../util/requests/Posts';
-import { GetCategoriesPageable, CreateCategory, DeleteCategory, UpdateCategory } from '../../util/requests/Categories';
-import { CreateTheme, DeleteTheme, GetThemesPageable, UpdateTheme } from '../../util/requests/Themes';
-import { useNavigate } from "react-router-dom";
+
+import useCategory from './hooks/useCategory';
+import useTheme from './hooks/useTheme';
+import usePost from './hooks/usePost';
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -19,224 +18,40 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import UpdateIcon from '@mui/icons-material/Update';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
-const categoriesPerPage = 4;
-const themesPerPage = 2;
-
 const AdminPannel = () => {
-    const navigate = useNavigate();
-    const [posts, setPosts] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [inputCategory, setinputCategory] = useState('');
-    const [themes, setThemes] = useState([]);
-    const [categoryPage, setCategoryPage] = useState(0);
-    const [themePage, setThemePage] = useState(0);
-    const [postPage, setPostPage] = useState(0);
-    const [nCategoryPages, setNCategoryPages] = useState(0);
-    const [nThemePages, setNThemePages] = useState(0);
-    const [nPostPages, setNPostPages] = useState(0);
 
-    const createNewPost = () => {
-        navigate(`/wpannel/writer`);
-    }
+    const {
+        categories,
+        inputCategory,
+        setInputCategory,
+        categoryPage,
+        setCategoryPage,
+        nCategoryPages,
+        handleCreateCategory,
+        handleEditCategoryLabel,
+        handleUpdateCategory,
+        handleDeleteCategory
+    } = useCategory();
 
-    const editPost = (post) => {
-        navigate(`/wpannel/writer`, { state: post })
-    }
+    const {
+        themes,
+        themePage,
+        setThemePage,
+        nThemePages,
+        handleCreateTheme,
+        handleUpdateTheme,
+        handleDeleteTheme
+    } = useTheme();
 
-    const handleDeletePost = (id) => {
-        const deletePost = async () => {
-            const token = localStorage.getItem("jwt");
-            if (!token) return false;
-            let response = await DeletePost(id, token);
-            if (!response.ok) {
-                console.log(`Error validating token: ${response.statusText}`);
-                return;
-            }
-            fetchPosts(postPage);
-            // setPosts(prevPosts => prevPosts.filter(post => post.id !== id));
-        };
-        if (confirm('Esta accion borrara el Post de la base de datos, continuar?')) {
-            deletePost();
-        }
-    }
-
-    const handleCategoryPageChange = (event, value) => {
-        setCategoryPage(value - 1);
-    }
-
-    const handleThemePageChange = (event, value) => {
-        setThemePage(value - 1);
-    }
-
-    const handlePostPageChange = (event, value) => {
-        setPostPage(value - 1);
-    }
-
-    const fetchCategories = async (page) => {
-        try {
-            const response = await GetCategoriesPageable(page, categoriesPerPage);
-            if (!response.ok) {
-                throw new Error(`Error fetching categories`);
-            }
-            const fetchedCategories = await response.json();
-            setCategories(fetchedCategories.content);
-            setNCategoryPages(fetchedCategories.totalPages)
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const fetchThemes = async (page) => {
-        try {
-            const response = await GetThemesPageable(page, themesPerPage);
-            if (!response.ok) {
-                throw new Error(`Error fetching themes`);
-            }
-            const fetchedThemes = await response.json();
-            setThemes(fetchedThemes.content);
-            setNThemePages(fetchedThemes.totalPages);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const fetchPosts = async (page) => {
-        const posts = await GetPostList(page, null);
-        if (posts != null) {
-            setPosts(posts.content);
-            setNPostPages(posts.totalPages)
-        }
-        else {
-            setPosts([]);
-        }
-    }
-
-    const handleCreateCategory = async () => {
-        const token = localStorage.getItem("jwt");
-        const newCategoryName = inputCategory.toLowerCase();
-        try {
-            const response = await CreateCategory(newCategoryName, token);
-            if (response.ok) {
-                const createdCategory = await response.json()
-                // setCategories(prevCategories => [...prevCategories, createdCategory]);
-                setinputCategory('');
-                fetchCategories(categoryPage);
-            }
-            else {
-                throw new Error(`Erroneous answer from server`);
-            }
-        } catch (error) {
-            console.error("Error. Category not created!", error);
-        }
-    }
-
-    const handleEditCategoryLabel = (newName, index) => {
-        const newCategories = [...categories];
-        newCategories[index]["name"] = newName;
-        newCategories[index]["slug"] = newName;
-        setCategories(newCategories);
-    }
-
-    const handleUpdateCategory = async (index) => {
-        const token = localStorage.getItem("jwt");
-        const category = categories[index];
-        try {
-            let response = await UpdateCategory(category, token);
-            if (!response.ok) {
-                throw new Error(`Erroneous answer from server`);
-            }
-        } catch (error) {
-            console.log("Error. Category not updated!", error);
-        }
-    }
-
-    const handleDeleteCategory = async (id, index) => {
-        if (confirm('Esta accion borrara la Categoria de la base de datos, continuar?')) {
-            const token = localStorage.getItem("jwt");
-            if (!token) return false;
-            try {
-                let response = await DeleteCategory(id, token);
-                if (!response.ok) {
-                    throw new Error(`Erroneous answer from server`);
-                }
-                fetchCategories(categoryPage);
-                // setCategories(prevCategories => prevCategories.filter(category => category.id !== id));
-            } catch (error) {
-                console.log("Error. Category not deleted!", error);
-            }
-        }
-    }
-
-    const handleCreateTheme = async (e) => {
-        e.preventDefault();
-        const themeForm = new FormData(e.currentTarget);
-        const slug = themeForm.get('name').toLowerCase().replace(/\s+/g, '-');
-        let themeData = {};
-        themeForm.forEach((value, key) => themeData[key] = value);
-        themeData.slug = slug;
-        const token = localStorage.getItem("jwt");
-        try {
-            const response = await CreateTheme(themeData, token);
-            if (response.ok) {
-                const createdTheme = await response.json()
-                // setThemes(prevThemes => [...prevThemes, createdTheme]);
-                document.getElementById("createThemeForm").reset();
-                fetchThemes(themePage);
-            }
-            else {
-                throw new Error(`Erroneous answer from server`);
-            }
-        } catch (error) {
-            console.error("Error. Theme not created!", error);
-        }
-    }
-
-    const handleUpdateTheme = async (e) => {
-        e.preventDefault();
-        const themeForm = new FormData(e.currentTarget);
-        const slug = themeForm.get('name').toLowerCase().replace(/\s+/g, '-');
-        let themeData = {};
-        themeForm.forEach((value, key) => themeData[key] = value);
-        themeData.slug = slug;
-        const token = localStorage.getItem("jwt");
-        try {
-            let response = await UpdateTheme(themeData, token);
-            if (!response.ok) {
-                throw new Error(`Erroneous answer from server`);
-            }
-        } catch (error) {
-            console.log("Error. Theme not updated!", error);
-        }
-    }
-
-    const handleDeleteTheme = async (id, index) => {
-        if (confirm('Esta accion borrara la Categoria de la base de datos, continuar?')) {
-            const token = localStorage.getItem("jwt");
-            if (!token) return false;
-            try {
-                let response = await DeleteTheme(id, token);
-                if (!response.ok) {
-                    throw new Error(`Erroneous answer from server`);
-                }
-                // setThemes(prevThemes => prevThemes.filter(theme => theme.id !== id));
-                fetchThemes(themePage);
-            } catch (error) {
-                console.log("Error. Theme not deleted!", error);
-            }
-        }
-    }
-
-    useEffect(() => {
-        fetchPosts(postPage);
-    }, [postPage])
-
-    useEffect(() => {
-        fetchCategories(categoryPage);
-    }, [categoryPage])
-
-    useEffect(() => {
-        fetchThemes(themePage);
-    }, [themePage])
+    const {
+        posts,
+        postPage,
+        setPostPage,
+        nPostPages,
+        handleCreatePost,
+        handleEditPost,
+        handleDeletePost
+    } = usePost();
 
     return (
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 2 }}>
@@ -248,7 +63,7 @@ const AdminPannel = () => {
                     Categorias
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', mt: 2, mb: 0, width: '100%' }}>
-                    <TextField type="text" margin="normal" fullWidth id="title" label="Nombre de categoria" name="newCategory" value={inputCategory} onChange={(e) => { setinputCategory(e.target.value) }} />
+                    <TextField type="text" margin="normal" fullWidth id="title" label="Nombre de categoria" name="newCategory" value={inputCategory} onChange={(e) => { setInputCategory(e.target.value) }} />
                     <IconButton
                         size="large"
                         edge="start"
@@ -289,7 +104,7 @@ const AdminPannel = () => {
                 </List>
                 {
                     nCategoryPages > 1 &&
-                    <Pagination sx={{ marginBottom: 1, marginTop: 'auto', alignSelf: 'center', }} size='small' count={nCategoryPages} shape="rounded" page={categoryPage + 1} onChange={handleCategoryPageChange} />
+                    <Pagination sx={{ marginBottom: 1, marginTop: 'auto', alignSelf: 'center', }} size='small' count={nCategoryPages} shape="rounded" page={categoryPage + 1} onChange={(e, value) => setCategoryPage(value - 1)} />
                 }
             </Box>
             <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -353,7 +168,7 @@ const AdminPannel = () => {
                 </List>
                 {
                     nThemePages > 1 &&
-                    <Pagination sx={{ marginBottom: 1, marginTop: 'auto', alignSelf: 'center', }} size='small' count={nThemePages} shape="rounded" page={themePage + 1} onChange={handleThemePageChange} />
+                    <Pagination sx={{ marginBottom: 1, marginTop: 'auto', alignSelf: 'center', }} size='small' count={nThemePages} shape="rounded" page={themePage + 1} onChange={(e, value) => setThemePage(value - 1)} />
                 }
             </Box>
             <Box sx={{ flex: 1, mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -361,7 +176,7 @@ const AdminPannel = () => {
                     Posts
                 </Typography>
                 <Button
-                    onClick={createNewPost}
+                    onClick={handleCreatePost}
                     variant="contained"
                     color="primary"
                     fullWidth
@@ -384,7 +199,7 @@ const AdminPannel = () => {
                                 edge="start"
                                 color="primary"
                                 aria-label="menu"
-                                onClick={() => editPost(item)}
+                                onClick={() => handleEditPost(item)}
                                 sx={{ ml: 1, mr: 1, fontSize: '1.5rem' }}
                             >
                                 <UpdateIcon />
@@ -402,7 +217,7 @@ const AdminPannel = () => {
                         </Box>
                     ))}
                 </Stack>
-                <Pagination sx={{ marginTop: 'auto', alignSelf: 'center', }} size='small' count={nPostPages} shape="rounded" page={postPage + 1} onChange={handlePostPageChange} />
+                <Pagination sx={{ marginTop: 'auto', alignSelf: 'center', }} size='small' count={nPostPages} shape="rounded" page={postPage + 1} onChange={(e, value) => setPostPage(value - 1)} />
             </Box>
         </Box>
     )

@@ -56,7 +56,7 @@ const useCategory = () => {
         if (!response.ok) {
           throw new Error(`Erroneous answer from server`);
         }
-        fetchCategories(categoryPage);
+        categories.length == 1 ? setCategoryPage(0) : fetchCategories(categoryPage);
         // setCategories(prevCategories => prevCategories.filter(category => category.id !== id));
       } catch (error) {
         console.log("Error. Category not deleted!", error);

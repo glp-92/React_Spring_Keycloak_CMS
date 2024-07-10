@@ -29,7 +29,7 @@ const usePost = () => {
         console.log(`Error validating token: ${response.statusText}`);
         return;
       }
-      fetchPosts(postPage);
+      posts.length == 1 ? setPostPage(0) : fetchPosts(postPage);
       // setPosts(prevPosts => prevPosts.filter(post => post.id !== id));
     };
     if (confirm('Esta accion borrara el Post de la base de datos, continuar?')) {

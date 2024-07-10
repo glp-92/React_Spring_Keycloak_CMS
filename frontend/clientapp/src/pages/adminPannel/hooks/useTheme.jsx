@@ -74,8 +74,9 @@ const useTheme = () => {
         if (!response.ok) {
           throw new Error(`Erroneous answer from server`);
         }
+        // setThemePage(0);
         // setThemes(prevThemes => prevThemes.filter(theme => theme.id !== id));
-        fetchThemes(themePage);
+        themes.length == 1 ? setThemePage(0) : fetchThemes(themePage);
       } catch (error) {
         console.log("Error. Theme not deleted!", error);
       }

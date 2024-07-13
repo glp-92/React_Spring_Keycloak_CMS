@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { ValidateToken } from '../../util/requests/ValidateToken';
+import { ValidateToken } from '../../util/requests/Auth';
 
 import { IconButton, Paper, InputBase, Divider, Box, List, ListItem, ListItemText, ListItemButton, Drawer } from '@mui/material';
 

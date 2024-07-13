@@ -1,7 +1,7 @@
 /*
 import React, { useState, useEffect, useRef } from 'react'
 import { DateFormatToEsFull } from '../../util/date/DateFormatToEs';
-import { ValidateToken } from '../../util/requests/ValidateToken';
+import { ValidateToken } from '../../util/requests/Auth';
 import { CreateComment, DeleteComment } from '../../util/requests/Comments';
 
 import { Typography, Box, Card, Button, CardContent, Divider, IconButton, TextField, Pagination } from '@mui/material';

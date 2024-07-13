@@ -1,6 +1,8 @@
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export const SavePost = async (method, token, postData) => {
     try {
-        const response = await fetch("http://localhost:8083/post", {
+        const response = await fetch(`${backendUrl}/post`, {
             method: method,
             headers: {
                 "Content-Type": "application/json",
@@ -16,7 +18,7 @@ export const SavePost = async (method, token, postData) => {
 
 export const DeletePost = async (postId, token) => {
     try {
-        const response = await fetch(`http://localhost:8083/post/${postId}`, {
+        const response = await fetch(`${backendUrl}/post/${postId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${token}`

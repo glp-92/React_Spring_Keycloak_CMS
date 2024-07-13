@@ -3,7 +3,7 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import { SavePost } from '../../util/requests/Posts';
 import { GetCategories } from "../../util/requests/Categories";
 import { GetThemes } from "../../util/requests/Themes";
-import { ValidateToken } from '../../util/requests/ValidateToken';
+import { ValidateToken } from '../../util/requests/Auth';
 import RichTextEditor from "../../components/richTextEditor/RichTextEditor";
 
 import { Box, Select, TextField, MenuItem, Button, InputLabel } from '@mui/material';

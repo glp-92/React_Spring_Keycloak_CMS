@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Outlet } from 'react-router-dom';
 import NotFound from '../pages/notfound/NotFound';
-import { ValidateToken } from '../util/requests/ValidateToken';
+import { ValidateToken } from '../util/requests/Auth';
 import Loading from '../components/loading/Loading';
 
 import Box from '@mui/material/Box';

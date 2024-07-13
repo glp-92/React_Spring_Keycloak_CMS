@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom';
-import { LogoutRequest } from '../../util/requests/Logout'
+import { LogoutRequest } from '../../util/requests/Auth'
 import Loading from '../../components/loading/Loading';
 
 import Box from '@mui/material/Box';

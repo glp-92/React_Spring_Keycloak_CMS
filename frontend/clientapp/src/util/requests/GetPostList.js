@@ -1,7 +1,9 @@
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export const GetPostList = async (page, criteria) => {
     let fetchedPosts = null;
     try {
-        let url = `http://localhost:8083/post?page=${page}`;
+        let url = `${backendUrl}/post?page=${page}`;
         if (criteria !== null) {
             url += criteria;
         }

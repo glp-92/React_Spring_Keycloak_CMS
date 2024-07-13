@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { ValidateToken } from '../../util/requests/ValidateToken';
-import { LoginRequest } from "../../util/requests/Login";
+import { ValidateToken } from '../../util/requests/Auth';
+import { LoginRequest } from "../../util/requests/Auth";
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';

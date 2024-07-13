@@ -1,6 +1,8 @@
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export const CreateComment = async (commentPayload) => {
     try {
-        const response = await fetch("http://localhost:8083/comment", {
+        const response = await fetch(`${backendUrl}/comment`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -17,7 +19,7 @@ export const CreateComment = async (commentPayload) => {
 export const DeleteComment = async (commentId) => {
     const token = localStorage.getItem("jwt");
     try {
-        const response = await fetch(`http://localhost:8083/comment/${commentId}`, {
+        const response = await fetch(`${backendUrl}/comment/${commentId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${token}`

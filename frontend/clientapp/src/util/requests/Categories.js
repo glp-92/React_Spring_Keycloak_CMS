@@ -1,6 +1,8 @@
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export const GetCategories = async () => {
     try {
-        const response = await fetch(`http://localhost:8083/category`);
+        const response = await fetch(`${backendUrl}/category`);
         return response;
     } catch (error) {
         throw new Error(`Error en la solicitud: ${error}`);
@@ -9,7 +11,7 @@ export const GetCategories = async () => {
 
 export const GetCategoriesPageable = async (page, perPage) => {
     try {
-        let url = `http://localhost:8083/category?page=${page}`;
+        let url = `${backendUrl}/category?page=${page}`;
         if (perPage) {
             url += `&perpage=${perPage}`
         }
@@ -26,7 +28,7 @@ export const CreateCategory = async (newCategory, token) => {
             name: newCategory,
             slug: newCategory
         };
-        const response = await fetch("http://localhost:8083/category", {
+        const response = await fetch(`${backendUrl}/category`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -42,7 +44,7 @@ export const CreateCategory = async (newCategory, token) => {
 
 export const DeleteCategory = async (categoryId, token) => {
     try {
-        const response = await fetch(`http://localhost:8083/category/${categoryId}`, {
+        const response = await fetch(`${backendUrl}/category/${categoryId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -56,7 +58,7 @@ export const DeleteCategory = async (categoryId, token) => {
 
 export const UpdateCategory = async (category, token) => {
     try {
-        const response = await fetch("http://localhost:8083/category", {
+        const response = await fetch(`${backendUrl}/category`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

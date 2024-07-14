@@ -19,6 +19,7 @@ const RefreshToken = async () => {
 
 export const FetchWithAuth = async (url, options) => {
     let token = localStorage.getItem("jwt");
+    if (!token) throw new Error(`NotAuthenticated`);
 
     const makeRequest = async () => {
         return await fetch(url, {

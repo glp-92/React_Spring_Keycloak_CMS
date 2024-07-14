@@ -42,7 +42,7 @@ const DrawerList = () => {
     const handleSearch = (e) => {
         e.preventDefault(); //preventdefault evita actualizar la pagina
         if (searchText == "" || searchText.length > 20) {
-            console.log("Error en entrada de busqueda")
+            //console.log("Error en entrada de busqueda")
             return;
         }
         const formattedSearchText = searchText.replace(/\s+/g, ',');

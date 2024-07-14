@@ -1,3 +1,5 @@
+import { FetchWithAuth } from "./FetchWithAuth";
+
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export const LoginRequest = async (username, password, totp) => {
@@ -48,51 +50,13 @@ export const LogoutRequest = async () => {
 };
 
 export const ValidateToken = async () => {
-    let token = localStorage.getItem("jwt");
-
-    const makeValidateTokenRequest = async () => {
-        const response = await fetch(`${backendUrl}/valid`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        });
-        return response
-    }
-
     try {
-        let response = await makeValidateTokenRequest();
-        if (response.status === 401) {
-            const newTokens = await RefreshToken();
-            if (newTokens && newTokens.access_token) {
-                token = newTokens.access_token;
-                localStorage.setItem("jwt", token);
-                response = await makeValidateTokenRequest();
-            } else {
-                throw new Error(`Refresh error: ${response.statusText}`);
-            }
-        } else if (!response.ok) {
-            throw new Error(`Refresh error: ${response.statusText}`);
+        const response = await FetchWithAuth(`${backendUrl}/valid`, { method: "GET" });
+        if (!response.ok) {
+            throw new Error(`Token validation error: ${response.statusText}`);
         }
         return true;
     } catch (error) {
-        throw new Error(`ValueError ${error}`)
+        throw new Error(`ValueError ${error}`);
     }
-};
-
-export const RefreshToken = async () => {
-    let url = `${backendUrl}/refresh`;
-    const response = await fetch(url,
-        {
-            method: "POST",
-            credentials: 'include',
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-    if (!response.ok) {
-        throw new Error(`Refresh error: ${response.statusText}`);
-    }
-    const login_response = await response.json();
-    return login_response;
 };

@@ -1,4 +1,21 @@
-import { RefreshToken } from './Auth';
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+const RefreshToken = async () => {
+    let url = `${backendUrl}/refresh`;
+    const response = await fetch(url,
+        {
+            method: "POST",
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+    if (!response.ok) {
+        throw new Error(`RefreshError`);
+    }
+    const login_response = await response.json();
+    return login_response;
+};
 
 export const FetchWithAuth = async (url, options) => {
     let token = localStorage.getItem("jwt");

@@ -217,7 +217,7 @@ const AdminPannel = () => {
                         </Box>
                     ))}
                 </Stack>
-                <Pagination sx={{ marginTop: 'auto', alignSelf: 'center', }} size='small' count={nPostPages} shape="rounded" page={postPage + 1} onChange={(e, value) => setPostPage(value - 1)} />
+                <Pagination sx={{ pt:1, marginTop: 'auto', alignSelf: 'center', }} size='small' count={nPostPages} shape="rounded" page={postPage + 1} onChange={(e, value) => setPostPage(value - 1)} />
             </Box>
         </Box>
     )

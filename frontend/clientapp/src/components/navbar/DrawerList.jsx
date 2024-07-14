@@ -31,7 +31,7 @@ const DrawerList = () => {
                 setSetting(loggedSettings);
                
             } catch(error) {
-                console.error(`${error}`)
+                //console.error(`${error}`)
                 setSetting(unloggedSettings);
             }
         }

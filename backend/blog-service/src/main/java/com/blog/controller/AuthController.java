@@ -51,7 +51,7 @@ public class AuthController {
 				        .httpOnly(true)  
 				        .secure(true)
 				        .path("/")
-				        .maxAge(Duration.ofDays(7))
+				        .maxAge(loginResponse.getRefresh_expiration_time())
 				        .build();
 				HttpHeaders headers = new HttpHeaders();
 				headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
@@ -80,7 +80,7 @@ public class AuthController {
 					        .httpOnly(true)  
 					        .secure(true)
 					        .path("/")
-					        .maxAge(Duration.ofDays(7))
+					        .maxAge(loginResponse.getRefresh_expiration_time())
 					        .build();
 					HttpHeaders headers = new HttpHeaders();
 					headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
@@ -113,7 +113,7 @@ public class AuthController {
 					        .build();
 					HttpHeaders headers = new HttpHeaders();
 					headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
-		            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		            return ResponseEntity.status(HttpStatus.NO_CONTENT).headers(headers).build();
 				}
 	    	}
 	        return ResponseEntity.badRequest().build();

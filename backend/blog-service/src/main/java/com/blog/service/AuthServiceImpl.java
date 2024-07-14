@@ -64,12 +64,10 @@ public class AuthServiceImpl implements AuthService{
 	    ResponseEntity<String> response = restTemplate.postForEntity(tokenUri, entity, String.class);
 	    if (response.getStatusCode() == HttpStatus.OK) {
 	        String responseBody = response.getBody();
+	        // System.out.println(responseBody);
 	        try {
 	            JsonNode root = objectMapper.readTree(responseBody);
-	            String accessToken = root.path("access_token").asText();
-	            
-	            String refreshToken = root.path("refresh_token").asText();
-	            LoginResponse loginResponse = new LoginResponse(accessToken, refreshToken);
+	            LoginResponse loginResponse = new LoginResponse(root.path("access_token").asText(), root.path("refresh_token").asText(), root.path("refresh_expires_in").asInt());
 	            return loginResponse;
 	        } catch (JsonProcessingException e) {
 	            e.printStackTrace();
@@ -103,7 +101,7 @@ public class AuthServiceImpl implements AuthService{
 		} catch (JsonProcessingException e) {
 			return null;
 		}
-		LoginResponse loginResponse = new LoginResponse(root.path("access_token").asText(), root.path("refresh_token").asText());
+		LoginResponse loginResponse = new LoginResponse(root.path("access_token").asText(), root.path("refresh_token").asText(), root.path("refresh_expires_in").asInt());
 		return loginResponse;
 	}
 
@@ -120,8 +118,8 @@ public class AuthServiceImpl implements AuthService{
 	    HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(formData, headers);
 	    ResponseEntity<String> responseEntity = restTemplate.postForEntity(revokeTokenUri, entity, String.class);
 	    
-	    HttpStatusCode statusCode = responseEntity.getStatusCode();
-	    System.out.println(statusCode);
+	    // HttpStatusCode statusCode = responseEntity.getStatusCode();
+	    // System.out.println(statusCode);
 	    return true;
 	}
 

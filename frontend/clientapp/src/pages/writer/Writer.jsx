@@ -33,8 +33,7 @@ const Writer = () => {
     }*/
     try {
       const tokenValid = await ValidateToken();
-      if (!tokenValid) throw new Error(`Login error: not logged`);
-      const token = localStorage.getItem("jwt");
+      if (!tokenValid) throw new Error(`LoginError`);
       const slug = postToEdit ? postToEdit.slug : data.get("slug")
       const commonData = {
         "title": data.get("title"),
@@ -49,19 +48,16 @@ const Writer = () => {
       }
       const body = postToEdit ? { ...commonData, ...{ "postId": postToEdit.id } } : { ...commonData, ...{ "slug": data.get("slug") } };
       const method = postToEdit ? 'PUT' : 'POST';
-      let response = await SavePost(
+      const response = await SavePost(
         method,
-        token,
         body
       );
-      if (response.ok) {
-        navigate(`/post/${slug}`);
+      if (!response.ok) {
+        throw new Error(`SavePostError`);
       }
-      else {
-        console.log("Error en subida de post: ", response)
-      }
+      navigate(`/post/${slug}`);
     } catch (error) {
-      console.error(error);
+      console.error(`${error}`);
     }
   }
 

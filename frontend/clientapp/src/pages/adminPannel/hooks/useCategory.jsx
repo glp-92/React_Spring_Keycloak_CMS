@@ -11,32 +11,28 @@ const useCategory = () => {
   const [nCategoryPages, setNCategoryPages] = useState(0);
 
   const handleCreateCategory = async () => {
-    const token = localStorage.getItem("jwt");
     const newCategoryName = inputCategory.toLowerCase();
     try {
-      const response = await CreateCategory(newCategoryName, token);
-      if (response.ok) {
-        setInputCategory('');
-        fetchCategories(categoryPage);
+      const response = await CreateCategory(newCategoryName);
+      if (!response.ok) {
+        throw new Error(`CreateCategoryError`);
       }
-      else {
-        throw new Error(`Erroneous answer from server`);
-      }
+      setInputCategory('');
+      fetchCategories(categoryPage);
     } catch (error) {
-      console.error("Error. Category not created!", error);
+      console.error(`${error}`);
     }
   }
 
   const handleUpdateCategory = async (index) => {
-    const token = localStorage.getItem("jwt");
     const category = categories[index];
     try {
-      let response = await UpdateCategory(category, token);
+      let response = await UpdateCategory(category);
       if (!response.ok) {
-        throw new Error(`Erroneous answer from server`);
+        throw new Error(`UpdateCategoryError`);
       }
     } catch (error) {
-      console.log("Error. Category not updated!", error);
+      console.error(`${error}`);
     }
   }
 
@@ -49,17 +45,14 @@ const useCategory = () => {
 
   const handleDeleteCategory = async (id, index) => {
     if (confirm('Esta accion borrara la Categoria de la base de datos, continuar?')) {
-      const token = localStorage.getItem("jwt");
-      if (!token) return false;
       try {
-        let response = await DeleteCategory(id, token);
+        let response = await DeleteCategory(id);
         if (!response.ok) {
-          throw new Error(`Erroneous answer from server`);
+          throw new Error(`DeleteCategoryError`);
         }
         categories.length == 1 ? setCategoryPage(0) : fetchCategories(categoryPage);
-        // setCategories(prevCategories => prevCategories.filter(category => category.id !== id));
       } catch (error) {
-        console.log("Error. Category not deleted!", error);
+        console.error(`${error}`);
       }
     }
   }

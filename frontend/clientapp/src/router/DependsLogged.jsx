@@ -21,8 +21,14 @@ const DependsLogged = () => {
     useEffect(() => {
         const fetchTokenValid = async () => {
             setIsLoading(true);
-            let isValid = await ValidateToken();
-            setTokenValid(isValid);
+            try {
+                const tokenValid = await ValidateToken();
+                if (!tokenValid) throw new Error(`LoginError`);
+                setTokenValid(tokenValid);
+            } catch(error) {
+                console.error(`${error}`)
+                setTokenValid(false)
+            }
             setIsLoading(false);
         }
         fetchTokenValid();

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
 import PostList from '../../components/postList/PostList'
-import { GetPostList } from '../../util/requests/GetPostList';
+import { GetPostList } from '../../util/requests/Posts';
 import Loading from '../../components/loading/Loading';
 import LandingPage from '../../components/landingPage/LandingPage';
 

@@ -1,3 +1,5 @@
+import { FetchWithAuth } from "./FetchWithAuth";
+
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export const CreateComment = async (commentPayload) => {
@@ -17,16 +19,7 @@ export const CreateComment = async (commentPayload) => {
 
 
 export const DeleteComment = async (commentId) => {
-    const token = localStorage.getItem("jwt");
-    try {
-        const response = await fetch(`${backendUrl}/comment/${commentId}`, {
-            method: "DELETE",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        });
-        return response;
-    } catch (error) {
-        throw new Error(`Error en la solicitud: ${error}`);
-    }
-}
+    return await FetchWithAuth(`${backendUrl}/comment/${commentId}`, {
+        method: "DELETE"
+    });
+};

@@ -16,18 +16,29 @@ const Login = () => {
   const handleLogin = async (e) => { // Envia el formulario de login, carga el token en almacenamiento
     e.preventDefault(); // Previene el comportamiento por defecto, en caso de un form, refrescar la pagina
     const data = new FormData(e.currentTarget);
-    const login_response = await LoginRequest(data.get("username"), data.get("password"), data.get("totp"))
-    if (login_response.access_token) {
-      navigate(-1);
+    try {
+      const login_response = await LoginRequest(data.get("username"), data.get("password"), data.get("totp"))
+      if (login_response != null) {
+        navigate(-1);
+      }
+    } catch (error) {
+      console.error(`${error}`);
     }
-    // setIsLoading(false);
   };
 
   useEffect(() => { // Se verifica si se esta logueado actualmente y se redirige al panel de administracion
     const fetchTokenValid = async () => {
-      const isValid = await ValidateToken();
-      if (isValid) navigate(-1);
+      try {
+        const isValid = await ValidateToken();
+        if (!isValid) {
+          throw new Error(`ValidationError`);
+        }
+        navigate(-1);
+      } catch (error) {
+        console.error(`${error}`);
+      } 
     }
+
     fetchTokenValid();
   }, [])
 

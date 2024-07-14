@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { ValidateToken } from '../../util/requests/Auth';
 
@@ -23,11 +23,15 @@ const DrawerList = () => {
 
     const toggleDrawer = (newOpen) => () => {
         const fetchTokenValid = async () => {
-            const isValid = await ValidateToken();
-            if (isValid) {
+            try {
+                const isValid = await ValidateToken();
+                if (!isValid) {
+                    throw new Error(`InvalidError`);
+                }
                 setSetting(loggedSettings);
-            }
-            else {
+               
+            } catch(error) {
+                console.error(`${error}`)
                 setSetting(unloggedSettings);
             }
         }

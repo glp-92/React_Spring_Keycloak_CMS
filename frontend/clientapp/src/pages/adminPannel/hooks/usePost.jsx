@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-import { GetPostList } from '../../../util/requests/GetPostList';
-import { DeletePost } from '../../../util/requests/Posts';
+import { GetPostList, DeletePost } from '../../../util/requests/Posts';
 
 import { useNavigate } from "react-router-dom";
 
@@ -22,16 +21,17 @@ const usePost = () => {
 
   const handleDeletePost = (id) => {
     const deletePost = async () => {
-      const token = localStorage.getItem("jwt");
-      if (!token) return false;
-      let response = await DeletePost(id, token);
-      if (!response.ok) {
-        console.log(`Error validating token: ${response.statusText}`);
-        return;
+      try {
+        const response = await DeletePost(id);
+        if (!response.ok) {
+          throw new Error(`DeletePostError`);
+        }
+        posts.length == 1 ? setPostPage(0) : fetchPosts(postPage);
+      } catch (error) {
+        console.error(`${error}`);
       }
-      posts.length == 1 ? setPostPage(0) : fetchPosts(postPage);
-      // setPosts(prevPosts => prevPosts.filter(post => post.id !== id));
     };
+
     if (confirm('Esta accion borrara el Post de la base de datos, continuar?')) {
       deletePost();
     }

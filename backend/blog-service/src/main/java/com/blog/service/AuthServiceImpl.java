@@ -17,8 +17,6 @@ import org.springframework.web.client.RestTemplate;
 import com.blog.data.UserRepository;
 import com.blog.model.dto.auth.LoginRequest;
 import com.blog.model.dto.auth.LoginResponse;
-import com.blog.model.dto.auth.RefreshTokenRequest;
-import com.blog.model.dto.auth.RevokeTokenRequest;
 import com.blog.model.pojo.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -85,12 +83,12 @@ public class AuthServiceImpl implements AuthService{
 	}
 	
 	@Override
-	public LoginResponse refreshToken(RefreshTokenRequest request) {
+	public LoginResponse refreshToken(String refresh_token) {
 		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
 	    formData.add("grant_type", "refresh_token");
 	    formData.add("client_id", clientId);
 	    formData.add("client_secret", clientSecret);
-	    formData.add("refresh_token", request.getRefresh_token());
+	    formData.add("refresh_token", refresh_token);
 	    
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -110,11 +108,11 @@ public class AuthServiceImpl implements AuthService{
 	}
 
 	@Override
-	public boolean revokeToken(RevokeTokenRequest request) {
+	public boolean revokeToken(String refresh_token) {
 		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
 	    formData.add("client_id", clientId);
 	    formData.add("client_secret", clientSecret);
-	    formData.add("refresh_token", request.getRefresh_token());
+	    formData.add("refresh_token", refresh_token);
 	    
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);

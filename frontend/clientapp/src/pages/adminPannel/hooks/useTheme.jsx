@@ -19,7 +19,7 @@ const useTheme = () => {
       setThemes(fetchedThemes.content);
       setNThemePages(fetchedThemes.totalPages);
     } catch (error) {
-      console.log(error);
+      console.error(`${error}`);
     }
   }
 
@@ -30,20 +30,16 @@ const useTheme = () => {
     let themeData = {};
     themeForm.forEach((value, key) => themeData[key] = value);
     themeData.slug = slug;
-    const token = localStorage.getItem("jwt");
     try {
-      const response = await CreateTheme(themeData, token);
-      if (response.ok) {
-        const createdTheme = await response.json()
-        // setThemes(prevThemes => [...prevThemes, createdTheme]);
-        document.getElementById("createThemeForm").reset();
-        fetchThemes(themePage);
+      const response = await CreateTheme(themeData);
+      if (!response.ok) {
+        throw new Error(`CreateThemeError`);
       }
-      else {
-        throw new Error(`Erroneous answer from server`);
-      }
+      const createdTheme = await response.json()
+      document.getElementById("createThemeForm").reset();
+      fetchThemes(themePage);
     } catch (error) {
-      console.error("Error. Theme not created!", error);
+      console.error(`${error}`);
     }
   }
 
@@ -54,31 +50,26 @@ const useTheme = () => {
     let themeData = {};
     themeForm.forEach((value, key) => themeData[key] = value);
     themeData.slug = slug;
-    const token = localStorage.getItem("jwt");
     try {
-      let response = await UpdateTheme(themeData, token);
+      const response = await UpdateTheme(themeData);
       if (!response.ok) {
-        throw new Error(`Erroneous answer from server`);
+        throw new Error(`UpdateThemeError`);
       }
     } catch (error) {
-      console.log("Error. Theme not updated!", error);
+      console.error(`${error}`);
     }
   }
 
   const handleDeleteTheme = async (id, index) => {
     if (confirm('Esta accion borrara la Categoria de la base de datos, continuar?')) {
-      const token = localStorage.getItem("jwt");
-      if (!token) return false;
       try {
-        let response = await DeleteTheme(id, token);
+        const response = await DeleteTheme(id);
         if (!response.ok) {
-          throw new Error(`Erroneous answer from server`);
+          throw new Error(`DeleteThemeError`);
         }
-        // setThemePage(0);
-        // setThemes(prevThemes => prevThemes.filter(theme => theme.id !== id));
         themes.length == 1 ? setThemePage(0) : fetchThemes(themePage);
       } catch (error) {
-        console.log("Error. Theme not deleted!", error);
+        console.error(`${error}`);
       }
     }
   }

@@ -1,3 +1,5 @@
+import { FetchWithAuth } from "./FetchWithAuth";
+
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export const GetCategories = async () => {
@@ -22,52 +24,33 @@ export const GetCategoriesPageable = async (page, perPage) => {
     }
 };
 
-export const CreateCategory = async (newCategory, token) => {
-    try {
-        const payload = {
-            name: newCategory,
-            slug: newCategory
-        };
-        const response = await fetch(`${backendUrl}/category`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(payload)
-        });
-        return response
-    } catch (error) {
-        throw new Error(`Error en la solicitud: ${error}`);
-    }
+export const CreateCategory = async (newCategory) => {
+    const payload = {
+        name: newCategory,
+        slug: newCategory
+    };
+    return await FetchWithAuth(`${backendUrl}/category`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+    })
 };
 
-export const DeleteCategory = async (categoryId, token) => {
-    try {
-        const response = await fetch(`${backendUrl}/category/${categoryId}`, {
-            method: "DELETE",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        });
-        return response
-    } catch (error) {
-        throw new Error(`Error en la solicitud: ${error}`);
-    }
+export const DeleteCategory = async (categoryId) => {
+    return await FetchWithAuth(`${backendUrl}/category/${categoryId}`, {
+        method: "DELETE"
+    });
 };
 
-export const UpdateCategory = async (category, token) => {
-    try {
-        const response = await fetch(`${backendUrl}/category`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(category)
-        });
-        return response
-    } catch (error) {
-        throw new Error(`Error en la solicitud: ${error}`);
-    }
+export const UpdateCategory = async (category) => {
+    return await FetchWithAuth(`${backendUrl}/category`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(category)
+    });
 };

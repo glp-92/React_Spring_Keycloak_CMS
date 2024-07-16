@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 
 import com.blog.model.dto.auth.LoginRequest;
 import com.blog.model.dto.auth.LoginResponse;
@@ -64,7 +65,7 @@ public class AuthController {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 			}
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 	}
 	

@@ -30,13 +30,13 @@ const Login = () => {
     const fetchTokenValid = async () => {
       try {
         const isValid = await ValidateToken();
-        if (!isValid) {
-          throw new Error(`ValidationError`);
+        if (isValid) {
+          navigate(-1);
         }
-        navigate(-1);
       } catch (error) {
-        console.error(`${error}`);
-      } 
+      }
+      
+      
     }
 
     fetchTokenValid();
@@ -50,7 +50,7 @@ const Login = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          width:'80%'
+          width: '80%'
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>

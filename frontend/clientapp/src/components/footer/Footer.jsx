@@ -22,7 +22,7 @@ const Footer = () => {
   }, [])
 
   return (
-    <AppBar sx={{ display: 'flex', flexDirection: 'row', backgroundColor: 'transparent', boxShadow: 'none', border: 'none', marginBottom: 2 }} position="static"   >
+    <AppBar sx={{ display: 'flex', flexDirection: 'row', backgroundColor: 'transparent', boxShadow: 'none', border: 'none', marginBottom: 1 }} position="static"   >
       <Box ml={'auto'}>
         <IconButton
           component="a"

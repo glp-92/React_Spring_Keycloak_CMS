@@ -29,8 +29,8 @@ const DrawerList = () => {
                     throw new Error(`InvalidError`);
                 }
                 setSetting(loggedSettings);
-               
-            } catch(error) {
+
+            } catch (error) {
                 //console.error(`${error}`)
                 setSetting(unloggedSettings);
             }
@@ -52,9 +52,9 @@ const DrawerList = () => {
     }
 
     return (
-        <Box>
+        <Box >
             <Drawer open={openDrawer} onClose={toggleDrawer(false)}>
-                <Box sx={{ width: 250 }} role="presentation">
+                <Box sx={{ bgcolor: "#555454", color:"#E9EAF0", width: 250, height:'100%' }} role="presentation">
                     <List>
                         {settings.map((setting) => (
                             <ListItem key={setting} disablePadding>
@@ -89,16 +89,16 @@ const DrawerList = () => {
                     <Paper
                         component="form"
                         onSubmit={handleSearch}
-                        sx={{ paddingY: 1, display: 'flex', alignItems: 'center', width: '100%', borderRadius: 0, marginLeft: 'auto' }}
+                        sx={{ bgcolor: "#C4C3D0", paddingY: 1, display: 'flex', alignItems: 'center', width: '100%', borderRadius: 0, marginLeft: 'auto' }}
                     >
                         <InputBase
-                            sx={{ ml: 1, flex: 1 }}
+                            sx={{ color:"#black", ml: 1, flex: 1 }}
                             placeholder="Search"
                             onChange={(e) => { setSearchText(e.target.value) }}
                             value={searchText}
                         />
                         <IconButton type="submit" sx={{ p: '10px', fontSize: 25, borderRadius: 1 }} aria-label="search" size="large">
-                            <SearchIcon size='small' color="default" />
+                            <SearchIcon size='small' sx={{color:"#555454"}} />
                         </IconButton>
                     </Paper>
                     <List>
@@ -121,10 +121,9 @@ const DrawerList = () => {
             </Drawer>
             <IconButton
                 size="large"
-                color="default"
                 aria-label="menu"
                 onClick={toggleDrawer(true)}
-                sx={{ fontSize: 30, aspectRatio: '1', borderRadius: 4, mr: 'auto' }}
+                sx={{ color:"#E9EAF0", fontSize: 30, aspectRatio: '1', borderRadius: 4, mr: 'auto' }}
             >
                 <MenuIcon />
             </IconButton>

@@ -92,7 +92,7 @@ const DrawerList = () => {
                         sx={{ bgcolor: "#C4C3D0", paddingY: 1, display: 'flex', alignItems: 'center', width: '100%', borderRadius: 0, marginLeft: 'auto' }}
                     >
                         <InputBase
-                            sx={{ color:"#black", ml: 1, flex: 1 }}
+                            sx={{ ml: 1, flex: 1 }}
                             placeholder="Search"
                             onChange={(e) => { setSearchText(e.target.value) }}
                             value={searchText}

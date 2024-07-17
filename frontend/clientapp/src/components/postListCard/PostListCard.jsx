@@ -49,13 +49,13 @@ const PostListCard = ({ postData }) => {
                 </Box>
                 <Divider sx={{ flex: 1 }} />
                 <Stack direction="row-reverse" sx={{ margin: 1 }} spacing={1} justifyContent="space-between">
-                    <Box sx={{ ml:'auto', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                        <EditCalendarIcon sx={{ml:'auto', mr:1}} color="action" />
-                        <Typography sx={{ ml: 'auto', mr: 1 }} variant="subtitle2" color="text.secondary">
+                    <Box sx={{ ml: 'auto', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <EditCalendarIcon sx={{ ml: 'auto', mr: 1 }} color="action" />
+                        <Typography sx={{ ml: 'auto', mr: 1, color: '#555454' }} variant="subtitle2" >
                             {DateFormatToEs(postData["date"])}
                         </Typography >
                     </Box>
-                    <Box sx={{flex:3}} display={'flex'} flexWrap="wrap">
+                    <Box sx={{ flex: 3 }} display={'flex'} flexWrap="wrap">
                         {categories}
                     </Box>
                 </Stack>

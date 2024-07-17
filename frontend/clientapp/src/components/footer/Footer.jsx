@@ -31,11 +31,10 @@ const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
           edge="start"
-          color="default"
           aria-label="menu"
           sx={{ mr: 2, fontSize: 30 }}
         >
-          <GitHubIcon />
+          <GitHubIcon sx={{color:"#555454"}}/>
         </IconButton>
         <IconButton
           component="a"
@@ -44,11 +43,10 @@ const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
           edge="start"
-          color="default"
           aria-label="menu"
           sx={{ mr: 2, fontSize: 30 }}
         >
-          <LinkedInIcon />
+          <LinkedInIcon sx={{color:"#555454"}}/>
         </IconButton>
       </Box>
     </AppBar>

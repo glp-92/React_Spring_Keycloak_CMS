@@ -45,7 +45,7 @@ export const Router = () => {
                 </Routes>
             </Container>
             <Container maxWidth="md"  >
-                <Footer sx={{ flex:1, width: '100%' }} />
+                <Footer sx={{  }} />
             </Container>
         </BrowserRouter>
     )

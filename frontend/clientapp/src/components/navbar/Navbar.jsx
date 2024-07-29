@@ -19,9 +19,9 @@ const NavBar = () => {
               to="/"
               edge="start"
               aria-label="menu"
-              sx={{ color: "#E9EAF0", fontSize: 30, aspectRatio: '1', borderRadius: 4 }}
+              sx={{ color: "icons.light", aspectRatio: '1', borderRadius: 4 }}
             >
-              <HomeIcon />
+              <HomeIcon sx={{fontSize:'2rem'}} />
             </IconButton>
           </Box>
         </Toolbar>

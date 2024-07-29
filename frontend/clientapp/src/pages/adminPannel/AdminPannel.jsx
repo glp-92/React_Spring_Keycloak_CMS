@@ -55,11 +55,11 @@ const AdminPannel = () => {
 
     return (
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 2 }}>
-            <Typography align='center' variant="h2">
+            <Typography align='center' variant="h1">
                 Panel de Administracion
             </Typography>
             <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Typography component="h3" variant="h5">
+                <Typography variant="h2">
                     Categorias
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', mt: 2, mb: 0, width: '100%' }}>
@@ -108,7 +108,7 @@ const AdminPannel = () => {
                 }
             </Box>
             <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Typography component="h3" variant="h5">
+                <Typography variant="h2">
                     Temas
                 </Typography>
                 <Box component="form" id="createThemeForm" onSubmit={handleCreateTheme} sx={{ display: 'flex', alignItems: 'center', mt: 2, mb: 0, width: '100%' }}>
@@ -172,7 +172,7 @@ const AdminPannel = () => {
                 }
             </Box>
             <Box sx={{ flex: 1, mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Typography component="h3" variant="h5">
+                <Typography variant="h2">
                     Posts
                 </Typography>
                 <Button
@@ -191,7 +191,7 @@ const AdminPannel = () => {
                             display="flex"
                             alignItems="center"
                         >
-                            <Typography component="h5" variant="subtitle1" flexGrow={1} sx={{ wordBreak: 'break-all' }} >
+                            <Typography variant="body1" flexGrow={1} sx={{ wordBreak: 'break-all' }} >
                                 {`${item["title"]} | ${item["date"].slice(0, 16)}`}
                             </Typography>
                             <IconButton

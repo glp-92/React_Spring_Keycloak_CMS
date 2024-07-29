@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { ValidateToken } from '../../util/requests/Auth';
 
-import { IconButton, Paper, InputBase, Divider, Box, List, ListItem, ListItemText, ListItemButton, Drawer } from '@mui/material';
+import { IconButton, Paper, InputBase, Divider, Box, List, ListItem, ListItemText, ListItemButton, Drawer, Typography } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -62,21 +62,21 @@ const DrawerList = () => {
                                     setting === "Login" ? <ListItemButton
                                         onClick={() => { setOpenDrawer(false); navigate(`/login`) }}
                                     >
-                                        <AccountCircleIcon sx={{ mr: 1, fontSize: 20 }} />
+                                        <AccountCircleIcon sx={{ color: "icons.light", mr: 1, fontSize:'1.5rem' }} />
                                         <ListItemText primary={setting} />
                                     </ListItemButton>
                                         :
                                         setting === "Logout" ? <ListItemButton
                                             onClick={() => { setOpenDrawer(false); navigate(`/logout`) }}
                                         >
-                                            <LogoutIcon sx={{ mr: 1, fontSize: 20 }} />
+                                            <LogoutIcon sx={{ color: "icons.light", mr: 1, fontSize:'1.5rem' }} />
                                             <ListItemText primary={setting} />
                                         </ListItemButton>
                                             :
                                             setting === "Panel de Control" ? <ListItemButton
                                                 onClick={() => { setOpenDrawer(false); navigate(`/wpannel`) }}
                                             >
-                                                <DashboardCustomizeIcon sx={{ mr: 1, fontSize: 20 }} />
+                                                <DashboardCustomizeIcon sx={{ color: "icons.light", mr: 1, fontSize:'1.5rem' }} />
                                                 <ListItemText primary={setting} />
                                             </ListItemButton>
                                                 :
@@ -98,7 +98,7 @@ const DrawerList = () => {
                             value={searchText}
                         />
                         <IconButton type="submit" sx={{ p: '10px', fontSize: 25, borderRadius: 1 }} aria-label="search" size="large">
-                            <SearchIcon size='small' sx={{color:"#555454"}} />
+                            <SearchIcon size='small' sx={{color:"#555454", fontSize:'1.5rem'}} />
                         </IconButton>
                     </Paper>
                     <List>
@@ -123,9 +123,9 @@ const DrawerList = () => {
                 size="large"
                 aria-label="menu"
                 onClick={toggleDrawer(true)}
-                sx={{ color:"#E9EAF0", fontSize: 30, aspectRatio: '1', borderRadius: 4, mr: 'auto' }}
+                sx={{ aspectRatio: '1', borderRadius: 4, mr: 'auto' }}
             >
-                <MenuIcon />
+                <MenuIcon sx={{color: "icons.light", fontSize:'2rem'}} />
             </IconButton>
         </Box>
     )

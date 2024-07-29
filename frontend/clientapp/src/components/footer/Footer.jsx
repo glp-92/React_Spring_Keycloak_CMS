@@ -9,18 +9,6 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 const Footer = () => {
 
-  const [categories, setCategories] = useState([])
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const response = await GetCategories();
-      setCategories(await response.json());
-    }
-    fetchCategories();
-    return () => {
-    }
-  }, [])
-
   return (
     <AppBar sx={{ display: 'flex', flexDirection: 'row', backgroundColor: 'transparent', boxShadow: 'none', border: 'none', marginBottom: 1 }} position="static"   >
       <Box ml={'auto'}>
@@ -34,7 +22,7 @@ const Footer = () => {
           aria-label="menu"
           sx={{ mr: 2, fontSize: 30 }}
         >
-          <GitHubIcon sx={{color:"#555454"}}/>
+          <GitHubIcon sx={{ color: "icons.dark", fontSize: '2rem' }} />
         </IconButton>
         <IconButton
           component="a"
@@ -46,7 +34,7 @@ const Footer = () => {
           aria-label="menu"
           sx={{ mr: 2, fontSize: 30 }}
         >
-          <LinkedInIcon sx={{color:"#555454"}}/>
+          <LinkedInIcon sx={{ color: "icons.dark", fontSize: '2rem' }} />
         </IconButton>
       </Box>
     </AppBar>

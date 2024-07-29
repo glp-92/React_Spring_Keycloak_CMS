@@ -22,7 +22,7 @@ import Avatar from '@mui/material/Avatar';
 
 const PostListCard = ({ postData }) => {
 
-    const categories = postData["categories"].map((category) => <Box sx={{ margin: 1 }} key={category["id"]}><Chip size='small' key={category["id"]} label={category["name"]} /></Box>);
+    const categories = postData["categories"].map((category) => <Box sx={{ margin: 1 }} key={category["id"]}><Chip sx={{ bgcolor:'icons.light' }} size='small' key={category["id"]} label={<Typography variant="caption">{category["name"]}</Typography>} /></Box>);
 
     return (
         <Link to={`/post/${postData["slug"]}`} style={{ textDecoration: 'none' }}>
@@ -42,7 +42,7 @@ const PostListCard = ({ postData }) => {
                         <Typography gutterBottom variant="h2" component="div">
                             {postData["title"]}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body1" color="text.secondary">
                             {TruncateText(postData["excerpt"], 150)}
                         </Typography>
                     </CardContent>
@@ -50,8 +50,8 @@ const PostListCard = ({ postData }) => {
                 <Divider sx={{ flex: 1 }} />
                 <Stack direction="row-reverse" sx={{ margin: 1 }} spacing={1} justifyContent="space-between">
                     <Box sx={{ ml: 'auto', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                        <EditCalendarIcon sx={{ ml: 'auto', mr: 1 }} color="action" />
-                        <Typography sx={{ ml: 'auto', mr: 1, color: '#555454' }} variant="subtitle2" >
+                        <EditCalendarIcon sx={{ ml: 'auto', mr: 1, color:'icons.medium' }} />
+                        <Typography sx={{ ml: 'auto', mr: 1, color: '#555454' }} variant="subtitle1" >
                             {DateFormatToEs(postData["date"])}
                         </Typography >
                     </Box>

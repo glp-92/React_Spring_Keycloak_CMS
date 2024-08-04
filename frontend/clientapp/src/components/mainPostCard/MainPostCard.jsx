@@ -15,18 +15,17 @@ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 
 const MainPostCard = ({ postData }) => {
 
-    const categories = postData["categories"].map((category) => <Box sx={{ margin: 1 }} key={category["id"]}><Chip sx={{ bgcolor:'icons.light' }} size='small' key={category["id"]} label={<Typography variant="caption">{category["name"]}</Typography>} /></Box>);
+    const categories = postData["categories"].map((category) => <Box sx={{ margin: 1 }} key={category["id"]}><Chip sx={{ bgcolor: 'icons.light' }} size='small' key={category["id"]} label={<Typography variant="caption">{category["name"]}</Typography>} /></Box>);
 
     return (
         <Link to={`/post/${postData["slug"]}`} style={{ textDecoration: 'none' }}>
             <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: 2, ":hover": { opacity: 0.8 } }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                    {postData.featuredImage && <Box bgcolor={'#f5f5f5'}>
+                    {postData.featuredImage && <Box bgcolor={'#f5f5f5'} display={'flex'} justifyContent={'center'}>
                         <CardMedia
                             component="img"
-                            height="300"
                             alt={"alt"}
-                            sx={{ objectFit: "contain" }}
+                            sx={{ maxHeight: '300px', width: 'auto', height: 'auto', objectFit: "contain" }}
                             image={`${postData["featuredImage"]}`}
                             title={`${postData["slug"]}Image`}
                         />
@@ -45,7 +44,7 @@ const MainPostCard = ({ postData }) => {
                 <Divider sx={{ flex: 2 }} />
                 <Stack direction="row-reverse" sx={{ margin: 1 }} spacing={1} justifyContent="space-between">
                     <Box sx={{ ml: 'auto', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                        <EditCalendarIcon sx={{ ml: 'auto', mr: 1, color:'icons.medium' }} />
+                        <EditCalendarIcon sx={{ ml: 'auto', mr: 1, color: 'icons.medium' }} />
                         <Typography sx={{ ml: 'auto', mr: 1, color: '#555454' }} variant="subtitle1">
                             {DateFormatToEs(postData["date"])}
                         </Typography >

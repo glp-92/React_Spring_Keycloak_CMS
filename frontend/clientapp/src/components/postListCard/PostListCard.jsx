@@ -28,14 +28,13 @@ const PostListCard = ({ postData }) => {
         <Link to={`/post/${postData["slug"]}`} style={{ textDecoration: 'none' }}>
             <Card sx={{ margin:1, height: '100%', display: 'flex', flexDirection: 'column', borderRadius: 2, ":hover": { opacity: 0.8 } }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                    {postData.featuredImage && <Box bgcolor={'#f5f5f5'}>
+                    {postData.featuredImage && <Box bgcolor={'#f5f5f5'} display={'flex'} justifyContent={'center'}>
                         <CardMedia
                             component="img"
-                            height="150"
                             alt={"alt"}
-                            sx={{ objectFit: "contain" }}
                             image={`${postData["featuredImage"]}`}
                             title={`${postData["slug"]}Image`}
+                            sx={{ maxHeight: '150px', width: 'auto', height: 'auto', objectFit: "contain" }}
                         />
                     </Box>}
                     <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>

@@ -42,9 +42,8 @@ const PostContent = ({ postData }) => {
                 {postData.featuredImage && <Box display="flex" justifyContent="center" sx={{ marginTop: 1, backgroundColor: 'transparent' }}>
                     <CardMedia
                         component="img"
-                        height="300"
                         alt={"alt"}
-                        sx={{ objectFit: "contain" }}
+                        sx={{ maxHeight: '300px', width: 'auto', height: 'auto', objectFit: "contain" }}
                         image={`${postData["featuredImage"]}`}
                         title={`${postData["slug"]}Image`}
                     />

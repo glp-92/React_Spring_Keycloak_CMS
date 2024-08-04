@@ -11,6 +11,7 @@ import Writer from "../pages/writer/Writer";
 import AdminPannel from "../pages/adminPannel/AdminPannel";
 import Categories from "../pages/categories/Categories.jsx";
 import Themes from "../pages/themes/Themes.jsx";
+import PrivacyPolicy from "../pages/privacyPolicy/privacyPolicy.jsx";
 import Footer from '../components/footer/Footer.jsx'
 import NavBar from '../components/navbar/Navbar.jsx'
 
@@ -27,12 +28,15 @@ export const Router = () => {
                 <Routes>
                     <Route exact path="/" element={<Home />} />
                     <Route exact path="/login" element={<Login />} />
+                    <Route path="/search" element={<Search />} />
+                    <Route path="/post/:postSlug" element={<Post />} />
+                    <Route exact path="/categories" element={<Categories />} />
+                    <Route exact path="/themes" element={<Themes />} />
+                    <Route exact path="/notfound" element={<NotFound />} />
+                    <Route exact path="/privacy-policy" element={<PrivacyPolicy />} />
                     <Route element={<DependsLogged />}>
                         <Route exact path="/logout" element={<Logout />} />
                     </Route>
-                    <Route path="/search" element={<Search />} />
-                    <Route path="/post/:postSlug" element={<Post />} />
-                    <Route exact path="/notfound" element={<NotFound />} />
                     <Route element={<DependsLogged />}>
                         <Route exact path="/wpannel" element={<AdminPannel />} />
                     </Route>
@@ -40,8 +44,6 @@ export const Router = () => {
                         <Route path="/wpannel/writer" element={<Writer />} />
                     </Route>
                     <Route path="*" element={<Navigate to="/notfound" />} />
-                    <Route exact path="/categories" element={<Categories />} />
-                    <Route exact path="/themes" element={<Themes />} />
                 </Routes>
             </Container>
             <Container maxWidth="md"  >

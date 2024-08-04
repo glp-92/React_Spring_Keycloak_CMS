@@ -1,6 +1,6 @@
 import React from 'react'
 import { DateFormatToEs } from '../../util/date/DateFormatToEs';
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import MarkdownContent from './MarkdownContent';
 // import Comments from '../comments/Comments';
 
@@ -13,7 +13,7 @@ const PostContent = ({ postData }) => {
     const themes = postData["themes"].map((theme) => <RouterLink to={`/search?theme=${theme.name}`} key={theme["id"]}><Chip sx={{ bgcolor:'icons.light', marginRight: 1, marginBottom: 1 }} size='small' key={theme["id"]} label={<Typography variant="caption">{theme["name"]}</Typography>} /></RouterLink>);
     
     return (
-        <Card sx={{ marginTop: 2 }}>
+        <Card sx={{ marginTop: 2, borderRadius: 2 }}>
             <Box bgcolor="#f5f5f5" padding={2}>
                 <Box>
                     <Typography variant="h1">{postData.title}</Typography>
@@ -51,7 +51,7 @@ const PostContent = ({ postData }) => {
                 </Box>}
             </Box>
             <Divider />
-            <CardContent>
+            <CardContent sx={{ml: 2, mr: 2}}>
                 <MarkdownContent content={postData.content} />
             </CardContent>
             {/* 

@@ -13,17 +13,18 @@ const NavBar = () => {
       <Container maxWidth="md">
         <Toolbar sx={{ display: 'flex' }}>
           <DrawerList />
-          <Box sx={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+          <Box flex={1} display={'flex'} justifyContent={'center'}>
             <IconButton
               component={Link}
               to="/"
               edge="start"
               aria-label="menu"
-              sx={{ color: "icons.light", aspectRatio: '1', borderRadius: 4 }}
+              sx={{ margin:0, color: "icons.light", aspectRatio: '1', borderRadius: 4 }}
             >
               <HomeIcon sx={{fontSize:'2rem'}} />
             </IconButton>
           </Box>
+          <Box flex={1}/>
         </Toolbar>
       </Container>
     </AppBar>

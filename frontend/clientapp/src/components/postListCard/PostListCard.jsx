@@ -26,7 +26,7 @@ const PostListCard = ({ postData }) => {
 
     return (
         <Link to={`/post/${postData["slug"]}`} style={{ textDecoration: 'none' }}>
-            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: 2, ":hover": { opacity: 0.8 } }}>
+            <Card sx={{ margin:1, height: '100%', display: 'flex', flexDirection: 'column', borderRadius: 2, ":hover": { opacity: 0.8 } }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     {postData.featuredImage && <Box bgcolor={'#f5f5f5'}>
                         <CardMedia

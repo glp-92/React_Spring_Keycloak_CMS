@@ -20,22 +20,24 @@ const Footer = () => {
           rel="noopener noreferrer"
           edge="start"
           aria-label="menu"
-          sx={{ mr: 2, fontSize: 30 }}
+          sx={{ mr: 0, fontSize: 30 }}
         >
           <GitHubIcon sx={{ color: "icons.dark", fontSize: '2rem' }} />
         </IconButton>
-        <IconButton
-          component="a"
-          size="large"
-          href="https://www.linkedin.com/in/guillermo-lopez-pazos/"
-          target="_blank"
-          rel="noopener noreferrer"
-          edge="start"
-          aria-label="menu"
-          sx={{ mr: 2, fontSize: 30 }}
-        >
-          <LinkedInIcon sx={{ color: "icons.dark", fontSize: '2rem' }} />
-        </IconButton>
+        {/*
+          <IconButton
+            component="a"
+            size="large"
+            href="https://www.linkedin.com/in/guillermo-lopez-pazos/"
+            target="_blank"
+            rel="noopener noreferrer"
+            edge="start"
+            aria-label="menu"
+            sx={{ mr: 2, fontSize: 30 }}
+          >
+            <LinkedInIcon sx={{ color: "icons.dark", fontSize: '2rem' }} />
+          </IconButton>
+        */}
       </Box>
     </AppBar>
   )

@@ -52,7 +52,7 @@ const Home = () => {
   }, [page, location.search]);
 
   return (
-    <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 3 }}>
+    <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', marginBottom: 3, marginTop: 3 }}>
       {isLoading ? (
         <Loading height={300} />
       ) : (

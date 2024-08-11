@@ -1,6 +1,6 @@
 # CMS Backend
 
-Implemented with Spring Boot, Spring Security and Keycloak. Currently using `MySQL` for Spring Boot and `Postgres` for Keycloak
+Implemented with Spring Boot, FastAPI, Spring Security and Keycloak. Currently using `MySQL` for Spring Boot and Keycloak
 
 ## Setup Keycloak 0Auth2Server
 

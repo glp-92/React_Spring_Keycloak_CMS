@@ -10,9 +10,12 @@ export const mainTheme = createTheme({
             main: '#1a237e',
         },
         icons: {
-            light: '#E9EAF0',
+            light: '#FEFEFE',
             dark: '#555454',
             medium: '#757575',
+        },
+        input: {
+            light: '#f7f9f9'
         }
 
     },

@@ -57,6 +57,7 @@ const DrawerList = () => {
                 <Box sx={{ bgcolor: "#555454", color: "#E9EAF0", width: 250, height: '100%', display: 'flex', flexDirection: 'column', }} role="presentation">
                     <Paper
                         component="form"
+                        elevation={0}
                         onSubmit={handleSearch}
                         sx={{ bgcolor: "#C4C3D0", paddingY: 1, display: 'flex', alignItems: 'center', width: '100%', borderRadius: 0, marginLeft: 'auto' }}
                     >

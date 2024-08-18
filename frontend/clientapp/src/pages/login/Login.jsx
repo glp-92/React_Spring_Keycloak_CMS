@@ -68,6 +68,7 @@ const Login = () => {
             label="Username"
             name="username"
             autoFocus
+            sx={{bgcolor:"input.light"}}
           />
           <TextField
             margin="normal"
@@ -78,6 +79,7 @@ const Login = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            sx={{bgcolor:"input.light"}}
           />
           <TextField
             margin="normal"
@@ -87,6 +89,7 @@ const Login = () => {
             label="OTP Key"
             type="password"
             id="totpKey"
+            sx={{bgcolor:"input.light"}}
           />
           <Button
             type="submit"

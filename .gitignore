@@ -4,3 +4,4 @@ mysqldb
 .env
 images/
 __pycache__
+init.sql

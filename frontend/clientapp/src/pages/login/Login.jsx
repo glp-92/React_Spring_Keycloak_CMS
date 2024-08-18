@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { ValidateToken } from '../../util/requests/ValidateToken';
-import { LoginRequest } from "../../util/requests/Login";
+import { ValidateToken } from '../../util/requests/Auth';
+import { LoginRequest } from "../../util/requests/Auth";
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -16,18 +16,29 @@ const Login = () => {
   const handleLogin = async (e) => { // Envia el formulario de login, carga el token en almacenamiento
     e.preventDefault(); // Previene el comportamiento por defecto, en caso de un form, refrescar la pagina
     const data = new FormData(e.currentTarget);
-    const login_response = await LoginRequest(data.get("username"), data.get("password"), data.get("totp"))
-    if (login_response.access_token) {
-      navigate(-1);
+    try {
+      const login_response = await LoginRequest(data.get("username"), data.get("password"), data.get("totp"))
+      if (login_response != null) {
+        navigate(-1);
+      }
+    } catch (error) {
+      console.error(`${error}`);
     }
-    // setIsLoading(false);
   };
 
   useEffect(() => { // Se verifica si se esta logueado actualmente y se redirige al panel de administracion
     const fetchTokenValid = async () => {
-      const isValid = await ValidateToken();
-      if (isValid) navigate(-1);
+      try {
+        const isValid = await ValidateToken();
+        if (isValid) {
+          navigate(-1);
+        }
+      } catch (error) {
+      }
+      
+      
     }
+
     fetchTokenValid();
   }, [])
 
@@ -39,13 +50,13 @@ const Login = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          width:'80%'
+          width: '80%'
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
+        <Avatar sx={{ m: 1, mb: 1, bgcolor: 'secondary.main' }}>
+          <LockOutlinedIcon sx={{fontSize: '1.5rem'}} />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography variant="h1">
           Sign in
         </Typography>
         <Box component="form" onSubmit={handleLogin} noValidate sx={{ mt: 1 }}>
@@ -57,6 +68,7 @@ const Login = () => {
             label="Username"
             name="username"
             autoFocus
+            sx={{bgcolor:"input.light"}}
           />
           <TextField
             margin="normal"
@@ -67,6 +79,7 @@ const Login = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            sx={{bgcolor:"input.light"}}
           />
           <TextField
             margin="normal"
@@ -76,6 +89,7 @@ const Login = () => {
             label="OTP Key"
             type="password"
             id="totpKey"
+            sx={{bgcolor:"input.light"}}
           />
           <Button
             type="submit"

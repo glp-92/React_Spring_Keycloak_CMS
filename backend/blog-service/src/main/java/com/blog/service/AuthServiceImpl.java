@@ -12,13 +12,12 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.blog.data.UserRepository;
 import com.blog.model.dto.auth.LoginRequest;
 import com.blog.model.dto.auth.LoginResponse;
-import com.blog.model.dto.auth.RefreshTokenRequest;
-import com.blog.model.dto.auth.RevokeTokenRequest;
 import com.blog.model.pojo.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -63,34 +62,39 @@ public class AuthServiceImpl implements AuthService{
 	    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 	    
 	    HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(formData, headers);
-	    ResponseEntity<String> response = restTemplate.postForEntity(tokenUri, entity, String.class);
-	    if (response.getStatusCode() == HttpStatus.OK) {
-	        String responseBody = response.getBody();
-	        try {
-	            JsonNode root = objectMapper.readTree(responseBody);
-	            String accessToken = root.path("access_token").asText();
-	            
-	            String refreshToken = root.path("refresh_token").asText();
-	            LoginResponse loginResponse = new LoginResponse(accessToken, refreshToken);
-	            return loginResponse;
-	        } catch (JsonProcessingException e) {
+	    try {
+	    	ResponseEntity<String> response = restTemplate.postForEntity(tokenUri, entity, String.class);
+		    if (response.getStatusCode() == HttpStatus.OK) {
+		        String responseBody = response.getBody();
+		        // System.out.println(responseBody);
+		        try {
+		            JsonNode root = objectMapper.readTree(responseBody);
+		            LoginResponse loginResponse = new LoginResponse(root.path("access_token").asText(), root.path("refresh_token").asText(), root.path("refresh_expires_in").asInt());
+		            return loginResponse;
+		        } catch (JsonProcessingException e) {
+		            e.printStackTrace();
+		            return null;
+		        }
+		    } else {
+		        return null;
+		    }
+	    } catch (HttpClientErrorException e) {
+	        if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+	            throw e;
+	        } else {
 	            e.printStackTrace();
 	            return null;
 	        }
-	    } else {
-	        // Manejar el caso en que la solicitud no sea exitosa (código de estado diferente de OK)
-	        System.out.println("La solicitud no fue exitosa. Código de estado: " + response.getStatusCode());
-	        return null;
 	    }
 	}
 	
 	@Override
-	public LoginResponse refreshToken(RefreshTokenRequest request) {
+	public LoginResponse refreshToken(String refresh_token) {
 		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
 	    formData.add("grant_type", "refresh_token");
 	    formData.add("client_id", clientId);
 	    formData.add("client_secret", clientSecret);
-	    formData.add("refresh_token", request.getRefresh_token());
+	    formData.add("refresh_token", refresh_token);
 	    
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -105,16 +109,16 @@ public class AuthServiceImpl implements AuthService{
 		} catch (JsonProcessingException e) {
 			return null;
 		}
-		LoginResponse loginResponse = new LoginResponse(root.path("access_token").asText(), root.path("refresh_token").asText());
+		LoginResponse loginResponse = new LoginResponse(root.path("access_token").asText(), root.path("refresh_token").asText(), root.path("refresh_expires_in").asInt());
 		return loginResponse;
 	}
 
 	@Override
-	public boolean revokeToken(RevokeTokenRequest request) {
+	public boolean revokeToken(String refresh_token) {
 		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
 	    formData.add("client_id", clientId);
 	    formData.add("client_secret", clientSecret);
-	    formData.add("refresh_token", request.getRefresh_token());
+	    formData.add("refresh_token", refresh_token);
 	    
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -122,8 +126,8 @@ public class AuthServiceImpl implements AuthService{
 	    HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(formData, headers);
 	    ResponseEntity<String> responseEntity = restTemplate.postForEntity(revokeTokenUri, entity, String.class);
 	    
-	    HttpStatusCode statusCode = responseEntity.getStatusCode();
-	    System.out.println(statusCode);
+	    // HttpStatusCode statusCode = responseEntity.getStatusCode();
+	    // System.out.println(statusCode);
 	    return true;
 	}
 

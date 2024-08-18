@@ -42,7 +42,7 @@ const MarkdownContent = ({ content }) => {
                     code: {
                         component: ({ children }) => (
                             <Box bgcolor={'#f5f5f5'} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <Typography lineHeight={1.5} component="span" margin={1} sx={{ overflow: 'auto', maxWidth: '100%' }}>
+                                <Typography variant="body2" lineHeight={1.5} component="span" margin={1} sx={{ overflow: 'auto', maxWidth: '100%' }}>
                                     {children}
                                 </Typography>
                                 <IconButton
@@ -81,28 +81,28 @@ const MarkdownContent = ({ content }) => {
                     },
                     h1: {
                         component: ({ children }) => (
-                            <Typography lineHeight={1.5} variant="h1">
+                            <Typography lineHeight={1.5} variant="h2">
                                 {children}
                             </Typography>
                         ),
                     },
                     h2: {
                         component: ({ children }) => (
-                            <Typography lineHeight={1.5} variant="h2">
+                            <Typography lineHeight={1.5} variant="h3">
                                 {children}
                             </Typography>
                         ),
                     },
                     h3: {
                         component: ({ children }) => (
-                            <Typography lineHeight={1.5} variant="h3">
+                            <Typography lineHeight={1.5} variant="h4">
                                 {children}
                             </Typography>
                         ),
                     },
                     h4: {
                         component: ({ children }) => (
-                            <Typography lineHeight={1.5} variant="h4">
+                            <Typography lineHeight={1.5} variant="h5">
                                 {children}
                             </Typography>
                         ),

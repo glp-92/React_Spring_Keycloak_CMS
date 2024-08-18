@@ -2,3 +2,5 @@ db
 .metadata
 mysqldb
 .env
+images/
+__pycache__

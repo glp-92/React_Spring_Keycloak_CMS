@@ -55,14 +55,62 @@ const AdminPannel = () => {
 
     return (
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 2 }}>
-            <Typography align='center' variant="h2">
+            <Typography align='center' variant="h1">
                 Panel de Administracion
             </Typography>
-            <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Typography component="h3" variant="h5">
+            <Box sx={{ flex: 1, mt: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Typography variant="h2">
+                    Posts
+                </Typography>
+                <Button
+                    onClick={handleCreatePost}
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    sx={{ mt: 2, mb: 2 }}
+                >
+                    Crear Post
+                </Button>
+                <Stack spacing={2} sx={{ width: '100%' }}>
+                    {posts.map(item => (
+                        <Box
+                            key={item["id"]}
+                            display="flex"
+                            alignItems="center"
+                        >
+                            <Typography variant="body1" flexGrow={1} sx={{ wordBreak: 'break-all' }} >
+                                {`${item["title"]} | ${item["date"].slice(0, 16)}`}
+                            </Typography>
+                            <IconButton
+                                size="large"
+                                edge="start"
+                                color="primary"
+                                aria-label="menu"
+                                onClick={() => handleEditPost(item)}
+                                sx={{ ml: 1, mr: 1, fontSize: '1.5rem' }}
+                            >
+                                <UpdateIcon />
+                            </IconButton>
+                            <IconButton
+                                size="large"
+                                edge="start"
+                                color="secondary"
+                                aria-label="menu"
+                                onClick={() => handleDeletePost(item["id"])}
+                                sx={{ fontSize: '1.5rem' }}
+                            >
+                                <DeleteIcon />
+                            </IconButton>
+                        </Box>
+                    ))}
+                </Stack>
+                <Pagination sx={{ pt:1, marginTop: 'auto', alignSelf: 'center', }} size='small' count={nPostPages} shape="rounded" page={postPage + 1} onChange={(e, value) => setPostPage(value - 1)} />
+            </Box>
+            <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Typography variant="h2">
                     Categorias
                 </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', mt: 2, mb: 0, width: '100%' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, mb: 0, width: '100%' }}>
                     <TextField type="text" margin="normal" fullWidth id="title" label="Nombre de categoria" name="newCategory" value={inputCategory} onChange={(e) => { setInputCategory(e.target.value) }} />
                     <IconButton
                         size="large"
@@ -107,8 +155,8 @@ const AdminPannel = () => {
                     <Pagination sx={{ marginBottom: 1, marginTop: 'auto', alignSelf: 'center', }} size='small' count={nCategoryPages} shape="rounded" page={categoryPage + 1} onChange={(e, value) => setCategoryPage(value - 1)} />
                 }
             </Box>
-            <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Typography component="h3" variant="h5">
+            <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Typography variant="h2">
                     Temas
                 </Typography>
                 <Box component="form" id="createThemeForm" onSubmit={handleCreateTheme} sx={{ display: 'flex', alignItems: 'center', mt: 2, mb: 0, width: '100%' }}>
@@ -136,10 +184,10 @@ const AdminPannel = () => {
                             <Box component="form" id="editThemeForm" onSubmit={handleUpdateTheme} sx={{ display: 'flex', alignItems: 'center', mt: 2, mb: 0, width: '100%' }}>
                                 <Box flex={1} display={'flex'} flexDirection={'column'} >
                                     <Box mb={1} display={'flex'}>
-                                        <TextField sx={{ flex: 1 }} type="text" value={theme["name"]} name="name" />
-                                        <TextField sx={{ ml: 1, flex: 2 }} type="text" value={theme["featuredImage"]} name="featuredImage" />
+                                        <TextField sx={{ flex: 1 }} type="text" defaultValue={theme["name"]} name="name"/>
+                                        <TextField sx={{ ml: 1, flex: 2 }} type="text" defaultValue={theme["featuredImage"]} name="featuredImage" />
                                     </Box>
-                                    <TextField type="text" fullWidth value={theme["excerpt"]} name="excerpt" />
+                                    <TextField type="text" fullWidth defaultValue={theme["excerpt"]} name="excerpt" />
                                 </Box>
                                 <input type="hidden" name="id" value={theme.id} />
                                 <IconButton
@@ -170,54 +218,6 @@ const AdminPannel = () => {
                     nThemePages > 1 &&
                     <Pagination sx={{ marginBottom: 1, marginTop: 'auto', alignSelf: 'center', }} size='small' count={nThemePages} shape="rounded" page={themePage + 1} onChange={(e, value) => setThemePage(value - 1)} />
                 }
-            </Box>
-            <Box sx={{ flex: 1, mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Typography component="h3" variant="h5">
-                    Posts
-                </Typography>
-                <Button
-                    onClick={handleCreatePost}
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    sx={{ mt: 5, mb: 2 }}
-                >
-                    Crear Post
-                </Button>
-                <Stack spacing={2} sx={{ width: '100%' }}>
-                    {posts.map(item => (
-                        <Box
-                            key={item["id"]}
-                            display="flex"
-                            alignItems="center"
-                        >
-                            <Typography component="h5" variant="subtitle1" flexGrow={1} sx={{ wordBreak: 'break-all' }} >
-                                {`${item["title"]} | ${item["date"].slice(0, 16)}`}
-                            </Typography>
-                            <IconButton
-                                size="large"
-                                edge="start"
-                                color="primary"
-                                aria-label="menu"
-                                onClick={() => handleEditPost(item)}
-                                sx={{ ml: 1, mr: 1, fontSize: '1.5rem' }}
-                            >
-                                <UpdateIcon />
-                            </IconButton>
-                            <IconButton
-                                size="large"
-                                edge="start"
-                                color="secondary"
-                                aria-label="menu"
-                                onClick={() => handleDeletePost(item["id"])}
-                                sx={{ fontSize: '1.5rem' }}
-                            >
-                                <DeleteIcon />
-                            </IconButton>
-                        </Box>
-                    ))}
-                </Stack>
-                <Pagination sx={{ marginTop: 'auto', alignSelf: 'center', }} size='small' count={nPostPages} shape="rounded" page={postPage + 1} onChange={(e, value) => setPostPage(value - 1)} />
             </Box>
         </Box>
     )

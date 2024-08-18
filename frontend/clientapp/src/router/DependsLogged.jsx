@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Outlet } from 'react-router-dom';
 import NotFound from '../pages/notfound/NotFound';
-import { ValidateToken } from '../util/requests/ValidateToken';
+import { ValidateToken } from '../util/requests/Auth';
 import Loading from '../components/loading/Loading';
 
 import Box from '@mui/material/Box';
@@ -21,8 +21,14 @@ const DependsLogged = () => {
     useEffect(() => {
         const fetchTokenValid = async () => {
             setIsLoading(true);
-            let isValid = await ValidateToken();
-            setTokenValid(isValid);
+            try {
+                const tokenValid = await ValidateToken();
+                if (!tokenValid) throw new Error(`LoginError`);
+                setTokenValid(tokenValid);
+            } catch(error) {
+                console.error(`${error}`)
+                setTokenValid(false)
+            }
             setIsLoading(false);
         }
         fetchTokenValid();

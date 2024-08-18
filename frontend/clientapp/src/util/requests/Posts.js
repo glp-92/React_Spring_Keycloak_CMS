@@ -1,29 +1,38 @@
-export const SavePost = async (method, token, postData) => {
+import { FetchWithAuth } from "./FetchWithAuth";
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+export const GetPostList = async (page, criteria) => {
+    let fetchedPosts = null;
     try {
-        const response = await fetch("http://localhost:8083/post", {
-            method: method,
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(postData)
-        });
-        return response;
+        let url = `${backendUrl}/post?page=${page}`;
+        if (criteria !== null) {
+            url += criteria;
+        }
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Error al obtener posts: ${response.statusText}`);
+        }
+        fetchedPosts = await response.json();
+        return fetchedPosts;
     } catch (error) {
-        throw new Error(`Error en la solicitud: ${error}`);
+        console.log(`Error on fetch Posts! ${error}`)
     }
+    return fetchedPosts;
 };
 
-export const DeletePost = async (postId, token) => {
-    try {
-        const response = await fetch(`http://localhost:8083/post/${postId}`, {
-            method: "DELETE",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        });
-        return response;
-    } catch (error) {
-        throw new Error(`Error en la solicitud: ${error}`);
-    }
-}
+export const SavePost = async (method, postData) => {
+    return await FetchWithAuth(`${backendUrl}/post`, {
+        method: method,
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(postData)
+    });
+};
+
+export const DeletePost = async (postId) => {
+    return await FetchWithAuth(`${backendUrl}/post/${postId}`, {
+        method: "DELETE"
+    });
+};

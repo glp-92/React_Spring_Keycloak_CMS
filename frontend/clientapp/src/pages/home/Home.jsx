@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
 import PostList from '../../components/postList/PostList'
-import { GetPostList } from '../../util/requests/GetPostList';
+import { GetPostList } from '../../util/requests/Posts';
 import Loading from '../../components/loading/Loading';
 import LandingPage from '../../components/landingPage/LandingPage';
 
@@ -52,7 +52,7 @@ const Home = () => {
   }, [page, location.search]);
 
   return (
-    <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 3, marginTop: 3 }}>
+    <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', marginBottom: 3, marginTop: 3 }}>
       {isLoading ? (
         <Loading height={300} />
       ) : (

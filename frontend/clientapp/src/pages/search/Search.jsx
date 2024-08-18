@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PostList from '../../components/postList/PostList'
-import { GetPostList } from '../../util/requests/GetPostList';
+import { GetPostList } from '../../util/requests/Posts';
 import Loading from '../../components/loading/Loading';
 import { useLocation } from 'react-router-dom';
 
@@ -34,7 +34,7 @@ const Search = () => {
     setPage(value - 1);
   }
 
-  useEffect(() => { // Al llegar a home
+  useEffect(() => {
     const fetchPosts = async (page) => {
       setIsLoading(true);
       const posts = await GetPostList(page, queryparams);

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { ValidateToken } from '../../util/requests/ValidateToken';
+import { ValidateToken } from '../../util/requests/Auth';
 
-import { IconButton, Paper, InputBase, Divider, Box, List, ListItem, ListItemText, ListItemButton, Drawer } from '@mui/material';
+import { IconButton, Paper, InputBase, Divider, Box, List, ListItem, ListItemText, ListItemButton, Drawer, Typography } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -23,11 +23,15 @@ const DrawerList = () => {
 
     const toggleDrawer = (newOpen) => () => {
         const fetchTokenValid = async () => {
-            const isValid = await ValidateToken();
-            if (isValid) {
+            try {
+                const isValid = await ValidateToken();
+                if (!isValid) {
+                    throw new Error(`InvalidError`);
+                }
                 setSetting(loggedSettings);
-            }
-            else {
+
+            } catch (error) {
+                //console.error(`${error}`)
                 setSetting(unloggedSettings);
             }
         }
@@ -38,7 +42,7 @@ const DrawerList = () => {
     const handleSearch = (e) => {
         e.preventDefault(); //preventdefault evita actualizar la pagina
         if (searchText == "" || searchText.length > 20) {
-            console.log("Error en entrada de busqueda")
+            //console.log("Error en entrada de busqueda")
             return;
         }
         const formattedSearchText = searchText.replace(/\s+/g, ',');
@@ -48,44 +52,14 @@ const DrawerList = () => {
     }
 
     return (
-        <Box>
+        <Box flex={1}>
             <Drawer open={openDrawer} onClose={toggleDrawer(false)}>
-                <Box sx={{ width: 250 }} role="presentation">
-                    <List>
-                        {settings.map((setting) => (
-                            <ListItem key={setting} disablePadding>
-                                {
-                                    setting === "Login" ? <ListItemButton
-                                        onClick={() => { setOpenDrawer(false); navigate(`/login`) }}
-                                    >
-                                        <AccountCircleIcon sx={{ mr: 1, fontSize: 20 }} />
-                                        <ListItemText primary={setting} />
-                                    </ListItemButton>
-                                        :
-                                        setting === "Logout" ? <ListItemButton
-                                            onClick={() => { setOpenDrawer(false); navigate(`/logout`) }}
-                                        >
-                                            <LogoutIcon sx={{ mr: 1, fontSize: 20 }} />
-                                            <ListItemText primary={setting} />
-                                        </ListItemButton>
-                                            :
-                                            setting === "Panel de Control" ? <ListItemButton
-                                                onClick={() => { setOpenDrawer(false); navigate(`/wpannel`) }}
-                                            >
-                                                <DashboardCustomizeIcon sx={{ mr: 1, fontSize: 20 }} />
-                                                <ListItemText primary={setting} />
-                                            </ListItemButton>
-                                                :
-                                                null
-                                }
-                            </ListItem>
-                        ))}
-                    </List>
-                    <Divider />
+                <Box sx={{ bgcolor: "#555454", color: "#E9EAF0", width: 250, height: '100%', display: 'flex', flexDirection: 'column', }} role="presentation">
                     <Paper
                         component="form"
+                        elevation={0}
                         onSubmit={handleSearch}
-                        sx={{ paddingY: 1, display: 'flex', alignItems: 'center', width: '100%', borderRadius: 0, marginLeft: 'auto' }}
+                        sx={{ bgcolor: "#C4C3D0", paddingY: 1, display: 'flex', alignItems: 'center', width: '100%', borderRadius: 0, marginLeft: 'auto' }}
                     >
                         <InputBase
                             sx={{ ml: 1, flex: 1 }}
@@ -94,7 +68,7 @@ const DrawerList = () => {
                             value={searchText}
                         />
                         <IconButton type="submit" sx={{ p: '10px', fontSize: 25, borderRadius: 1 }} aria-label="search" size="large">
-                            <SearchIcon size='small' color="default" />
+                            <SearchIcon size='small' sx={{ color: "#555454", fontSize: '1.5rem' }} />
                         </IconButton>
                     </Paper>
                     <List>
@@ -113,16 +87,45 @@ const DrawerList = () => {
                             </ListItemButton>
                         </ListItem>
                     </List>
+                    <List sx={{ marginTop: 'auto' }}>
+                        {settings.map((setting) => (
+                            <ListItem key={setting} disablePadding>
+                                {
+                                    setting === "Login" ? <ListItemButton
+                                        onClick={() => { setOpenDrawer(false); navigate(`/login`) }}
+                                    >
+                                        <AccountCircleIcon sx={{ color: "icons.light", mr: 1, fontSize: '1.5rem' }} />
+                                        <ListItemText primary={setting} />
+                                    </ListItemButton>
+                                        :
+                                        setting === "Logout" ? <ListItemButton
+                                            onClick={() => { setOpenDrawer(false); navigate(`/logout`) }}
+                                        >
+                                            <LogoutIcon sx={{ color: "icons.light", mr: 1, fontSize: '1.5rem' }} />
+                                            <ListItemText primary={setting} />
+                                        </ListItemButton>
+                                            :
+                                            setting === "Panel de Control" ? <ListItemButton
+                                                onClick={() => { setOpenDrawer(false); navigate(`/wpannel`) }}
+                                            >
+                                                <DashboardCustomizeIcon sx={{ color: "icons.light", mr: 1, fontSize: '1.5rem' }} />
+                                                <ListItemText primary={setting} />
+                                            </ListItemButton>
+                                                :
+                                                null
+                                }
+                            </ListItem>
+                        ))}
+                    </List>
                 </Box >
             </Drawer>
             <IconButton
                 size="large"
-                color="default"
                 aria-label="menu"
                 onClick={toggleDrawer(true)}
-                sx={{ fontSize: 30, aspectRatio: '1', borderRadius: 4, mr: 'auto' }}
+                sx={{ aspectRatio: '1', borderRadius: 4, mr: 'auto' }}
             >
-                <MenuIcon />
+                <MenuIcon sx={{ color: "icons.light", fontSize: '2rem' }} />
             </IconButton>
         </Box>
     )

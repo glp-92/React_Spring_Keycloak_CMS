@@ -1,6 +1,10 @@
+import { FetchWithAuth } from "./FetchWithAuth";
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export const GetThemes = async () => {
     try {
-        const response = await fetch(`http://localhost:8083/theme`);
+        const response = await fetch(`${backendUrl}/theme`);
         return response;
     } catch (error) {
         throw new Error(`Error en la solicitud: ${error}`);
@@ -9,7 +13,7 @@ export const GetThemes = async () => {
 
 export const GetThemesPageable = async (page, perPage) => {
     try {
-        let url = `http://localhost:8083/theme?page=${page}`;
+        let url = `${backendUrl}/theme?page=${page}`;
         if (perPage) {
             url += `&perpage=${perPage}`
         }
@@ -20,49 +24,28 @@ export const GetThemesPageable = async (page, perPage) => {
     }
 };
 
-export const CreateTheme = async (themeData, token) => {
-    console.log(JSON.stringify(themeData))
-    try {
-        const response = await fetch("http://localhost:8083/theme", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(themeData)
-        });
-        return response
-    } catch (error) {
-        throw new Error(`Error en la solicitud: ${error}`);
-    }
+export const CreateTheme = async (themeData) => {
+    return await FetchWithAuth(`${backendUrl}/theme`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(themeData)
+    });
 };
 
-export const DeleteTheme = async (themeId, token) => {
-    try {
-        const response = await fetch(`http://localhost:8083/theme/${themeId}`, {
-            method: "DELETE",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        });
-        return response
-    } catch (error) {
-        throw new Error(`Error en la solicitud: ${error}`);
-    }
+export const DeleteTheme = async (themeId) => {
+    return await FetchWithAuth(`${backendUrl}/theme/${themeId}`, {
+        method: "DELETE"
+    });
 };
 
-export const UpdateTheme = async (themeData, token) => {
-    try {
-        const response = await fetch("http://localhost:8083/theme", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(themeData)
-        });
-        return response
-    } catch (error) {
-        throw new Error(`Error en la solicitud: ${error}`);
-    }
+export const UpdateTheme = async (themeData) => {
+    return await FetchWithAuth(`${backendUrl}/theme`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(themeData)
+    });
 };

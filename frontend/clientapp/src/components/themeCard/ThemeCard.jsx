@@ -27,7 +27,7 @@ const ThemeCard = ({ themeData }) => {
                         <Typography gutterBottom variant="h2" component="div">
                             {themeData.name} ({themeData.postCount} {themeData.postCount > 1 ? "posts": "post"})
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body1" color="text.secondary">
                             {TruncateText(themeData.excerpt, 150)}
                         </Typography>
                     </CardContent>

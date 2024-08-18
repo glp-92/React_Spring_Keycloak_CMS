@@ -18,7 +18,6 @@ const Themes = () => {
         const fetchThemes = async () => {
             const response = await GetThemesPageable(page);
             const fetchedThemes = await response.json();
-            console.log(fetchedThemes);
             setThemes(fetchedThemes.content);
             setNPages(fetchedThemes.totalPages);
         }

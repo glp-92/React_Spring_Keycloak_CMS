@@ -32,8 +32,7 @@ export const CreateCategory = async (newCategory) => {
     return await FetchWithAuth(`${backendUrl}/category`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(payload)
     })

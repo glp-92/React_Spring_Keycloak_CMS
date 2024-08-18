@@ -10,11 +10,11 @@ import os
 
 allowed_origins = [os.getenv('FRONTEND_URL')]
 
-async def verify_referer(request: Request):
-    referer = request.headers.get('referer')
-    print(referer)
-    if referer and not referer.startswith(allowed_origins[0]):
-        raise HTTPException(status_code=403, detail="Access forbidden")
+# async def verify_referer(request: Request):
+#     referer = request.headers.get('referer')
+#     print(referer)
+#     if referer and not referer.startswith(allowed_origins[0]):
+#         raise HTTPException(status_code=403, detail="Access forbidden")
 
 app = FastAPI()
 
@@ -26,10 +26,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.middleware("http")
-async def custom_origin_middleware(request: Request, call_next):
-    await verify_referer(request)
-    return await call_next(request)
+# @app.middleware("http")
+# async def custom_origin_middleware(request: Request, call_next):
+#     await verify_referer(request)
+#     return await call_next(request)
 
 static_folder = os.getenv('FILE_STORAGE_STATIC_FOLDER')
 app.mount("/static", StaticFiles(directory=static_folder), name="static")

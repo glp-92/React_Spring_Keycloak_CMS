@@ -2,9 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import DrawerList from './DrawerList';
 
-import { AppBar, Toolbar, Container, IconButton, Box } from '@mui/material';
+import { AppBar, Toolbar, Container, Button, Box, Typography } from '@mui/material';
 
-import HomeIcon from '@mui/icons-material/Home';
+// import HomeIcon from '@mui/icons-material/Home';
 
 const NavBar = () => {
 
@@ -14,17 +14,16 @@ const NavBar = () => {
         <Toolbar sx={{ display: 'flex' }}>
           <DrawerList />
           <Box flex={1} display={'flex'} justifyContent={'center'}>
-            <IconButton
+            <Button
               component={Link}
               to="/"
-              edge="start"
-              aria-label="menu"
-              sx={{ margin:0, color: "icons.light", aspectRatio: '1', borderRadius: 4 }}
+              sx={{ padding: 1, margin: 0, borderRadius: 2 }}
             >
-              <HomeIcon sx={{fontSize:'2rem'}} />
-            </IconButton>
+              <Typography variant='logocolor'>G</Typography><Typography variant='logogray'>CODE</Typography>
+              {/*<HomeIcon sx={{fontSize:'2rem'}} />*/}
+            </Button>
           </Box>
-          <Box flex={1}/>
+          <Box flex={1} />
         </Toolbar>
       </Container>
     </AppBar>

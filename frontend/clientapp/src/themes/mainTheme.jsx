@@ -21,6 +21,16 @@ export const mainTheme = createTheme({
     },
     typography: {
         fontFamily: 'IBM Plex Mono, monospace',
+        logocolor: {
+            fontSize: '1.6rem',
+            color: 'orange',
+            fontFamily: 'IBM Plex Mono, monospace'
+        },
+        logogray: {
+            fontSize: '1.6rem',
+            color: '#FEFEFE',
+            fontFamily: 'IBM Plex Mono, monospace'
+        },
         h1: {
             fontSize: '1.3rem', // Ajustar tamaño de fuente para h1
             [breakpoints.down("sm")]: {

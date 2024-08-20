@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
-import PostList from '../../components/postList/PostList'
+import PostList from './components/PostList';
 import { GetPostList } from '../../util/requests/Posts';
 import Loading from '../../components/loading/Loading';
-import LandingPage from '../../components/landingPage/LandingPage';
+import LandingPage from './components/LandingPage';
 
 import Pagination from '@mui/material/Pagination';
 import Box from '@mui/material/Box';

@@ -1,6 +1,6 @@
 import React from 'react'
-import MainPostCard from '../mainPostCard/MainPostCard';
-import PostList from '../postList/PostList'
+import MainPostCard from './MainPostCard';
+import PostList from './PostList'
 
 import { Stack, Typography, Box } from '@mui/material';
 

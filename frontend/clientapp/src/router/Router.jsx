@@ -14,10 +14,11 @@ import Themes from "../pages/themes/Themes.jsx";
 import PrivacyPolicy from "../pages/privacyPolicy/privacyPolicy.jsx";
 import Footer from '../components/footer/Footer.jsx'
 import NavBar from '../components/navbar/Navbar.jsx'
+import DependsLogged from "../components/dependslogged/DependsLogged.jsx";
 
 import Container from '@mui/material/Container';
 
-import DependsLogged from "./DependsLogged";
+
 
 
 export const Router = () => {

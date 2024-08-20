@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { GetThemesPageable } from '../../util/requests/Themes';
-import ThemeCard from '../../components/themeCard/ThemeCard';
+import ThemeCard from './components/ThemeCard';
 
 import { List, ListItem, Box, Typography, Pagination } from '@mui/material';
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import PostList from '../../components/postList/PostList'
 import { GetPostList } from '../../util/requests/Posts';
+import PostList from './components/PostList'
 import Loading from '../../components/loading/Loading';
 import { useLocation } from 'react-router-dom';
 

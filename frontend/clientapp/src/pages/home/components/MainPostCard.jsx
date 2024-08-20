@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { DateFormatToEs } from '../../util/date/DateFormatToEs';
-import { TruncateText } from '../../util/formatting/TruncateText';
+import { DateFormatToEs } from '../../../util/date/DateFormatToEs';
+import { TruncateText } from '../../../util/formatting/TruncateText';
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';

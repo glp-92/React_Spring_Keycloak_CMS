@@ -4,7 +4,7 @@ import { SavePost } from '../../util/requests/Posts';
 import { GetCategories } from "../../util/requests/Categories";
 import { GetThemes } from "../../util/requests/Themes";
 import { ValidateToken } from '../../util/requests/Auth';
-import RichTextEditor from "../../components/richTextEditor/RichTextEditor";
+import RichTextEditor from "./components/RichTextEditor";
 
 import { Box, Select, TextField, MenuItem, Button, InputLabel } from '@mui/material';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';

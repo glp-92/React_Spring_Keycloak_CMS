@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import PostContent from '../../components/postContent/PostContent'
+import PostContent from './components/PostContent'
 import { Navigate } from "react-router-dom";
 import Loading from '../../components/loading/Loading';
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { DateFormatToEs } from '../../util/date/DateFormatToEs';
+import { DateFormatToEs } from '../../../util/date/DateFormatToEs';
 import { Link as RouterLink } from "react-router-dom";
 import MarkdownContent from './MarkdownContent';
 // import Comments from '../comments/Comments';

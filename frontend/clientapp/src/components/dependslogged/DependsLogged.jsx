@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Outlet } from 'react-router-dom';
-import NotFound from '../pages/notfound/NotFound';
-import { ValidateToken } from '../util/requests/Auth';
-import Loading from '../components/loading/Loading';
+import NotFound from '../../pages/notfound/NotFound';
+import { ValidateToken } from '../../util/requests/Auth';
+import Loading from '../loading/Loading';
 
 import Box from '@mui/material/Box';
 
 const DependsLogged = () => {
-
-    /*const fetchTokenValid = async () => {
-        let isValid = await ValidateToken();
-        return isValid;
-    }
-    const { tokenValid, error, isLoading } = useQuery('data', fetchTokenValid);
-    console.log(tokenValid);*/
 
     const [tokenValid, setTokenValid] = useState(null);
     const [isLoading, setIsLoading] = useState(true);

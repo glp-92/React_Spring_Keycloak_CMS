@@ -1,5 +1,5 @@
 import React from 'react'
-import PostListCard from '../postListCard/PostListCard';
+import PostListCard from './PostListCard';
 import Grid from '@mui/material/Grid';
 
 const PostList = ({ postArr }) => {

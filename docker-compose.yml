@@ -3,19 +3,21 @@ services:
   frontend:
     build: ./frontend/clientapp/
     container_name: frontend
-    ports:
-      - "3000:3000"
+    # ports:
+    #   - "3000:3000"
     depends_on: 
       - blog-service
+    networks:
+      - app-network
 
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: ${KEYCLOAK_HOSTNAME}
     command: start-dev --proxy edge
     # ports:
-      # - "9000:9000"
+      # - "${KEYCLOAK_HTTP_PORT}:${KEYCLOAK_HTTP_PORT}"
     environment:
-      KC_HTTP_PORT: 9000
+      KC_HTTP_PORT: ${KEYCLOAK_HTTP_PORT}
       KC_DB: mysql
       KC_DB_URL_HOST: mysql_svr
       KC_DB_URL_DATABASE: ${KEYCLOAK_DATABASE}
@@ -31,6 +33,8 @@ services:
     depends_on:
       mysql_svr:
         condition: service_healthy
+    networks:
+      - app-network
     # depends_on:      
     #   postgres_svr:
     #     condition: service_healthy
@@ -38,8 +42,8 @@ services:
   blog-service:
     build: ./backend/blog-service/
     container_name: blog-service
-    ports:
-      - "8083:8083"
+    # ports:
+    #   - "8083:8083"
     environment:
       MYSQL_HOST: "db"
       MYSQL_BLOG_SERVICE_PASSWORD: ${MYSQL_BLOG_SERVICE_PASSWORD}
@@ -51,17 +55,21 @@ services:
     depends_on:
       mysql_svr:
         condition: service_healthy
+    networks:
+      - app-network
 
   file-service:
     build: ./backend/filestorage-service/
     container_name: file-service
-    ports:
-      - "8000:8000"
+    # ports:
+    #   - "8000:8000"
     environment:
       FILE_STORAGE_STATIC_FOLDER: ${FILE_STORAGE_STATIC_FOLDER}
       FRONTEND_URL: ${FRONTEND_URL}
     volumes:
       - ./backend/filestorage-service/images:${FILE_STORAGE_STATIC_FOLDER}
+    networks:
+      - app-network
 
   mysql_svr:
     image: mysql:latest
@@ -77,6 +85,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - app-network
 
   # postgres_svr: 
   #   image: postgres:latest
@@ -91,3 +101,19 @@ services:
   #     test: "exit 0"
   #   ports:
   #     - "5432:5432"
+
+  nginx:
+      image: nginx:1.27.1-alpine
+      container_name: nginx
+      ports:
+        - "80:80"
+      volumes:
+        - ./backend/reverse-proxy/nginx.conf:/etc/nginx/nginx.conf
+      depends_on: 
+      - blog-service
+      networks:
+        - app-network
+
+networks:
+  app-network:
+    driver: bridge

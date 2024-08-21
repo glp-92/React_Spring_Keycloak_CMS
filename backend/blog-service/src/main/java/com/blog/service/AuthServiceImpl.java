@@ -72,7 +72,6 @@ public class AuthServiceImpl implements AuthService{
 		            LoginResponse loginResponse = new LoginResponse(root.path("access_token").asText(), root.path("refresh_token").asText(), root.path("refresh_expires_in").asInt());
 		            return loginResponse;
 		        } catch (JsonProcessingException e) {
-		            e.printStackTrace();
 		            return null;
 		        }
 		    } else {
@@ -82,7 +81,6 @@ public class AuthServiceImpl implements AuthService{
 	        if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
 	            throw e;
 	        } else {
-	            e.printStackTrace();
 	            return null;
 	        }
 	    }

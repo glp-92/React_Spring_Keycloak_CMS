@@ -11,15 +11,29 @@ export const GetPostList = async (page, criteria) => {
         }
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error(`Error al obtener posts: ${response.statusText}`);
+            throw new Error(`GetPostsError: ${response.statusText}`);
         }
         fetchedPosts = await response.json();
-        return fetchedPosts;
     } catch (error) {
-        console.log(`Error on fetch Posts! ${error}`)
+        console.log(error)
     }
     return fetchedPosts;
 };
+
+export const getPost = async (postSlug) => {
+    let postData = null;
+    try {
+        const url = `${backendUrl}/post/${postSlug}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`GetPostDataError: ${response.statusText}`);
+        }
+        postData = await response.json();
+    } catch (error) {
+        console.log(error)
+    }
+    return postData;
+}
 
 export const SavePost = async (method, postData) => {
     return await FetchWithAuth(`${backendUrl}/post`, {

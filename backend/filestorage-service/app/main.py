@@ -8,13 +8,15 @@ import os
 # from dotenv import load_dotenv
 # load_dotenv("./.env")
 
-allowed_origins = [os.getenv('FRONTEND_URL')]
+allowed_origins = [os.getenv('FRONTEND_URL', 'http://localhost:3000')]
+allowed_referers = allowed_origins
 
-# async def verify_referer(request: Request):
-#     referer = request.headers.get('referer')
-#     print(referer)
-#     if referer and not referer.startswith(allowed_origins[0]):
-#         raise HTTPException(status_code=403, detail="Access forbidden")
+async def verify_referer(request: Request):
+    referer = request.headers.get('referer')
+    if not referer:
+        raise HTTPException(status_code=403, detail="Forbidden")
+    if not any(referer.startswith(allowed_ref) for allowed_ref in allowed_referers):
+        raise HTTPException(status_code=403, detail="Forbidden")
 
 app = FastAPI()
 
@@ -22,14 +24,14 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["GET"],  # Limitar los métodos permitidos
+    allow_methods=["GET"],
     allow_headers=["*"],
 )
 
-# @app.middleware("http")
-# async def custom_origin_middleware(request: Request, call_next):
-#     await verify_referer(request)
-#     return await call_next(request)
+@app.middleware("http")
+async def custom_origin_middleware(request: Request, call_next):
+    await verify_referer(request)
+    return await call_next(request)
 
-static_folder = os.getenv('FILE_STORAGE_STATIC_FOLDER')
+static_folder = os.getenv('FILE_STORAGE_STATIC_FOLDER', 'static')
 app.mount("/static", StaticFiles(directory=static_folder), name="static")

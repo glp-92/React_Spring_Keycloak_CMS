@@ -2,6 +2,7 @@
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import PlainTextResponse
 from fastapi import FastAPI, Request, HTTPException
 from fastapi import FastAPI
 import os
@@ -30,8 +31,14 @@ app.add_middleware(
 
 @app.middleware("http")
 async def custom_origin_middleware(request: Request, call_next):
-    await verify_referer(request)
-    return await call_next(request)
+    try:
+        await verify_referer(request)
+        return await call_next(request)
+    except HTTPException as ex:
+        return PlainTextResponse(
+            status_code=ex.status_code,
+            content=ex.detail
+        )
 
-static_folder = os.getenv('FILE_STORAGE_STATIC_FOLDER', 'static')
+static_folder = os.getenv('FILE_STORAGE_STATIC_FOLDER', '../images')
 app.mount("/static", StaticFiles(directory=static_folder), name="static")

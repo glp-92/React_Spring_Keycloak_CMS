@@ -28,7 +28,7 @@ spring:
     oauth2: 
       resourceserver:  
         jwt:  
-          issuer-uri: http://${KEYCLOAK_HOSTNAME:localhost}:9000/realms/${KEYCLOAK_BLOG_REALM_ID:blog}
+          issuer-uri: http://${KEYCLOAK_HOSTNAME:localhost}:${KEYCLOAK_HTTP_PORT:9000}/realms/${KEYCLOAK_BLOG_REALM_ID:blog}
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
           token-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/token
           revoke-token-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/logout
@@ -38,3 +38,4 @@ jwt:
     converter: 
       resource-id: ${KEYCLOAK_BLOG_CLIENT_ID:blog-client}
       principal-attribute: principal_username
+front-origin: ${FRONTEND_URL:http://localhost:3000}

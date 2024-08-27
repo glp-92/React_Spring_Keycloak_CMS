@@ -6,8 +6,9 @@ Backend runs with `MySQL` database for `Keycloak` and `blog-service`
 
 1. Generate `jar` file from the application that will be placed on `./target`
 ```bash
+sudo apt reinstall openjdk-17-jdk # If in a VM for deploy
 cd backend/blog-service
-./mvnw clean install # with ls a mvnw file should be placed
+./mvnw clean install -DskipTests # with ls a mvnw file should be placed, will test with database so if it's not installed, skip it
 ```
 2. Dockerfile to build the image
 ```dockerfile

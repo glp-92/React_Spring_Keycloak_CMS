@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # source .env
-# bash backend/mysql/generate_initdb.sh
+# mkdir ./backend/mysql/initdb
+# bash ./backend/mysql/generate_initdb.sh
 
 cat <<EOF > ./backend/mysql/initdb/init.sql
 CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED WITH 'caching_sha2_password' BY '${MYSQL_PASSWORD}';

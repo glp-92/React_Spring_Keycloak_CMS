@@ -9,7 +9,7 @@ RUN npm run build
 EXPOSE 3000
 CMD [ "serve", "-s", "dist" ]
 
-# Multi stage
+# Multi stage with NGINX
 # Build stage
 # FROM node:22-alpine AS build
 # WORKDIR /app
@@ -23,3 +23,13 @@ CMD [ "serve", "-s", "dist" ]
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
 # EXPOSE 3000
 # CMD ["nginx", "-g", "daemon off;"]
+
+# Is needed to create a 'nginx.conf' in this folder with the following info:
+# server {
+#     listen 3000;
+#     location / {
+#         root   /usr/share/nginx/html;
+#         index  index.html index.htm;
+#         try_files $uri $uri/ /index.html =404;
+#     }
+# }

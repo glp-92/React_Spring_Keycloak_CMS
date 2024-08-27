@@ -1,1 +1,1 @@
-openssl req -newkey rsa:2048 -nodes -keyout keycloak-server.key.pem -x509 -days 3650 -out keycloak-server.crt.pem
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout keycloak.key.pem -out keycloak.crt.pem
